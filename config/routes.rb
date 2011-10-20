@@ -1,4 +1,6 @@
 Accountimize::Application.routes.draw do
+  resources :estimates
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
