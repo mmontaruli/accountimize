@@ -11,11 +11,22 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111020011358) do
+ActiveRecord::Schema.define(:version => 20111020015805) do
 
   create_table "estimates", :force => true do |t|
     t.integer  "number"
     t.date     "date"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "line_items", :force => true do |t|
+    t.integer  "number"
+    t.string   "name"
+    t.integer  "quantity"
+    t.decimal  "unit_price"
+    t.boolean  "is_enabled"
+    t.integer  "estimate_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
