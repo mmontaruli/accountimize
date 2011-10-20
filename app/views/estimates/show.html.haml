@@ -1,0 +1,12 @@
+%p#notice= notice
+
+%p
+	%strong Number:
+	= @estimate.number
+	
+%p
+	%strong Date:
+	= @estimate.date
+	
+= link_to 'Edit', edit_estimate_path(@estimate)
+= link_to 'Back', estimates_path
