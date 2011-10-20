@@ -1,4 +1,6 @@
 Accountimize::Application.routes.draw do
+  get "site/index"
+
   resources :line_items
 
   resources :estimates
@@ -53,6 +55,7 @@ Accountimize::Application.routes.draw do
   # You can have the root of your site routed with "root"
   # just remember to delete public/index.html.
   # root :to => 'welcome#index'
+  root :to => 'site#index', :as => 'site'
 
   # See how all your routes lay out with "rake routes"
 

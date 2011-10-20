@@ -1,0 +1,129 @@
+// Place all the styles related to the site controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+@mixin self-clear {
+	content:".";
+	display:block;
+	height:0;
+	clear:both;
+	visibility:hidden;
+}
+
+p, ul {font-family:arial;}
+
+body {
+	font-family:arial;
+	font-size:16px;
+	>* {
+		width:1024px;
+		margin:0 auto;
+	}
+	>*:after {
+		@include self-clear;
+	}
+	#header {
+		ul.login_links {
+			margin:0;
+			padding:0;
+			list-style:none;
+			li {
+				float:right;
+				margin-right:30px;
+				a {
+					font-size:12px;
+				}
+			}
+		}
+		ul.login_links:after {
+			@include self-clear;
+		}
+		#logo {
+			float: left; 
+			margin-left: 30px;
+			margin-top:0;
+			a {
+				width: 672px; 
+				display: block; 
+				height: 121px; 
+				background: url('/assets/logo.gif') no-repeat; 
+				text-indent: -9999px;}
+		}
+		.trial {
+			width: 196px; 
+			display: block; 
+			height: 110px; 
+			background: url('/assets/free-trial.gif') no-repeat; 
+			text-indent: -9999px; 
+			float: right; 
+			margin-right: 30px; 
+			margin-top: 5px;
+		}
+	}
+	#footer {
+		font-size:14px;
+		p {
+			float:right;
+			span {
+				margin-top: 6px; 
+				display: block; 
+				float: left;
+			}
+			a.logo {
+				width: 84px; 
+				text-indent: -9990px; 
+				background: url('/assets/26twelve-logo.jpg') no-repeat; 
+				height: 33px; 
+				display: block; 
+				float: right; 
+				margin-left: 5px;
+			}
+		}
+	}
+}
+
+#site_content_wrapper {
+	background: none repeat scroll 0 0 #EEEEEE;
+	.column {
+		width: 67%; 
+		float: right;
+		h3 {
+			font-size: 41px; 
+			font-weight: normal; 
+			width: 85%;
+			line-height:1.15;
+			em {
+				color: #AFBA3B; 
+				font-style: normal; 
+				background: white; 
+				border: 1px black solid;
+			}
+		}
+		p {
+			font-weight:bold;
+			font-size:16px;
+		}
+		ul {
+			font-weight:bold;
+			font-size:16px;
+		}
+	}
+	.sidebar {
+		width: 33%; 
+		float: left;
+		img.calculator {
+			margin-left: 20px; 
+			margin-top: 10px;
+		}
+		a.demo {
+			width: 287px; 
+			display: block; 
+			height: 255px; 
+			margin: 10px 0 15px 20px;
+		}
+	}
+}
+
+#site_content_wrapper:after {
+	@include self-clear;
+}

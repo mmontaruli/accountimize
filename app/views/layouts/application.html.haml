@@ -7,6 +7,19 @@
 		= csrf_meta_tags
 		
 	%body
-	
-		= yield
+		
+		#header
+			%ul.login_links
+				%li= link_to 'Login', estimates_path
+			%h1#logo
+				= link_to 'Accountimize', site_path
+			- if @header_trial
+				%a.trial(href="#") Free 30-Day Trial
+		
+		#content
+			= yield
   
+		#footer
+			%p
+				%span Software by
+				%a.logo(href="#") 26Twelve Studio
