@@ -7,6 +7,30 @@
 %p
 	%strong Date:
 	= @estimate.date
-	
+
+%table
+	%tr
+		%th x
+		%th Item #
+		%th Description
+		%th Qty
+		%th Unit Price
+		%th 
+	- @estimate.line_items.each do |line_item|
+		%tr
+			%td= line_item.is_enabled
+			%td= line_item.number
+			%td= line_item.name
+			%td= line_item.quantity
+			%td= line_item.unit_price
+			%td
+				= link_to 'Edit', edit_line_item_path(line_item)
+				|
+				= link_to 'Destroy', line_item, confirm: 'Are you sure?', method: :delete
+
+%p	
+	= link_to 'Add lines', new_line_item_path(:estimate_id => @estimate)
+
 = link_to 'Edit', edit_estimate_path(@estimate)
+|
 = link_to 'Back', estimates_path

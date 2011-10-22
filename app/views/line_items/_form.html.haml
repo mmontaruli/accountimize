@@ -34,10 +34,14 @@
 		%br
 		= f.check_box :is_enabled
 	
-	.field
-		= f.label :estimate_id
-		%br
-		= f.number_field :estimate_id
+	- if (params[:action]) == 'new'
+		-#.field
+			-#= f.label :estimate_id
+			-#%br
+			-#= f.number_field :estimate_id
+			-#- if (params[:action]) == 'new'
+			-#	Hello
+		= f.hidden_field :estimate_id, :value => @estimate
 	
 	.actions
 		= f.submit

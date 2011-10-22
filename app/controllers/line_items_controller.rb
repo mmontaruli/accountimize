@@ -25,6 +25,7 @@ class LineItemsController < ApplicationController
   # GET /line_items/new.json
   def new
     @line_item = LineItem.new
+    @estimate = params[:estimate_id]
 
     respond_to do |format|
       format.html # new.html.erb
@@ -79,5 +80,5 @@ class LineItemsController < ApplicationController
       format.html { redirect_to line_items_url }
       format.json { head :ok }
     end
-  end
+  end  
 end
