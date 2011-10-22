@@ -1,3 +1,47 @@
 // Place all the styles related to the Estimates controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+body.estimates #content {
+	h3 {
+		font-weight:normal;
+	}
+	table.line_items {
+		tr {
+			td{
+				background:#eeeeee;
+				height:35px;
+				border:1px solid white;
+			}
+			td.line_ck {
+				
+			}
+			td.line_num {
+				width:65px;
+				text-align:center;
+			}
+			td.line_name {
+				width:480px;
+				padding:0 10px;
+			}
+			td.line_qty {
+				width:50px;
+				text-align:center;
+			}
+			td.line_u_price {
+				width:80px;
+				padding:0 10px;
+				text-align:right;
+			}
+			td.line_t_price {
+				width:80px;
+				padding:0 10px;
+				text-align:right;
+			}
+			td.line_links {
+				width:120px;
+				text-align:center;
+			}
+		}
+	}
+}

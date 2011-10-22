@@ -42,10 +42,12 @@ class LineItemsController < ApplicationController
   # POST /line_items.json
   def create
     @line_item = LineItem.new(params[:line_item])
+    @estimate = estimate_path(@line_item.estimate_id)
 
     respond_to do |format|
       if @line_item.save
-        format.html { redirect_to @line_item, notice: 'Line item was successfully created.' }
+        #format.html { redirect_to @line_item, notice: 'Line item was successfully created.' }
+        format.html { redirect_to @estimate, notice: 'Line item was successfully created.' }
         format.json { render json: @line_item, status: :created, location: @line_item }
       else
         format.html { render action: "new" }
@@ -58,10 +60,12 @@ class LineItemsController < ApplicationController
   # PUT /line_items/1.json
   def update
     @line_item = LineItem.find(params[:id])
+    @estimate = estimate_path(@line_item.estimate_id)
 
     respond_to do |format|
       if @line_item.update_attributes(params[:line_item])
-        format.html { redirect_to @line_item, notice: 'Line item was successfully updated.' }
+        #format.html { redirect_to @line_item, notice: 'Line item was successfully updated.' }
+        format.html { redirect_to @estimate, notice: 'Line item was successfully updated.' }
         format.json { head :ok }
       else
         format.html { render action: "edit" }
@@ -74,10 +78,12 @@ class LineItemsController < ApplicationController
   # DELETE /line_items/1.json
   def destroy
     @line_item = LineItem.find(params[:id])
+    @estimate = estimate_path(@line_item.estimate_id)
     @line_item.destroy
 
     respond_to do |format|
-      format.html { redirect_to line_items_url }
+      #format.html { redirect_to line_items_url }
+      format.html { redirect_to @estimate }
       format.json { head :ok }
     end
   end  

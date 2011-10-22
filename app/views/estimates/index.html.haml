@@ -6,14 +6,12 @@
 		%th Date
 		%th
 		%th
-		%th
 		
 	- @estimates.each do |estimate|
 		%tr
 			%td= estimate.number
 			%td= estimate.date
 			%td= link_to 'Show', estimate
-			%td= link_to 'Edit', edit_estimate_path(estimate)
-			%td= link_to 'Destroy', estimate, confirm: 'Are you sure?', method: :delete
+			%td= link_to 'Delete', estimate, confirm: 'Are you sure?', method: :delete
 
 %p= link_to 'New estimate', new_estimate_path

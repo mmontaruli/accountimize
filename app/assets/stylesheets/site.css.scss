@@ -82,7 +82,7 @@ body {
 	}
 }
 
-#site_content_wrapper {
+body.site #content {
 	background: none repeat scroll 0 0 #EEEEEE;
 	.column {
 		width: 67%; 
@@ -122,8 +122,4 @@ body {
 			margin: 10px 0 15px 20px;
 		}
 	}
-}
-
-#site_content_wrapper:after {
-	@include self-clear;
 }
