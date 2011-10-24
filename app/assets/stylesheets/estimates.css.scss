@@ -43,5 +43,15 @@ body.estimates #content {
 				text-align:center;
 			}
 		}
+		tr.total_line {
+			td {
+				background:white;
+				padding-top:3px;
+				font-weight:bold;
+			}
+			td.total_price {
+				text-align:right;
+			}
+		}
 	}
 }
