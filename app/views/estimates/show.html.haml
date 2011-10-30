@@ -18,7 +18,7 @@
 		%th Description
 		%th Qty
 		%th Unit Price
-		%th Total Price
+		%th Line Total
 		%th 
 	- @estimate.line_items.each do |line_item|
 		%tr
@@ -35,10 +35,12 @@
 				
 	%tr.total_line
 		%td{:colspan => 5} Total
-		%td.total_price= number_to_currency(@estimate.total_price)
+		%td.total_price
+			= number_to_currency(@estimate.total_price)
 		%td
 
 %p	
 	= link_to 'Add lines', new_line_item_path(:estimate_id => @estimate)
+	-#=button_to 'Add lines', line_items_path(:estimate_id => @estimate)
 
 = link_to 'Back', estimates_path

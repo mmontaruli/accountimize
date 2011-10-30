@@ -13,11 +13,16 @@ class EstimatesController < ApplicationController
   # GET /estimates/1
   # GET /estimates/1.json
   def show
-    @estimate = Estimate.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.json { render json: @estimate }
+    begin
+      @estimate = Estimate.find(params[:id])
+    rescue
+      logger.error "Attempt to access invalid estimate #{params[:id]}"
+      redirect_to estimates_url, :notice => 'Invalid estimate'
+    else
+      respond_to do |format|
+        format.html # show.html.erb
+        format.json { render json: @estimate }
+      end
     end
   end
 

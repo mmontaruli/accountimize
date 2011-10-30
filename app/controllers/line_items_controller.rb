@@ -43,11 +43,14 @@ class LineItemsController < ApplicationController
   def create
     @line_item = LineItem.new(params[:line_item])
     @estimate = estimate_path(@line_item.estimate_id)
+    #@estimate = Estimate.find(params[:estimate_id])
+    #@estimate = @estimate.id
 
     respond_to do |format|
       if @line_item.save
         #format.html { redirect_to @line_item, notice: 'Line item was successfully created.' }
         format.html { redirect_to @estimate, notice: 'Line item was successfully created.' }
+        #format.html { redirect_to estimate_path(estimate), notice: 'Line item was successfully created.' }
         format.json { render json: @line_item, status: :created, location: @line_item }
       else
         format.html { render action: "new" }
