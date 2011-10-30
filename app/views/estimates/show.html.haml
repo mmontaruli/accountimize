@@ -40,7 +40,7 @@
 		%td
 
 %p	
-	= link_to 'Add lines', new_line_item_path(:estimate_id => @estimate)
-	-#=button_to 'Add lines', line_items_path(:estimate_id => @estimate)
+	-#= link_to 'Add lines', new_line_item_path(:estimate_id => @estimate)
+	=button_to 'Add lines', line_items_path(:estimate_id => @estimate)
 
 = link_to 'Back', estimates_path

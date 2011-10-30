@@ -42,9 +42,10 @@ class LineItemsController < ApplicationController
   # POST /line_items.json
   def create
     @line_item = LineItem.new(params[:line_item])
-    @estimate = estimate_path(@line_item.estimate_id)
-    #@estimate = Estimate.find(params[:estimate_id])
+    #@estimate = estimate_path(@line_item.estimate_id)
+    @estimate = Estimate.find(params[:estimate_id])
     #@estimate = @estimate.id
+    @line_item.estimate_id = @estimate.id
 
     respond_to do |format|
       if @line_item.save
