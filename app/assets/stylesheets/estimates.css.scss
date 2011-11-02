@@ -43,6 +43,13 @@ body.estimates #content {
 				text-align:center;
 			}
 		}
+		tr.is_enabled_false {
+			td {
+				background: #f9f9f9;
+				color:#cccccc;
+				text-decoration:line-through;
+			}
+		}
 		tr.total_line {
 			td {
 				background:white;

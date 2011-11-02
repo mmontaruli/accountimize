@@ -12,12 +12,25 @@
 	.field
 		= f.label :number
 		%br
-		=f.number_field :number
+		=f.text_field :number
 		
 	.field
 		=f.label :date
 		%br
 		=f.date_select :date
+		
+	-if (params[:action]) == 'edit'
+		%table.line_items
+			%tr
+				%th
+				%th Item #
+				%th Description
+				%th Qty
+				%th Unit Price
+				%th Line Total
+				%th Delete Line
+			= f.fields_for :line_items do |builder|
+				= render 'line_items', :f => builder
 		
 	.actions
 		= f.submit

@@ -1,46 +1,37 @@
 %p#notice= notice
 
+%p= link_to 'Edit Estimate', edit_estimate_path(@estimate)
+
 %h3
 	%strong Estimate Number:
 	= @estimate.number
-	
+
 %p
 	%strong Date:
 	= @estimate.date
-	
-%p= link_to 'Edit Header', edit_estimate_path(@estimate)
-
 
 %table.line_items
 	%tr
-		%th 
 		%th Item #
 		%th Description
 		%th Qty
 		%th Unit Price
 		%th Line Total
-		%th 
 	- @estimate.line_items.each do |line_item|
-		%tr
-			%td.line_ck= line_item.is_enabled
+		%tr{:class => "is_enabled_#{line_item.is_enabled}"}
 			%td.line_num= line_item.number
 			%td.line_name= line_item.name
 			%td.line_qty= line_item.quantity
 			%td.line_u_price= number_to_currency(line_item.unit_price)
 			%td.line_t_price= number_to_currency(line_item.total_price)
-			%td.line_links
-				= link_to 'Edit', edit_line_item_path(line_item)
-				|
-				= link_to 'Delete', line_item, confirm: 'Are you sure?', method: :delete
 				
 	%tr.total_line
-		%td{:colspan => 5} Total
+		%td{:colspan => 4} Total
 		%td.total_price
 			= number_to_currency(@estimate.total_price)
 		%td
 
 %p	
-	-#= link_to 'Add lines', new_line_item_path(:estimate_id => @estimate)
 	=button_to 'Add lines', line_items_path(:estimate_id => @estimate)
 
 = link_to 'Back', estimates_path
