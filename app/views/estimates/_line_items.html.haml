@@ -1,8 +1,8 @@
-%tr
+%tr.edit
 	%td.line_ck= f.check_box :is_enabled
-	%td.line_num= f.text_field :number
-	%td.line_name= f.text_field :name
-	%td.line_qty= f.text_field :quantity
-	%td.line_u_price= f.text_field :unit_price
+	%td{:class => 'line_num editable'}= f.text_field :number
+	%td{:class => 'line_name editable'}= f.text_field :name
+	%td{:class => 'line_qty editable'}= f.text_field :quantity
+	%td{:class => 'line_u_price editable'}= f.text_field :unit_price
 	%td.line_t_price
 	%td.line_links= f.check_box :_destroy

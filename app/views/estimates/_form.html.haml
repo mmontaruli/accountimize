@@ -20,7 +20,7 @@
 		=f.date_select :date
 		
 	-if (params[:action]) == 'edit'
-		%table.line_items
+		%table.line_items{:cellspacing => 4}
 			%tr
 				%th
 				%th Item #
@@ -28,7 +28,7 @@
 				%th Qty
 				%th Unit Price
 				%th Line Total
-				%th Delete Line
+				%th Delete:
 			= f.fields_for :line_items do |builder|
 				= render 'line_items', :f => builder
 		

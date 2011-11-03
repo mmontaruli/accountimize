@@ -12,26 +12,63 @@ body.estimates #content {
 				background:#eeeeee;
 				height:35px;
 				border:1px solid white;
+				input {
+					background:none;
+					border:none;
+					font-size:14px;
+					font-family:arial;
+				}
+				input:focus {
+					border:none;
+					outline:none;
+				}
+			}
+			td.hover {
+				background:#dddddd;
+				input {
+					background:#dddddd;
+				}
+			}
+			td.focus {
+				background:#FFF8D5;
+				input {
+					background:#FFF8D5;
+				}
 			}
 			td.line_ck {
-				
+				text-align:center;
 			}
 			td.line_num {
 				width:65px;
 				text-align:center;
+				input {
+					width:55px;
+					text-align:center;
+				}
 			}
 			td.line_name {
 				width:480px;
 				padding:0 10px;
+				input {
+					width:475px;
+				}
 			}
 			td.line_qty {
-				width:50px;
+				width:70px;
 				text-align:center;
+				input {
+					width:60px;
+					text-align:center;
+				}
 			}
 			td.line_u_price {
 				width:80px;
 				padding:0 10px;
 				text-align:right;
+				input {
+					width:70px;
+					text-align:right;
+				}
 			}
 			td.line_t_price {
 				width:80px;
@@ -39,8 +76,20 @@ body.estimates #content {
 				text-align:right;
 			}
 			td.line_links {
-				width:120px;
+				width:60px;
 				text-align:center;
+			}
+		}
+		tr.edit {
+			td {
+				border:1px solid #cccccc;
+			}
+			td.line_t_price {
+				background:#cccccc;
+			}
+			td.line_ck, td.line_links {
+				background:white;
+				border:none;
 			}
 		}
 		tr.is_enabled_false {
