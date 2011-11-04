@@ -7,6 +7,7 @@
 	%tr
 		%th Number
 		%th Date
+		%th Total
 		%th
 		%th
 		
@@ -14,6 +15,7 @@
 		%tr
 			%td= estimate.number
 			%td= estimate.date
+			%td= number_to_currency(estimate.total_price)
 			%td= link_to 'Show', estimate
 			%td= link_to 'Delete', estimate, confirm: 'Are you sure?', method: :delete
 

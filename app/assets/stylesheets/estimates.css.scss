@@ -7,6 +7,17 @@ body.estimates #content {
 		font-weight:normal;
 	}
 	table.line_items {
+		thead {
+			margin:0;
+			tr {
+				th.col {
+					background:#B2BD40;
+				}
+				th {
+					padding:10px;
+				}
+			}
+		}
 		tr {
 			td{
 				background:#eeeeee;

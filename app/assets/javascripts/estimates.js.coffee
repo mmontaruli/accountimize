@@ -3,14 +3,15 @@
 # You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
 
 $ -> 
-	lineItemInput = $('table.line_items tr.edit td.editable input')
+	body = $('body.estimates')
+	lineItemInput = $('table.line_items tr.edit td.editable input', body)
 
 	lineItemInput.hover ->
-		$(this).parent().addClass('hover')
+		$(this).parent().addClass 'hover'
 	, ->
-		$(this).parent().removeClass('hover')
+		$(this).parent().removeClass 'hover'
 	
 	lineItemInput.focus ->
-		$(this).parent().addClass('focus')
+		$(this).parent().addClass 'focus'
 	lineItemInput.blur ->
-		$(this).parent().removeClass('focus')
+		$(this).parent().removeClass 'focus'

@@ -11,25 +11,26 @@
 	= @estimate.date
 
 %table.line_items
-	%tr
-		%th Item #
-		%th Description
-		%th Qty
-		%th Unit Price
-		%th Line Total
-	- @estimate.line_items.each do |line_item|
-		%tr{:class => "is_enabled_#{line_item.is_enabled}"}
-			%td.line_num= line_item.number
-			%td.line_name= line_item.name
-			%td.line_qty= line_item.quantity
-			%td.line_u_price= number_to_currency(line_item.unit_price)
-			%td.line_t_price= number_to_currency(line_item.total_price)
+	%thead
+		%tr
+			%th.col Item #
+			%th.col Description
+			%th.col Qty
+			%th.col Unit Price
+			%th.col Line Total
+	%tbody
+		- @estimate.line_items.each do |line_item|
+			%tr{:class => "is_enabled_#{line_item.is_enabled}"}
+				%td.line_num= line_item.number
+				%td.line_name= line_item.name
+				%td.line_qty= line_item.quantity
+				%td.line_u_price= number_to_currency(line_item.unit_price)
+				%td.line_t_price= number_to_currency(line_item.total_price)
 				
-	%tr.total_line
-		%td{:colspan => 4} Total
-		%td.total_price
-			= number_to_currency(@estimate.total_price)
-		%td
+		%tr.total_line
+			%td{:colspan => 4} Total
+			%td.total_price= number_to_currency(@estimate.total_price)
+			%td
 
 %p	
 	=button_to 'Add lines', line_items_path(:estimate_id => @estimate)

@@ -21,16 +21,23 @@
 		
 	-if (params[:action]) == 'edit'
 		%table.line_items{:cellspacing => 4}
-			%tr
-				%th
-				%th Item #
-				%th Description
-				%th Qty
-				%th Unit Price
-				%th Line Total
-				%th Delete:
-			= f.fields_for :line_items do |builder|
-				= render 'line_items', :f => builder
+			%thead
+				%tr
+					%th
+					%th.col Item #
+					%th.col Description
+					%th.col Qty
+					%th.col Unit Price
+					%th.col Line Total
+					%th Delete:
+			%tbody
+				= f.fields_for :line_items do |builder|
+					= render 'line_items', :f => builder
+				%tr.total_line
+					%td
+					%td{:colspan => 4} Total
+					%td.total_price= number_to_currency(@estimate.total_price)
+					%td
 		
 	.actions
 		= f.submit
