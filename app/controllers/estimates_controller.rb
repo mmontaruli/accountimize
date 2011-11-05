@@ -30,7 +30,9 @@ class EstimatesController < ApplicationController
   # GET /estimates/new.json
   def new
     @estimate = Estimate.new
-
+    3.times do
+      line_item = @estimate.line_items.build
+    end
     respond_to do |format|
       format.html # new.html.erb
       format.json { render json: @estimate }
