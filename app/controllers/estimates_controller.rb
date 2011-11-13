@@ -69,6 +69,7 @@ class EstimatesController < ApplicationController
       if @estimate.update_attributes(params[:estimate])
         format.html { redirect_to @estimate, notice: 'Estimate was successfully updated.' }
         format.json { head :ok }
+        format.js
       else
         format.html { render action: "edit" }
         format.json { render json: @estimate.errors, status: :unprocessable_entity }
