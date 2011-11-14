@@ -24,8 +24,8 @@
 				%td.line_num= line_item.number
 				%td.line_name= line_item.name
 				%td.line_qty= line_item.quantity
-				%td.line_u_price= number_to_currency(line_item.unit_price)
-				%td.line_t_price= number_to_currency(line_item.total_price)
+				%td.line_u_price= number_with_precision(line_item.unit_price, :precision => 2, :delimiter => ',')
+				%td.line_t_price= number_with_precision(line_item.total_price, :precision => 2, :delimiter => ',')
 				
 		%tr.total_line
 			%td{:colspan => 4} Total

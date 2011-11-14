@@ -1,4 +1,5 @@
-= form_for(@estimate, :remote => true) do |f|	
+-#= form_for(@estimate, :remote => true) do |f|	
+= form_for(@estimate) do |f|	
 	- if @estimate.errors.any?
 		#error_explanation
 			%h2

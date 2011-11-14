@@ -3,26 +3,21 @@
 # You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
 
 $ -> 
-	# Can these variables be called into functions below? If not, delete
 	body = $('body.estimates')
 	lineRows = $('table.line_items tr.edit', body)
 	lineItemInput = $('td.editable input', lineRows)
 	lineCk = $('td.line_ck input[type="checkbox"]', lineRows)
-	lineQty = $('td.line_qty input', lineRows)
-	lineUnitPrice = $('td.line_u_price input', lineRows)
-	lineTotal = $('td.line_t_price', lineRows)
-	estimateTotal = $('table.line_items tr.total_line td.total_price')
+	estimateTotal = $('table.line_items tr.total_line td.total_price', body)
 	
-	lineItemEffects(lineItemInput)
-	
+	lineItemEffects lineItemInput
+		
 	lineItemInput.blur ->
-		updateEstimateTotals($(this).parents("tr"))
+		updateEstimateTotals $(this).parents("tr"), estimateTotal
 		
 	lineCk.click ->
-		updateEstimateTotals($(this).parents("tr"))
-		
-	# Same function above is called twice. Can this be condensed?		
-		
+		updateEstimateTotals $(this).parents("tr"), estimateTotal
+
+			
 lineItemEffects = (lineItemInput) ->
 	lineItemInput.hover ->
 		$(this).parent().addClass 'hover'
@@ -35,17 +30,17 @@ lineItemEffects = (lineItemInput) ->
 		$(this).parent().removeClass 'focus'
 		
 		
-updateEstimateTotals = (lineRow) ->
+updateEstimateTotals = (lineRow, estimateTotal) ->
 	newLineTotal = 0
-	if $('td.line_ck input[type="checkbox"]', lineRow).is(":checked")
+	if $('td.line_ck input[type="checkbox"]', lineRow).is ":checked"
 		newLineTotal = $('td.line_qty input', lineRow).val()*$('td.line_u_price input', lineRow).val()
+	newLineTotal = formatNumber newLineTotal,2,',','.','','','-',''
 	$('td.line_t_price', lineRow).html newLineTotal
 		
 	newEstimateTotal = 0
 	$('td.line_t_price').each ->
-		number = Number($(this).html().replace(/[^0-9\.]+/g,""));
+		number = Number $(this).html().replace(/[^0-9\.]+/g,"")
 		newEstimateTotal += number
-	$('table.line_items tr.total_line td.total_price').html newEstimateTotal
-	
-	# Numbers need to be formatted as dollars
-	
+	newEstimateTotal = formatNumber newEstimateTotal,2,',','.','$','','-',''
+	estimateTotal.html newEstimateTotal
+
