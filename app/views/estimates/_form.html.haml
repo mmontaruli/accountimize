@@ -32,12 +32,15 @@
 					%th Delete:
 			%tbody
 				= f.fields_for :line_items do |builder|
-					= render 'line_items', :f => builder
+					= render 'line_item_fields', :f => builder
+				%tr.add_lines
+					%td{:colspan => 7}= link_to_add_fields "Add lines", f, :line_items
 				%tr.total_line
 					%td
 					%td{:colspan => 4} Total
 					%td.total_price= number_to_currency(@estimate.total_price)
-					%td
-		
+					%td		
+
 	.actions
 		= f.submit
+		

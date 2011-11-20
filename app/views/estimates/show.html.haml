@@ -32,7 +32,4 @@
 			%td.total_price= number_to_currency(@estimate.total_price)
 			%td
 
-%p	
-	=button_to 'Add lines', line_items_path(:estimate_id => @estimate)
-
 = link_to 'Back', estimates_path

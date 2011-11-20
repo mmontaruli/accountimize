@@ -53,6 +53,8 @@ class LineItemsController < ApplicationController
         format.html { redirect_to @estimate, notice: 'Line item was successfully created.' }
         #format.html { redirect_to estimate_path(estimate), notice: 'Line item was successfully created.' }
         format.json { render json: @line_item, status: :created, location: @line_item }
+        #format.js   { render :nothing => true }
+        #format.js
       else
         format.html { render action: "new" }
         format.json { render json: @line_item.errors, status: :unprocessable_entity }
@@ -89,6 +91,7 @@ class LineItemsController < ApplicationController
       #format.html { redirect_to line_items_url }
       format.html { redirect_to @estimate }
       format.json { head :ok }
+      #format.js   { render :nothing => true }
     end
   end  
 end

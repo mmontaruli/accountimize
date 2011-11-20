@@ -110,6 +110,14 @@ body.estimates #content {
 				text-decoration:line-through;
 			}
 		}
+		tr.add_lines {
+			td {
+				background:white;
+				a {
+					margin-left:26px;
+				}
+			}
+		}
 		tr.total_line {
 			td {
 				background:white;
