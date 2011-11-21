@@ -9,6 +9,14 @@ $ ->
 	lineCk = $('td.line_ck input[type="checkbox"]', lineRows)
 	lineLinks = $('td.line_links a', lineRows)
 	estimateTotal = $('table.line_items tr.total_line td.total_price', body)
+	estimateRows = $('table.estimate_list tbody tr', body)
+	
+	estimateRows.hover ->
+		$(this).addClass 'hover'
+	, ->
+		$(this).removeClass 'hover'
+	
+	$('table.line_items tr.add_lines td a', body).addClass 'small radius blue button'
 	
 	lineItemEffects lineItemInput
 					

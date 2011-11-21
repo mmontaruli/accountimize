@@ -1,4 +1,4 @@
-= form_for(@estimate) do |f|	
+= form_for(@estimate, :html => {:class => 'nice'}) do |f|	
 	- if @estimate.errors.any?
 		#error_explanation
 			%h2
@@ -11,12 +11,10 @@
 	
 	.field
 		= f.label :number
-		%br
-		=f.text_field :number
+		=f.text_field :number, :class => 'input-text small'
 		
 	.field
 		=f.label :date
-		%br
 		=f.date_select :date
 	%div	
 		%table.line_items{:cellspacing => 4}
@@ -41,5 +39,9 @@
 					%td		
 
 	.actions
-		= f.submit
+		= f.submit 'Save »' , :class => 'nice medium radius blue button'
+		-if params[:action] == 'new'
+			= link_to 'Cancel »', estimates_path, :class => 'nice medium radius white button'
+		-if params[:action] == 'edit'
+			= link_to 'Cancel »', @estimate, :class => 'nice medium radius white button'
 		

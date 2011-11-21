@@ -13,7 +13,11 @@ class Estimate < ActiveRecord::Base
     
   private
     def default_values
-      self.number ||= Estimate.maximum('number')+1
+      if Estimate.maximum('number')
+        self.number ||= Estimate.maximum('number')+1
+      else
+        self.number ||= 1000000
+      end
     end
   
 end

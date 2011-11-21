@@ -3,20 +3,23 @@
 
 %h2 Your Estimates
 
-%table
-	%tr
-		%th Number
-		%th Date
-		%th Total
-		%th
-		%th
-		
-	- @estimates.each do |estimate|
+%table.estimate_list
+	%thead
 		%tr
-			%td= estimate.number
-			%td= estimate.date
-			%td= number_to_currency(estimate.total_price)
-			%td= link_to 'Show', estimate
-			%td= link_to 'Delete', estimate, confirm: 'Are you sure?', method: :delete
+			%th.col Estimate
+			%th.col Date
+			%th.col Total
+			%th.col
+			%th.col
+		
+	%tbody
+		- @estimates.each do |estimate|
+			%tr
+				-#%td.estimate_number= estimate.number
+				%td.estimate_number= link_to estimate.number, estimate
+				%td.estimate_date= estimate.date
+				%td.estimate_total= number_to_currency(estimate.total_price)
+				%td.estimate_edit= link_to 'Edit', edit_estimate_path(estimate)
+				%td.estimate_delete= link_to 'Delete', estimate, confirm: 'Are you sure?', method: :delete
 
-%p= link_to 'New estimate', new_estimate_path
+%p= link_to 'New estimate »', new_estimate_path, :class => 'nice medium radius blue button'

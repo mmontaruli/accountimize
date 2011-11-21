@@ -6,23 +6,90 @@ body.estimates #content {
 	h3 {
 		font-weight:normal;
 	}
-	table.line_items {
+	select {display:inline;}
+	table {
 		thead {
 			margin:0;
-			tr {
+			tr{
 				th.col {
-					background:#B2BD40;
+					background:#b2bd40;
+					text-align:center;
 				}
 				th {
 					padding:10px;
 				}
 			}
 		}
+		tbody {
+			tr {
+				td {
+					padding:0;
+				}
+			}
+		}
+	}
+	table.estimate_list {
+		border-collapse:collapse;
+		width:auto;
+		vertical-align:middle;
+		border:none;
+		margin-bottom:28px;
+		tr {
+			td {
+				border-bottom:1px solid #e2e2e2;
+				padding-top:5px;
+				padding-bottom:5px;
+				vertical-align:middle;
+				a {
+					color:green;
+				}
+				a:hover {
+					color:white;
+					background:green;
+					text-decoration:none;
+				}
+			}
+			td.estimate_number {
+				width:150px;
+				text-align:center;
+			}
+			td.estimate_date {
+				width:150px;
+				text-align:center;
+			}
+			td.estimate_total {
+				width:150px;
+				text-align:right;
+				padding-right:15px;
+			}
+			td.estimate_edit {
+				width:50px;
+				text-align:center;
+			}
+			td.estimate_delete {
+				width:50px;
+				text-align:center;
+			}
+		}
+		tr.hover {
+			background-color:#ebf491;
+		}
+	}
+	table.line_items {
+		width:auto;
+		vertical-align:middle;
+		border:none;
+		border-spacing:4px;
+		border-collapse:separate;
+		thead {
+			background:none;
+		}
 		tr {
 			td{
 				background:#eeeeee;
 				height:35px;
 				border:1px solid white;
+				vertical-align:middle;
 				input {
 					background:none;
 					border:none;
@@ -128,5 +195,8 @@ body.estimates #content {
 				text-align:right;
 			}
 		}
+	}
+	table.estimate_show {
+		border-spacing:2px;
 	}
 }

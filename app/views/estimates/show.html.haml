@@ -1,16 +1,20 @@
 %p#notice= notice
 
-%p= link_to 'Edit Estimate', edit_estimate_path(@estimate)
+.row
 
-%h3
-	%strong Estimate Number:
-	= @estimate.number
+	%div{:class => 'five columns'}
+		%h3
+			%strong Estimate Number:
+			= @estimate.number
 
-%p
-	%strong Date:
-	= @estimate.date
+		%p
+			%strong Date:
+			= @estimate.date
+			
+	%p{:class => 'three columns offset-by-three'}= link_to 'Edit Estimate »', edit_estimate_path(@estimate), :class => 'nice medium radius blue button'
+		
 
-%table.line_items
+%table{:class => 'line_items estimate_show'}
 	%thead
 		%tr
 			%th.col Item #
