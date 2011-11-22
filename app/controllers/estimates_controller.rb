@@ -17,7 +17,7 @@ class EstimatesController < ApplicationController
       @estimate = Estimate.find(params[:id])
     rescue
       logger.error "Attempt to access invalid estimate #{params[:id]}"
-      redirect_to estimates_url, :notice => 'Invalid estimate'
+      redirect_to estimates_url, :flash => {:notice => 'Invalid estimate', :status => 'error'}
     else
       respond_to do |format|
         format.html # show.html.erb
@@ -51,7 +51,7 @@ class EstimatesController < ApplicationController
 
     respond_to do |format|
       if @estimate.save
-        format.html { redirect_to @estimate, notice: 'Estimate was successfully created.' }
+        format.html { redirect_to @estimate, :flash => {notice: 'Estimate was successfully created.', :status => 'success'} }
         format.json { render json: @estimate, status: :created, location: @estimate }
       else
         format.html { render action: "new" }
@@ -67,7 +67,8 @@ class EstimatesController < ApplicationController
 
     respond_to do |format|
       if @estimate.update_attributes(params[:estimate])
-        format.html { redirect_to @estimate, notice: 'Estimate was successfully updated.' }
+        #format.html { redirect_to @estimate, notice: 'Estimate was successfully updated.' }
+        format.html { redirect_to @estimate, :flash => {notice: 'Estimate was successfully updated.', :status => 'success'} }
         format.json { head :ok }
         #format.js
       else

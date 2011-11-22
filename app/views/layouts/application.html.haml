@@ -17,6 +17,12 @@
 				%a.trial(href="#") Free 30-Day Trial
 		
 		#content
+			- if notice
+				.row
+					.alert-box{:class => "ten columns #{flash[:status]}"}
+						= notice
+						%a{:href => "", :class => "close"} &times;
+
 			= yield
   
 		#footer
