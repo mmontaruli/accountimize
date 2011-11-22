@@ -46,4 +46,17 @@ class EstimatesControllerTest < ActionController::TestCase
 
     assert_redirected_to estimates_path
   end
+  
+  test "should generate three line items" do
+    get :new
+    assert_select "table.line_items tr.edit", 3
+  end
+  
+  test "estimate number should not be empty" do
+    get :new
+    assert_select "form input#estimate_number" do
+      assert_select "[value=?]", /.+/  # Not empty
+    end
+  end
+  
 end

@@ -2,14 +2,13 @@ require 'test_helper'
 
 class EstimateTest < ActiveSupport::TestCase
   
-  test "estimate attributes must not be empty" do
+  test "estimate date must not be empty" do
     estimate = Estimate.new
     assert estimate.invalid?
     assert estimate.errors[:date].any?
-    assert estimate.errors[:number].any?
   end
   
-  test "estimate number must be greater than 1" do
+  test "estimate number must be greater than or equal to 1" do
     estimate = Estimate.new(:date     => "2011-10-19")
     estimate.number = -1
     assert estimate.invalid?

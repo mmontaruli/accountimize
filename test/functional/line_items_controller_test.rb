@@ -3,6 +3,7 @@ require 'test_helper'
 class LineItemsControllerTest < ActionController::TestCase
   setup do
     @line_item = line_items(:one)
+    @estimate = estimates(:one)
   end
 
   test "should get index" do
@@ -18,10 +19,10 @@ class LineItemsControllerTest < ActionController::TestCase
 
   test "should create line_item" do
     assert_difference('LineItem.count') do
-      post :create, line_item: @line_item.attributes
+      post :create, line_item: @line_item.attributes, estimate_id: @estimate.id
     end
 
-    assert_redirected_to line_item_path(assigns(:line_item))
+    assert_redirected_to estimate_path(assigns(:estimate))
   end
 
   test "should show line_item" do
@@ -35,8 +36,8 @@ class LineItemsControllerTest < ActionController::TestCase
   end
 
   test "should update line_item" do
-    put :update, id: @line_item.to_param, line_item: @line_item.attributes
-    assert_redirected_to line_item_path(assigns(:line_item))
+    put :update, id: @line_item.to_param, line_item: @line_item.attributes, estimate_id: @estimate.id
+    assert_redirected_to assigns(:estimate)
   end
 
   test "should destroy line_item" do
@@ -44,6 +45,6 @@ class LineItemsControllerTest < ActionController::TestCase
       delete :destroy, id: @line_item.to_param
     end
 
-    assert_redirected_to line_items_path
+    assert_redirected_to assigns(:estimate)
   end
 end

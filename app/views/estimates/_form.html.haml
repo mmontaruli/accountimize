@@ -40,8 +40,8 @@
 
 	.actions
 		= f.submit 'Save »' , :class => 'nice medium radius blue button'
-		-if params[:action] == 'new'
-			= link_to 'Cancel »', estimates_path, :class => 'nice medium radius white button'
 		-if params[:action] == 'edit'
 			= link_to 'Cancel »', @estimate, :class => 'nice medium radius white button'
+		-else
+			= link_to 'Cancel »', estimates_path, :class => 'nice medium radius white button'
 		
