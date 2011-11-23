@@ -1,0 +1,16 @@
+%h4= @client.name
+= link_to 'Edit Client', edit_client_path(@client)
+	
+%p
+	%strong Address:
+	%br
+	= @client.address_street_1
+	- unless @client.address_street_2.empty?
+		%br
+		= @client.address_street_2
+	%br
+	= "#{@client.address_city}, #{@client.address_state} #{@client.address_zip}"
+	%br
+	= @client.country
+	
+= link_to 'Back', clients_path

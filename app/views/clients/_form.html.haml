@@ -1,0 +1,50 @@
+= form_for(@client, :html => {:class => 'nice'}) do |f|
+	- if @client.errors.any?
+		#error_explanation
+			%h2
+				= pluralize(@client.errors.count, "error")
+				prohibited this client from being saved:
+				
+			%ul
+				- @client.errors.full_messages.each do |msg|
+					%li= msg
+					
+	.field{:class => 'row'}
+		= f.label :name, 'Organization'
+		= f.text_field :name, :class => 'input-text medium'
+	
+	.field{:class => 'row'}
+		= f.label :address_street_1, 'Street 1'
+		= f.text_field :address_street_1, :class => 'input-text large'
+	
+	.field{:class => 'row'}
+		= f.label :address_street_2, 'Street 2'
+		= f.text_field :address_street_2, :class => 'input-text large'
+	
+	.field{:class => 'row'}
+
+		%div{:class => 'four columns'}
+			= f.label :address_city, 'City'
+			= f.text_field :address_city, :class => 'input-text medium'
+
+		%div{:class => 'three columns'}
+			= f.label :address_state, 'State'
+			= f.text_field :address_state, :class => 'input-text small'
+
+		%div{:class => 'three columns'}
+			= f.label :address_zip, 'Zip'
+			= f.text_field :address_zip, :class => 'input-text small'
+		
+	.field{:class => 'row'}
+		= f.label :country, 'Country'
+		= f.text_field :country, :class => 'input-text medium'
+	
+		
+	.actions
+		= f.submit 'Save »' , :class => 'nice medium radius blue button'
+	
+		-if params[:action] == 'edit'
+			= link_to 'Cancel »', @client, :class => 'nice medium radius white button'
+		-else
+			= link_to 'Cancel »', clients_path, :class => 'nice medium radius white button'
+	

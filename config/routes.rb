@@ -1,4 +1,6 @@
 Accountimize::Application.routes.draw do
+  resources :clients
+
   get "site/index"
 
   resources :line_items
