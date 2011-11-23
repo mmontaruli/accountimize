@@ -1,3 +1,49 @@
 // Place all the styles related to the Clients controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+body.clients #content {
+	table {
+		thead {
+			margin:0;
+			tr{
+				th.col {
+					background:#b2bd40;
+					text-align:center;
+				}
+				th {
+					padding:10px;
+				}
+			}
+		}
+		/*tbody {
+			tr {
+				td {
+					padding:0;
+				}
+			}
+		}*/
+	}
+	table.client_list {
+	/*	border-collapse:collapse;
+		vertical-align:middle;
+		border:none;
+		margin-bottom:28px;
+		tr {
+			td {
+				border-bottom:1px solid #e2e2e2;
+				padding-top:5px;
+				padding-bottom:5px;
+				vertical-align:middle;
+				a {
+					color:green;
+				}
+				a:hover {
+					color:white;
+					background:green;
+					text-decoration:none;
+				}
+			}
+		}*/
+	}
+}

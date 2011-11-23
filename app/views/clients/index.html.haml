@@ -1,21 +1,22 @@
-%h2 Clients
+%h3 Clients
 
-%table
-	%thead
-		%tr
-			%th Organization
-			%th State
-			%th Country
-			%th
-			%th
-		
-	%tbody
-		- @clients.each do |client|
+.row
+	%table{:class => 'client list nine columns'}
+		%thead
 			%tr
-				%td= link_to client.name, client
-				%td= client.address_state
-				%td= client.country
-				%td= link_to 'Edit', edit_client_path(client)
-				%td= link_to 'Delete', client, confirm: 'Are you sure?', method: :delete
+				%th.col Organization
+				%th.col State
+				%th.col Country
+				%th.col
+				%th.col
+		
+		%tbody
+			- @clients.each do |client|
+				%tr
+					%td= link_to client.name, client
+					%td= client.address_state
+					%td= client.country
+					%td= link_to 'Edit', edit_client_path(client)
+					%td= link_to 'Delete', client, confirm: 'Are you sure?', method: :delete
 			
-%p= link_to 'New Client', new_client_path
+%p.row= link_to 'New client »', new_client_path, :class => 'nice medium radius blue button'

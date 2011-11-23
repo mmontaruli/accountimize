@@ -3,9 +3,6 @@
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
 body.estimates #content {
-	h3 {
-		font-weight:normal;
-	}
 	select {display:inline;}
 	table {
 		thead {
@@ -23,19 +20,19 @@ body.estimates #content {
 		tbody {
 			tr {
 				td {
-					padding:0;
+					/*padding:0;*/
 				}
 			}
 		}
 	}
-	table.estimate_list {
+	table.estimate.list {
 		border-collapse:collapse;
-		width:auto;
+		/*width:auto;*/
 		vertical-align:middle;
 		border:none;
 		margin-bottom:28px;
 		tr {
-			td {
+		/*	td {
 				border-bottom:1px solid #e2e2e2;
 				padding-top:5px;
 				padding-bottom:5px;
@@ -48,7 +45,7 @@ body.estimates #content {
 					background:green;
 					text-decoration:none;
 				}
-			}
+			}*/
 			td.estimate_number {
 				width:150px;
 				text-align:center;
@@ -90,6 +87,7 @@ body.estimates #content {
 				height:35px;
 				border:1px solid white;
 				vertical-align:middle;
+				padding:0;
 				input {
 					background:none;
 					border:none;
@@ -161,9 +159,17 @@ body.estimates #content {
 		tr.edit {
 			td {
 				border:1px solid #cccccc;
+				padding:0;
+			}
+			td.line_name {
+				padding:0 10px;
+			}
+			td.line_u_price {
+				padding:0 10px;
 			}
 			td.line_t_price {
 				background:#cccccc;
+				padding:0 10px;
 			}
 			td.line_ck, td.line_links {
 				background:white;
