@@ -17,6 +17,8 @@
 				%a.trial(href="#") Free 30-Day Trial
 		
 		#content
+			= render 'layouts/inner_navigation'
+			
 			- if notice
 				.row
 					.alert-box{:class => "ten columns #{flash[:status]}"}
