@@ -9,7 +9,9 @@
 		%br
 		= @client.address_street_2
 	%br
-	= "#{@client.address_city}, #{@client.address_state} #{@client.address_zip}"
+	= "#{@client.address_city}," unless @client.address_city.empty?
+	= @client.address_state
+	= @client.address_zip
 	%br
 	= @client.country
 	
