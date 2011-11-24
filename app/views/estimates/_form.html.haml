@@ -9,13 +9,19 @@
 				- @estimate.errors.full_messages.each do |msg|
 					%li= msg
 	
-	.field
-		= f.label :number
-		=f.text_field :number, :class => 'input-text small'
+	.row
+		.field{:class => 'three columns'}
+			= f.label :client_id
+			= f.collection_select(:client_id, @clients, :id, :name, :include_blank => true)
+			%p.address
+				= render 'clients/client_address' if params[:action] == 'edit'
+
+		.field{:class => 'four columns offset-by-four'}
+			= f.label :number
+			=f.text_field :number, :class => 'input-text small'
+			=f.label :date
+			=f.date_select :date
 		
-	.field
-		=f.label :date
-		=f.date_select :date
 	%div	
 		%table.line_items{:cellspacing => 4}
 			%thead

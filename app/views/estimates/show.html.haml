@@ -1,15 +1,21 @@
 .row
+	%p{:class => 'three columns offset-by-eight'}= link_to 'Edit Estimate »', edit_estimate_path(@estimate), :class => 'nice small radius blue button'
 
-	%div{:class => 'five columns'}
-		%h3
+.row
+
+	%div{:class => 'four columns'}
+		= @client.name
+		%br
+		= render 'clients/client_address'
+		
+	%div{:class => 'three columns offset-by-three'}
+		%p
 			%strong Estimate Number:
 			= @estimate.number
 
 		%p
 			%strong Date:
 			= @estimate.date
-			
-	%p{:class => 'three columns offset-by-three'}= link_to 'Edit Estimate »', edit_estimate_path(@estimate), :class => 'nice medium radius blue button'
 		
 
 %table{:class => 'line_items estimate_show'}
@@ -33,4 +39,3 @@
 			%td{:colspan => 4} Total
 			%td.total_price= number_to_currency(@estimate.total_price)
 			%td
-

@@ -4,14 +4,4 @@
 %p
 	%strong Address:
 	%br
-	= @client.address_street_1
-	- unless @client.address_street_2.empty?
-		%br
-		= @client.address_street_2
-	%br
-	= "#{@client.address_city}," unless @client.address_city.empty?
-	= @client.address_state
-	= @client.address_zip
-	%br
-	= @client.country
-	
+	= render 'client_address'

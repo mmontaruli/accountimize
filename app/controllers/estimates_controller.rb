@@ -2,7 +2,8 @@ class EstimatesController < ApplicationController
   # GET /estimates
   # GET /estimates.json
   def index
-    @estimates = Estimate.all
+    #@estimates = Estimate.all
+    @estimates = Estimate.find(:all, :include => :client)
 
     respond_to do |format|
       format.html # index.html.erb
@@ -15,6 +16,7 @@ class EstimatesController < ApplicationController
   def show
     begin
       @estimate = Estimate.find(params[:id])
+      @client = Client.find_by_id(@estimate.client_id)
     rescue
       logger.error "Attempt to access invalid estimate #{params[:id]}"
       redirect_to estimates_url, :flash => {:notice => 'Invalid estimate', :status => 'error'}
@@ -30,6 +32,7 @@ class EstimatesController < ApplicationController
   # GET /estimates/new.json
   def new
     @estimate = Estimate.new
+    @clients = Client.all
     3.times do
       line_item = @estimate.line_items.build
     end
@@ -42,6 +45,8 @@ class EstimatesController < ApplicationController
   # GET /estimates/1/edit
   def edit
     @estimate = Estimate.find(params[:id])
+    @clients = Client.all
+    @client = Client.find_by_id(@estimate.client_id)
   end
 
   # POST /estimates

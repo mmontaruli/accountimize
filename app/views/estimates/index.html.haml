@@ -5,6 +5,7 @@
 		%thead
 			%tr
 				%th.col Estimate
+				%th.col Client Name
 				%th.col Date
 				%th.col Total
 				%th.col
@@ -14,6 +15,7 @@
 			- @estimates.each do |estimate|
 				%tr
 					%td.estimate_number= link_to estimate.number, estimate
+					%td.client_name= link_to estimate.client.name, estimate.client
 					%td.estimate_date= estimate.date
 					%td.estimate_total= number_to_currency(estimate.total_price)
 					%td.estimate_edit= link_to 'Edit', edit_estimate_path(estimate)
