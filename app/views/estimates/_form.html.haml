@@ -14,7 +14,8 @@
 			= f.label :client_id
 			= f.collection_select(:client_id, @clients, :id, :name, :include_blank => true)
 			%p.address
-				= render 'clients/client_address' if params[:action] == 'edit'
+				-#= render 'clients/client_address' if params[:action] == 'edit'
+				= render 'clients/client_address' if @estimate.client_id
 
 		.field{:class => 'four columns offset-by-four'}
 			= f.label :number

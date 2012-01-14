@@ -44,6 +44,9 @@ table.list {
 	}
 }
 
+/*#content dl.tabs dd a:hover {background-color:#f7f7f7;}*/
+/*#content dl.tabs dd a.active:hover {background-color:white;}*/
+
 body {
 	font-family:arial;
 	font-size:16px;
@@ -91,6 +94,18 @@ body {
 			float: right; 
 			margin-right: 30px; 
 			margin-top: 5px;
+		}
+	}
+	#content {
+		dl.tabs {
+			dd {
+				a:hover {
+					background-color:#f7f7f7;
+				}
+				a.active:hover {
+					background-color:#ffffff;
+				}
+			}
 		}
 	}
 	#footer {

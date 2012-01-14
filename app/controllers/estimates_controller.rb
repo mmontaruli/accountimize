@@ -33,6 +33,9 @@ class EstimatesController < ApplicationController
   def new
     @estimate = Estimate.new
     @clients = Client.all
+    #@client = params[:client_id]
+    @client = Client.find_by_id(params[:client_id])
+    @estimate.client_id = @client.id if @client
     3.times do
       line_item = @estimate.line_items.build
     end

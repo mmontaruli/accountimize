@@ -3,32 +3,29 @@
 # You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
 
 $ -> 
-	body = $('body.estimates')
-	lineRows = $('table.line_items tr.edit', body)
-	lineItemInput = $('td.editable input', lineRows)
-	lineCk = $('td.line_ck input[type="checkbox"]', lineRows)
-	lineLinks = $('td.line_links a', lineRows)
-	estimateTotal = $('table.line_items tr.total_line td.total_price', body)
-	#estimateRows = $('table.estimate.list tbody tr', body)
+	$body = $('body.estimates')
+	$lineRows = $('table.line_items tr.edit', $body)
+	$lineItemInput = $('td.editable input', $lineRows)
+	$lineCk = $('td.line_ck input[type="checkbox"]', $lineRows)
+	$lineLinks = $('td.line_links a', $lineRows)
+	$estimateTotal = $('table.line_items tr.total_line td.total_price', $body)
+	$client = $('#estimate_client_id', $body)
+
+	$('table.line_items tr.add_lines td a', $body).addClass 'small radius blue button'
 	
-	#estimateRows.hover ->
-	#	$(this).addClass 'hover'
-	#, ->
-	#	$(this).removeClass 'hover'
-	
-	$('table.line_items tr.add_lines td a', body).addClass 'small radius blue button'
-	
-	lineItemEffects lineItemInput
+	lineItemEffects $lineItemInput
 					
-	lineItemInput.live "blur", ->
-		updateEstimateTotals $(this).parents("tr"), estimateTotal
+	$lineItemInput.live "blur", ->
+		updateEstimateTotals $(this).parents("tr"), $estimateTotal
 	
-	lineCk.live "click", ->
-		updateEstimateTotals $(this).parents("tr"), estimateTotal
+	$lineCk.live "click", ->
+		updateEstimateTotals $(this).parents("tr"), $estimateTotal
 	
-	lineLinks.live "click", ->
-		t = setTimeout( (-> updateEstimateTotals($(this).parents("tr"), estimateTotal)), 500 )
+	$lineLinks.live "click", ->
+		t = setTimeout( (-> updateEstimateTotals($(this).parents("tr"), $estimateTotal)), 500 )
 	
+	$client.change ->
+		getNewClient $client
 
 lineItemEffects = (lineItemInput) ->	
 	lineItemInput.live "mouseenter", ->
@@ -62,5 +59,10 @@ updateEstimateTotals = (lineRow, estimateTotal) ->
 	newEstimateTotal = formatNumber newEstimateTotal,2,',','.','$','','-',''
 	estimateTotal.html newEstimateTotal
 
-myAlert = () ->
-	alert "Hello"
+
+getNewClient = (client) ->
+	# get new value and store in selected_client
+	selected_client = client.val()
+	# re-render partial where :locals => {@client = selected_client}
+	$('p.address').html("<%= escape_javascript(render :partial => 'clients/client_address', :locals => {:selected_client => @client }) %>")	
+	

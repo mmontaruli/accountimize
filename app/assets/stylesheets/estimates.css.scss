@@ -2,6 +2,10 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
+$green: #b2bd40;
+$hover-yellow: #ebf491;
+$focus-yellow: #FFF8D5;
+
 body.estimates #content {
 	select {display:inline;}
 	table {
@@ -9,7 +13,7 @@ body.estimates #content {
 			margin:0;
 			tr{
 				th.col {
-					background:#b2bd40;
+					background:$green;
 					text-align:center;
 				}
 				th {
@@ -17,35 +21,17 @@ body.estimates #content {
 				}
 			}
 		}
-		tbody {
-			tr {
-				td {
-					/*padding:0;*/
-				}
-			}
-		}
+	}
+	.client-address {
+		line-height:1.3;
+		font-size:14px;
 	}
 	table.estimate.list {
 		border-collapse:collapse;
-		/*width:auto;*/
 		vertical-align:middle;
 		border:none;
 		margin-bottom:28px;
 		tr {
-		/*	td {
-				border-bottom:1px solid #e2e2e2;
-				padding-top:5px;
-				padding-bottom:5px;
-				vertical-align:middle;
-				a {
-					color:green;
-				}
-				a:hover {
-					color:white;
-					background:green;
-					text-decoration:none;
-				}
-			}*/
 			td.estimate_number {
 				width:100px;
 				text-align:center;
@@ -72,7 +58,7 @@ body.estimates #content {
 			}
 		}
 		tr.hover {
-			background-color:#ebf491;
+			background-color:$hover-yellow;
 		}
 	}
 	table.line_items {
@@ -109,9 +95,9 @@ body.estimates #content {
 				}
 			}
 			td.focus {
-				background:#FFF8D5;
+				background:$focus-yellow;
 				input {
-					background:#FFF8D5;
+					background:$focus-yellow;
 				}
 			}
 			td.line_ck {
