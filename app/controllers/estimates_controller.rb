@@ -1,6 +1,8 @@
 class EstimatesController < ApplicationController
   # GET /estimates
   # GET /estimates.json
+  before_filter :get_account
+  
   def index
     #@estimates = Estimate.all
     @estimates = Estimate.find(:all, :include => :client)
@@ -59,7 +61,7 @@ class EstimatesController < ApplicationController
 
     respond_to do |format|
       if @estimate.save
-        format.html { redirect_to @estimate, :flash => {notice: 'Estimate was successfully created.', :status => 'success'} }
+        format.html { redirect_to account_estimate_path(@account,@estimate), :flash => {notice: 'Estimate was successfully created.', :status => 'success'} }
         format.json { render json: @estimate, status: :created, location: @estimate }
       else
         format.html { render action: "new" }
@@ -76,7 +78,7 @@ class EstimatesController < ApplicationController
     respond_to do |format|
       if @estimate.update_attributes(params[:estimate])
         #format.html { redirect_to @estimate, notice: 'Estimate was successfully updated.' }
-        format.html { redirect_to @estimate, :flash => {notice: 'Estimate was successfully updated.', :status => 'success'} }
+        format.html { redirect_to account_estimate_path(@account,@estimate), :flash => {notice: 'Estimate was successfully updated.', :status => 'success'} }
         format.json { head :ok }
         #format.js
       else
@@ -93,8 +95,14 @@ class EstimatesController < ApplicationController
     @estimate.destroy
 
     respond_to do |format|
-      format.html { redirect_to estimates_url }
+      format.html { redirect_to account_estimates_url }
       format.json { head :ok }
     end
   end
+  
+  private
+  
+    def get_account
+      @account = Account.find(params[:account_id])
+    end
 end

@@ -1,0 +1,17 @@
+%p 
+	%strong Name:
+	= @account.name
+	
+%p
+	%strong Subdomain:
+	= @account.subdomain
+	
+%p
+	= link_to 'Edit', edit_account_path(@account)
+	|
+	= link_to 'Back', accounts_path
+
+%p
+	= link_to 'Clients', account_clients_path(@account)
+	|
+	= link_to 'Estimates', account_estimates_path(@account)

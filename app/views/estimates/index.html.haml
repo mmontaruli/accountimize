@@ -14,11 +14,11 @@
 		%tbody
 			- @estimates.each do |estimate|
 				%tr
-					%td.estimate_number= link_to estimate.number, estimate
-					%td.client_name= link_to estimate.client.name, estimate.client
+					%td.estimate_number= link_to estimate.number, account_estimate_path(@account,estimate)
+					%td.client_name= link_to estimate.client.name, account_client_path(@account,estimate.client)
 					%td.estimate_date= estimate.date
 					%td.estimate_total= number_to_currency(estimate.total_price)
-					%td.estimate_edit= link_to 'Edit', edit_estimate_path(estimate)
-					%td.estimate_delete= link_to 'Delete', estimate, confirm: 'Are you sure?', method: :delete
+					%td.estimate_edit= link_to 'Edit', edit_account_estimate_path(@account,estimate)
+					%td.estimate_delete= link_to 'Delete', account_estimate_path(@account,estimate), confirm: 'Are you sure?', method: :delete
 
-%p.row= link_to 'New estimate »', new_estimate_path, :class => 'nice medium radius blue button'
+%p.row= link_to 'New estimate »', new_account_estimate_path, :class => 'nice medium radius blue button'

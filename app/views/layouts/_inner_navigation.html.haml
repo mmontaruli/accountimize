@@ -1,4 +1,4 @@
 - if params[:controller] == "clients" or params[:controller] == "estimates"
 	%dl{:class => 'tabs'}
-		%dd= link_to 'Clients', clients_path, :class => @section_name == "clients" ? "active" : ""
-		%dd= link_to 'Estimates', estimates_path, :class => @section_name == "estimates" ? "active" : ""
+		%dd= link_to 'Clients', account_clients_path, :class => @section_name == "clients" ? "active" : ""
+		%dd= link_to 'Estimates', account_estimates_path, :class => @section_name == "estimates" ? "active" : ""

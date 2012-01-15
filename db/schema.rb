@@ -11,7 +11,14 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111124152018) do
+ActiveRecord::Schema.define(:version => 20120115050126) do
+
+  create_table "accounts", :force => true do |t|
+    t.string   "name"
+    t.string   "subdomain"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "clients", :force => true do |t|
     t.string   "name"
@@ -23,6 +30,8 @@ ActiveRecord::Schema.define(:version => 20111124152018) do
     t.string   "address_zip"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "account_id"
+    t.boolean  "is_account_master"
   end
 
   create_table "estimates", :force => true do |t|

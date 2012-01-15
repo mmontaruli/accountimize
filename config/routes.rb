@@ -1,11 +1,18 @@
 Accountimize::Application.routes.draw do
-  resources :clients
+  resources :accounts do
+    resources :clients
+    resources :estimates
+  end
+  
+  #resources :accounts
+
+  #resources :clients
 
   get "site/index"
 
   resources :line_items
 
-  resources :estimates
+  #resources :estimates
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
