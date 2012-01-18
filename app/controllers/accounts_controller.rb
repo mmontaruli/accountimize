@@ -1,6 +1,7 @@
 class AccountsController < ApplicationController
   # GET /accounts
   # GET /accounts.json
+    
   def index
     @accounts = Account.all
 
@@ -25,6 +26,8 @@ class AccountsController < ApplicationController
   # GET /accounts/new.json
   def new
     @account = Account.new
+    @unique_account_master_name = "ACCOUNT_MASTER_" + Time.now.strftime("%Y%m%d%H%M%S")
+    @account.clients.build
 
     respond_to do |format|
       format.html # new.html.erb
@@ -35,6 +38,7 @@ class AccountsController < ApplicationController
   # GET /accounts/1/edit
   def edit
     @account = Account.find(params[:id])
+    #@client = @account.clients.find(:first, :conditions => {:is_account_master => true})
   end
 
   # POST /accounts
@@ -44,7 +48,7 @@ class AccountsController < ApplicationController
 
     respond_to do |format|
       if @account.save
-        format.html { redirect_to @account, notice: 'Account was successfully created.' }
+        format.html { redirect_to @account, :flash => {notice: 'Account was successfully created.', :status => 'success'} }
         format.json { render json: @account, status: :created, location: @account }
       else
         format.html { render action: "new" }
@@ -60,7 +64,7 @@ class AccountsController < ApplicationController
 
     respond_to do |format|
       if @account.update_attributes(params[:account])
-        format.html { redirect_to @account, notice: 'Account was successfully updated.' }
+        format.html { redirect_to @account, :flash => {notice: 'Account was successfully updated.', :status => 'success'} }
         format.json { head :ok }
       else
         format.html { render action: "edit" }

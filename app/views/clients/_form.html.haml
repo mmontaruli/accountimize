@@ -38,6 +38,11 @@
 	.field{:class => 'row'}
 		= f.label :country, 'Country'
 		= f.text_field :country, :class => 'input-text medium'
+		
+	-if (params[:action]) == 'new'
+		= f.hidden_field :account_id, :value => @account.id
+		= f.hidden_field :is_account_master, :value => false
+	
 	
 		
 	.actions

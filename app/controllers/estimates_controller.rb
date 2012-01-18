@@ -5,7 +5,8 @@ class EstimatesController < ApplicationController
   
   def index
     #@estimates = Estimate.all
-    @estimates = Estimate.find(:all, :include => :client)
+    #@estimates = Estimate.find(:all, :include => :client)
+    @estimates = @account.estimates.find(:all, :include => :client)
 
     respond_to do |format|
       format.html # index.html.erb
@@ -34,7 +35,8 @@ class EstimatesController < ApplicationController
   # GET /estimates/new.json
   def new
     @estimate = Estimate.new
-    @clients = Client.all
+    #@clients = Client.all
+    @clients = @account.clients.find(:all, :conditions => {:is_account_master => false})
     #@client = params[:client_id]
     @client = Client.find_by_id(params[:client_id])
     @estimate.client_id = @client.id if @client
@@ -50,7 +52,8 @@ class EstimatesController < ApplicationController
   # GET /estimates/1/edit
   def edit
     @estimate = Estimate.find(params[:id])
-    @clients = Client.all
+    #@clients = Client.all
+    @clients = @account.clients.find(:all, :conditions => {:is_account_master => false})
     @client = Client.find_by_id(@estimate.client_id)
   end
 

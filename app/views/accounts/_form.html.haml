@@ -8,7 +8,7 @@
 			%ul
 				- @account.errors.full_messages.each do |msg|
 					%li= msg
-				
+					
 	.field{:class => 'row'}
 		= f.label :name
 		= f.text_field :name, :class => 'input-text medium'
@@ -17,11 +17,10 @@
 		= f.label :subdomain
 		= f.text_field :subdomain, :class => 'input-text medium'
 		
+	.client_fields
+		= f.fields_for :clients do |builder|
+			= render 'client_fields', :f => builder
+		
 	.actions
-		= f.submit 'Save »' , :class => 'nice medium radius blue button'
-		
-		-if params[:action] == 'edit'
-			= link_to 'Cancel »', @account, :class => 'nice medium radius white button'
-		-else
-			= link_to 'Cancel »', accounts_path, :class => 'nice medium radius white button'
-		
+		= f.submit 'Save »', :class => 'nice medium radius blue button'
+		= link_to 'Cancel »', @account, :class => 'nice medium radius white button'

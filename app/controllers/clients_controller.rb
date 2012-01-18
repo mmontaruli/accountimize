@@ -4,7 +4,9 @@ class ClientsController < ApplicationController
   
   before_filter :get_account
   def index
-    @clients = Client.all
+    #@clients = Client.all
+    #@clients = @account.clients.all
+    @clients = @account.clients.find(:all, :conditions => {:is_account_master => false})
 
     respond_to do |format|
       format.html # index.html.erb
