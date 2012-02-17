@@ -1,6 +1,8 @@
 Accountimize::Application.routes.draw do
   resources :accounts do
-    resources :clients
+    resources :clients do
+      get :client_address, on: :member
+    end
     resources :estimates
   end
   

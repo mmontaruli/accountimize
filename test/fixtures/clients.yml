@@ -1,7 +1,8 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
 
-one:
-  name: MyString
+one_one:
+  account: one
+  name: one_one
   country: MyString
   address_street_1: MyString
   address_street_2: MyString
@@ -9,8 +10,19 @@ one:
   address_state: MyString
   address_zip: MyString
 
-two:
-  name: MyString
+one_two:
+  account: one
+  name: one_two
+  country: MyString
+  address_street_1: MyString
+  address_street_2: MyString
+  address_city: MyString
+  address_state: MyString
+  address_zip: MyString
+
+two_one:
+  account: two
+  name: two_one
   country: MyString
   address_street_1: MyString
   address_street_2: MyString

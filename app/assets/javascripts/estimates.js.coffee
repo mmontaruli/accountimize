@@ -24,8 +24,8 @@ $ ->
 	$lineLinks.live "click", ->
 		t = setTimeout( (-> updateEstimateTotals($(this).parents("tr"), $estimateTotal)), 500 )
 	
-	#$client.change ->
-	#	getNewClient $client
+	$client.change ->
+		getNewClient $client
 
 lineItemEffects = (lineItemInput) ->	
 	lineItemInput.live "mouseenter", ->
@@ -63,6 +63,9 @@ updateEstimateTotals = (lineRow, estimateTotal) ->
 getNewClient = (client) ->
 	# get new value and store in selected_client
 	selected_client = client.val()
-	# re-render partial where :locals => {@client = selected_client}
-	$('p.address').html("<%= escape_javascript(render :partial => 'clients/client_address', :locals => {:selected_client => @client }) %>")	
-	
+	if selected_client != ''
+		urlbase = client.attr('data-url-base')
+		url = urlbase+'/'+selected_client+'/client_address'
+		$('p.address').load url
+	else
+		$('p.address').empty()

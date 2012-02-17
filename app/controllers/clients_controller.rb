@@ -85,6 +85,12 @@ class ClientsController < ApplicationController
     end
   end
   
+  # GET /clients/1/client_address
+  def client_address
+    @client = @account.clients.find(params[:id])
+    render partial: 'client_address', layout: nil
+  end
+
   private
   
     def get_account

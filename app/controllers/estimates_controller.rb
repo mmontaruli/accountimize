@@ -34,10 +34,8 @@ class EstimatesController < ApplicationController
   # GET /estimates/new
   # GET /estimates/new.json
   def new
-    @estimate = Estimate.new
-    #@clients = Client.all
+    @estimate = Estimate.new(number: @account.estimates.default_number)
     @clients = @account.clients.find(:all, :conditions => {:is_account_master => false})
-    #@client = params[:client_id]
     @client = Client.find_by_id(params[:client_id])
     @estimate.client_id = @client.id if @client
     3.times do

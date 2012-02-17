@@ -7,3 +7,7 @@ one:
 two:
   name: MyString
   subdomain: MyString
+
+empty:
+  name: MyString
+  subdomain: MyString

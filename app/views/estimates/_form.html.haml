@@ -12,9 +12,8 @@
 	.row
 		.field{:class => 'three columns'}
 			= f.label :client_id
-			= f.collection_select(:client_id, @clients, :id, :name, :include_blank => true)
+			= f.collection_select(:client_id, @clients, :id, :name, {:include_blank => true}, data: {'url-base' => account_clients_path(@account)})
 			%p.address
-				-#= render 'clients/client_address' if params[:action] == 'edit'
 				= render 'clients/client_address' if @estimate.client_id
 
 		.field{:class => 'four columns offset-by-four'}
@@ -51,4 +50,4 @@
 			= link_to 'Cancel »', account_estimate_path(@account,@estimate), :class => 'nice medium radius white button'
 		-else
 			= link_to 'Cancel »', account_estimates_path, :class => 'nice medium radius white button'
-		
+

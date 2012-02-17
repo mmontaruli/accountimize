@@ -1,9 +1,11 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
 
 one:
-  number: 1
+  client: one_one
+  number: 1000000
   date: 2011-10-19
 
 two:
-  number: 1
+  client: one_two
+  number: 1000001
   date: 2011-10-19
