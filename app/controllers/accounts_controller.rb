@@ -38,7 +38,7 @@ class AccountsController < ApplicationController
   # GET /accounts/1/edit
   def edit
     @account = Account.find(params[:id])
-    #@client = @account.clients.find(:first, :conditions => {:is_account_master => true})
+    @account_master = @account.clients.find(:all, :conditions => {:is_account_master => true})
   end
 
   # POST /accounts

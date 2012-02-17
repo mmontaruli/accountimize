@@ -18,7 +18,7 @@
 		= f.text_field :subdomain, :class => 'input-text medium'
 		
 	.client_fields
-		= f.fields_for :clients do |builder|
+		= f.fields_for :clients, @account_master do |builder|
 			= render 'client_fields', :f => builder
 		
 	.actions

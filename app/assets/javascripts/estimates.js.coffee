@@ -24,8 +24,8 @@ $ ->
 	$lineLinks.live "click", ->
 		t = setTimeout( (-> updateEstimateTotals($(this).parents("tr"), $estimateTotal)), 500 )
 	
-	$client.change ->
-		getNewClient $client
+	#$client.change ->
+	#	getNewClient $client
 
 lineItemEffects = (lineItemInput) ->	
 	lineItemInput.live "mouseenter", ->
