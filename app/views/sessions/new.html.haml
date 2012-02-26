@@ -1,0 +1,15 @@
+%h3 Log in
+
+= form_tag(sessions_path, :class => 'nice') do
+
+	.field{:class => 'row'}
+		= label_tag :email
+		= text_field_tag :email, params[:email], :class => "input-text medium"
+		
+	.field{:class => 'row'}
+		= label_tag :password
+		= password_field_tag :password, nil, :class => "input-text medium"
+	
+	.actions
+		= submit_tag 'Log In »', :class => 'nice medium radius blue button'
+		= link_to 'Cancel »', site_url, :class => 'nice medium radius white button'
