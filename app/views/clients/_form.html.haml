@@ -10,34 +10,34 @@
 					%li= msg
 					
 	.field{:class => 'row'}
-		= f.label :name, 'Organization'
-		= f.text_field :name, :class => 'input-text medium'
+		-#= f.label :name, 'Organization'
+		= f.text_field :name, :placeholder => "Client Name", :class => 'input-text medium'
 	
 	.field{:class => 'row'}
-		= f.label :address_street_1, 'Street 1'
-		= f.text_field :address_street_1, :class => 'input-text large'
+		-#= f.label :address_street_1, 'Street 1'
+		= f.text_field :address_street_1, :placeholder => "Street 1", :class => 'input-text large'
 	
 	.field{:class => 'row'}
-		= f.label :address_street_2, 'Street 2'
-		= f.text_field :address_street_2, :class => 'input-text large'
+		-#= f.label :address_street_2, 'Street 2'
+		= f.text_field :address_street_2, :placeholder => "Street 2", :class => 'input-text large'
 	
 	.field{:class => 'row'}
 
 		%div{:class => 'four columns'}
-			= f.label :address_city, 'City'
-			= f.text_field :address_city, :class => 'input-text medium'
+			-#= f.label :address_city, 'City'
+			= f.text_field :address_city, :placeholder => "City", :class => 'input-text medium'
 
 		%div{:class => 'three columns'}
-			= f.label :address_state, 'State'
-			= f.text_field :address_state, :class => 'input-text small'
+			-#= f.label :address_state, 'State'
+			= f.text_field :address_state, :placeholder => "State", :class => 'input-text small'
 
 		%div{:class => 'three columns'}
-			= f.label :address_zip, 'Zip'
-			= f.text_field :address_zip, :class => 'input-text small'
+			-#= f.label :address_zip, 'Zip'
+			= f.text_field :address_zip, :placeholder => "Zip Code", :class => 'input-text small'
 		
 	.field{:class => 'row'}
-		= f.label :country, 'Country'
-		= f.text_field :country, :class => 'input-text medium'
+		-#= f.label :country, 'Country'
+		= f.text_field :country, :placeholder => "Country", :class => 'input-text medium'
 		
 	-if (params[:action]) == 'new'
 		= f.hidden_field :account_id, :value => @account.id

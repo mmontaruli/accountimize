@@ -10,10 +10,15 @@
 		
 		#header
 			%ul.login_links
-				%li= link_to 'Login', accounts_path
-				%li= link_to 'Sign up', new_account_path
+				- if current_user
+					%li= link_to "Logout", log_out_path
+					%li= "Logged in as #{current_user.email}"
+				- else
+					%li= link_to 'Login', accounts_url(:subdomain => false)
+					%li= link_to 'Sign up', sign_up_url(:subdomain => false)
+
 			%h1#logo
-				= link_to 'Accountimize', site_path
+				= link_to 'Accountimize', site_url(:subdomain => false)
 			- if @header_trial
 				%a.trial(href="#") Free 30-Day Trial
 		

@@ -1,4 +1,5 @@
 class SessionsController < ApplicationController
+  skip_before_filter :authorize
   def new
   end
   
@@ -15,6 +16,6 @@ class SessionsController < ApplicationController
   
   def destroy
     session[:user_id] = nil
-    redirect_to site_url, :flash => {:notice => "Logged out!", :status => "success"}
+    redirect_to log_in_path, :flash => {:notice => "Logged out!", :status => "success"}
   end
 end

@@ -10,12 +10,12 @@
 					%li= msg
 					
 	.field{:class => 'row'}
-		= f.label :name
-		= f.text_field :name, :class => 'input-text medium'
+		-#= f.label :name
+		= f.text_field :name, :placeholder => "Company Name", :class => 'input-text medium'
 		
 	.field{:class => 'row'}
-		= f.label :subdomain
-		= f.text_field :subdomain, :class => 'input-text medium'
+		-#= f.label :subdomain
+		= f.text_field :subdomain, :placeholder => "Subdomain", :class => 'input-text medium'
 		
 	.client_fields
 		= f.fields_for :clients, @account_master do |builder|
@@ -24,3 +24,4 @@
 	.actions
 		= f.submit 'Save »', :class => 'nice medium radius blue button'
 		= link_to 'Cancel »', @account, :class => 'nice medium radius white button'
+		

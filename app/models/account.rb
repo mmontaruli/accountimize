@@ -4,4 +4,8 @@ class Account < ActiveRecord::Base
   
   accepts_nested_attributes_for :clients, :allow_destroy => true
   
+  validates :name, :presence => true
+  validates :subdomain, :presence => true, :uniqueness => true
+  validates :subdomain, :format => { :with =>/^[a-zA-Z0-9]+$/, :message => "can only have letters and numbers" }
+  
 end

@@ -1,6 +1,8 @@
 class AccountsController < ApplicationController
   # GET /accounts
   # GET /accounts.json
+  
+  skip_before_filter :authorize, :only => [:index, :new, :create]
     
   def index
     @accounts = Account.all
@@ -14,7 +16,9 @@ class AccountsController < ApplicationController
   # GET /accounts/1
   # GET /accounts/1.json
   def show
-    @account = Account.find(params[:id])
+    #@account = Account.find(params[:id])
+    @account = Account.find_by_subdomain!(request.subdomain)
+    @inner_navigation = true
 
     respond_to do |format|
       format.html # show.html.erb
@@ -39,12 +43,14 @@ class AccountsController < ApplicationController
   def edit
     @account = Account.find(params[:id])
     @account_master = @account.clients.find(:all, :conditions => {:is_account_master => true})
+    @inner_navigation = true
   end
 
   # POST /accounts
   # POST /accounts.json
   def create
     @account = Account.new(params[:account])
+    @unique_account_master_name = "ACCOUNT_MASTER_" + Time.now.strftime("%Y%m%d%H%M%S")
 
     respond_to do |format|
       if @account.save

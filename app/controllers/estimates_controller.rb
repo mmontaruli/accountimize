@@ -2,6 +2,7 @@ class EstimatesController < ApplicationController
   # GET /estimates
   # GET /estimates.json
   before_filter :get_account
+  before_filter :inner_navigation
   
   def index
     #@estimates = Estimate.all
@@ -101,9 +102,4 @@ class EstimatesController < ApplicationController
     end
   end
   
-  private
-  
-    def get_account
-      @account = Account.find(params[:account_id])
-    end
 end

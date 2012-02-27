@@ -3,6 +3,7 @@ class ClientsController < ApplicationController
   # GET /clients.json
   
   before_filter :get_account
+  before_filter :inner_navigation
   def index
     #@clients = Client.all
     #@clients = @account.clients.all
@@ -91,9 +92,4 @@ class ClientsController < ApplicationController
     render partial: 'client_address', layout: nil
   end
 
-  private
-  
-    def get_account
-      @account = Account.find(params[:account_id])
-    end
 end

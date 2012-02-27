@@ -9,10 +9,12 @@
 %p
 	= link_to 'Edit', edit_account_path(@account)
 	|
-	= link_to 'Back', accounts_path
-
-%p
-	= link_to 'Clients', account_clients_path(@account)
+	= link_to 'Delete Account', @account, confirm: 'Are you sure?', method: :delete
 	|
-	= link_to 'Estimates', account_estimates_path(@account)
+	= link_to 'Back', accounts_url(:subdomain => false)
+
+-#%p
+-#	= link_to 'Clients', account_clients_path(@account)
+-#	|
+-#	= link_to 'Estimates', account_estimates_path(@account)
 	
