@@ -31,7 +31,9 @@ class AccountsController < ApplicationController
   def new
     @account = Account.new
     @unique_account_master_name = "ACCOUNT_MASTER_" + Time.now.strftime("%Y%m%d%H%M%S")
-    @account.clients.build
+    #@account.clients.build
+    client = @account.clients.build
+    client.users.build
 
     respond_to do |format|
       format.html # new.html.erb
@@ -54,7 +56,8 @@ class AccountsController < ApplicationController
 
     respond_to do |format|
       if @account.save
-        format.html { redirect_to @account, :flash => {notice: 'Account was successfully created.', :status => 'success'} }
+        #format.html { redirect_to @account, :flash => {notice: 'Account was successfully created.', :status => 'success'} }
+        format.html { redirect_to accounts_path, :flash => {notice: 'Account was successfully created.', :status => 'success'} }
         format.json { render json: @account, status: :created, location: @account }
       else
         format.html { render action: "new" }
