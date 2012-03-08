@@ -5,6 +5,14 @@
 	%strong Address:
 	%br
 	= render 'client_address'
+
+%p
+	%h5 Contacts
+	%ul
+		- @users.each do |user|
+			%li= user.email
+
+%p= link_to 'Add Contact', new_user_path(:client_id => @client)
 	
 %p
 	= link_to 'Create New Estimate', new_account_estimate_path(:client_id => @client), :class => "nice small radius blue button"

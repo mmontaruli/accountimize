@@ -6,12 +6,13 @@
 	%strong Subdomain:
 	= @account.subdomain
 	
-%p
-	= link_to 'Edit', edit_account_path(@account)
-	|
-	= link_to 'Delete Account', @account, confirm: 'Are you sure?', method: :delete
-	|
-	= link_to 'Back', accounts_url(:subdomain => false)
+- if signed_in_client.is_account_master
+	%p
+		= link_to 'Edit', edit_account_path(@account)
+		|
+		= link_to 'Delete Account', @account, confirm: 'Are you sure?', method: :delete
+		|
+		= link_to 'Back', accounts_url(:subdomain => false)
 
 -#%p
 -#	= link_to 'Clients', account_clients_path(@account)

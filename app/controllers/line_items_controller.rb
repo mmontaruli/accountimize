@@ -1,6 +1,7 @@
 class LineItemsController < ApplicationController
   # GET /line_items
   # GET /line_items.json
+  before_filter :restrict_access
   def index
     @line_items = LineItem.all
 

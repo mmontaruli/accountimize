@@ -3,11 +3,17 @@ class EstimatesController < ApplicationController
   # GET /estimates.json
   before_filter :get_account
   before_filter :inner_navigation
+  before_filter :restrict_access, :except => [:index, :show]
+  before_filter :restrict_estimate_access, :except => [:index]
   
   def index
     #@estimates = Estimate.all
     #@estimates = Estimate.find(:all, :include => :client)
-    @estimates = @account.estimates.find(:all, :include => :client)
+    if signed_in_client.is_account_master
+      @estimates = @account.estimates.find(:all, :include => :client)
+    else
+      @estimates = signed_in_client.estimates.find(:all, :include => :client)
+    end
 
     respond_to do |format|
       format.html # index.html.erb
@@ -101,5 +107,16 @@ class EstimatesController < ApplicationController
       format.json { head :ok }
     end
   end
+
+  private
+
+    def restrict_estimate_access
+      unless signed_in_client.is_account_master
+        @estimate = Estimate.find(params[:id])
+        unless signed_in_client.id == @estimate.client_id
+          redirect_to account_estimates_path
+        end
+      end
+    end
   
 end

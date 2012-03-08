@@ -3,6 +3,7 @@ class AccountsController < ApplicationController
   # GET /accounts.json
   
   skip_before_filter :authorize, :only => [:index, :new, :create]
+  before_filter :restrict_access, :except => [:index, :new, :create, :show]
     
   def index
     @accounts = Account.all

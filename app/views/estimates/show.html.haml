@@ -1,5 +1,6 @@
-.row
-	%p{:class => 'three columns offset-by-eight'}= link_to 'Edit Estimate »', edit_account_estimate_path(@account,@estimate), :class => 'nice small radius blue button'
+- if signed_in_client.is_account_master
+	.row
+		%p{:class => 'three columns offset-by-eight'}= link_to 'Edit Estimate »', edit_account_estimate_path(@account,@estimate), :class => 'nice small radius blue button'
 
 .row
 

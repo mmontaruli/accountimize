@@ -1,6 +1,6 @@
--#- if params[:controller] == "clients" or params[:controller] == "estimates"
 - if @inner_navigation
 	%dl{:class => 'tabs'}
 		%dd= link_to 'Dashboard', site_url, :class => @section_name == "accounts" ? "active" : ""
-		%dd= link_to 'Clients', account_clients_path(@account), :class => @section_name == "clients" ? "active" : ""
+		- if signed_in_client.is_account_master
+			%dd= link_to 'Clients', account_clients_path(@account), :class => @section_name == "clients" ? "active" : ""
 		%dd= link_to 'Estimates', account_estimates_path(@account), :class => @section_name == "estimates" ? "active" : ""

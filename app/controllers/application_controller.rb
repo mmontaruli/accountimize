@@ -4,6 +4,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery
   helper_method :current_user
   before_filter :authorize
+  helper_method :signed_in_client
   
   private
     
@@ -15,6 +16,10 @@ class ApplicationController < ActionController::Base
       @current_user ||= User.find(session[:user_id]) if session[:user_id]
     end
 
+    def signed_in_client
+      @signed_in_client ||= Client.find(current_user.client_id) if current_user
+    end
+
     def inner_navigation
       @inner_navigation = true
     end
@@ -24,10 +29,15 @@ class ApplicationController < ActionController::Base
     end
     
     def authorize
-      if current_user
+      #if current_user
         #redirect_to current_user if User.find(params[:id]).id != current_user.id
-      else
-        redirect_to log_in_path
-      end
+      #else
+        #redirect_to log_in_path
+      #end
+      redirect_to log_in_path unless current_user
+    end
+
+    def restrict_access
+      redirect_to site_url unless signed_in_client.is_account_master
     end
 end

@@ -4,6 +4,7 @@ class ClientsController < ApplicationController
   
   before_filter :get_account
   before_filter :inner_navigation
+  before_filter :restrict_access
   def index
     #@clients = Client.all
     #@clients = @account.clients.all
@@ -19,6 +20,7 @@ class ClientsController < ApplicationController
   # GET /clients/1.json
   def show
     @client = Client.find(params[:id])
+    @users = @client.users.find(:all)
 
     respond_to do |format|
       format.html # show.html.erb

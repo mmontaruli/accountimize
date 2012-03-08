@@ -8,17 +8,23 @@
 				%th.col Client Name
 				%th.col Date
 				%th.col Total
-				%th.col
-				%th.col
+				- if signed_in_client.is_account_master
+					%th.col
+					%th.col
 		
 		%tbody
 			- @estimates.each do |estimate|
 				%tr
 					%td.estimate_number= link_to estimate.number, account_estimate_path(@account,estimate)
-					%td.client_name= link_to estimate.client.name, account_client_path(@account,estimate.client)
+					- if signed_in_client.is_account_master
+						%td.client_name= link_to estimate.client.name, account_client_path(@account,estimate.client)
+					- else
+						%td.client_name= estimate.client.name
 					%td.estimate_date= estimate.date
 					%td.estimate_total= number_to_currency(estimate.total_price)
-					%td.estimate_edit= link_to 'Edit', edit_account_estimate_path(@account,estimate)
-					%td.estimate_delete= link_to 'Delete', account_estimate_path(@account,estimate), confirm: 'Are you sure?', method: :delete
+					- if signed_in_client.is_account_master
+						%td.estimate_edit= link_to 'Edit', edit_account_estimate_path(@account,estimate)
+						%td.estimate_delete= link_to 'Delete', account_estimate_path(@account,estimate), confirm: 'Are you sure?', method: :delete
 
-%p.row= link_to 'New estimate »', new_account_estimate_path, :class => 'nice medium radius blue button'
+- if signed_in_client.is_account_master
+	%p.row= link_to 'New estimate »', new_account_estimate_path, :class => 'nice medium radius blue button'
