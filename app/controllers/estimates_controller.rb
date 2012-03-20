@@ -107,7 +107,7 @@ class EstimatesController < ApplicationController
       format.json { head :ok }
     end
   end
-
+  
   private
 
     def restrict_estimate_access
