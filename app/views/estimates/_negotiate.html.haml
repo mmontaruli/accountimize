@@ -1,0 +1,54 @@
+= form_for([@account,@estimate], :html => {:class => 'nice'}) do |f|	
+	- if @estimate.errors.any?
+		#error_explanation
+			%h2
+				= pluralize(@estimate.errors.count, "error")
+				prohibited this estimate from being saved:
+				
+			%ul
+				- @estimate.errors.full_messages.each do |msg|
+					%li= msg
+	.row
+
+		%div{:class => 'four columns client-address'}
+			= @client.name
+			%br
+			= render 'clients/client_address'
+		
+		%div{:class => 'three columns offset-by-three'}
+			%p
+				%strong Estimate Number:
+				= @estimate.number
+
+			%p
+				%strong Date:
+				= @estimate.date
+		
+
+	%table{:class => 'line_items estimate_show'}
+		%thead
+			%tr
+				%th
+				%th.col Item #
+				%th.col Description
+				%th.col Qty
+				%th.col Unit Price
+				%th.col Line Total
+		%tbody
+			= f.fields_for :line_items do |builder|
+				%tr{:class => 'negotiate js_edit'}
+					%td.line_ck= builder.check_box :is_enabled
+					%td.line_num= builder.object.number
+					%td.line_name= builder.object.name
+					%td.line_qty= builder.object.quantity
+					%td.line_u_price= number_with_precision(builder.object.unit_price, :precision => 2, :delimiter => ',')
+					%td.line_t_price= number_with_precision(builder.object.total_price, :precision => 2, :delimiter => ',')
+				
+			%tr.total_line
+				%td{:colspan => 5} Total
+				%td.total_price= number_to_currency(@estimate.total_price)
+				%td
+			
+	.actions
+		= f.submit 'Save »' , :class => 'nice medium radius blue button'
+		= link_to 'Cancel »', account_estimate_path(@account,@estimate), :class => 'nice medium radius white button'

@@ -3,7 +3,7 @@ class EstimatesController < ApplicationController
   # GET /estimates.json
   before_filter :get_account
   before_filter :inner_navigation
-  before_filter :restrict_access, :except => [:index, :show]
+  before_filter :restrict_access, :except => [:index, :show, :edit, :update]
   before_filter :restrict_estimate_access, :except => [:index]
   
   def index

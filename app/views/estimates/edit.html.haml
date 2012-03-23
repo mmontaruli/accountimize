@@ -1,3 +1,6 @@
-%h3 Editing estimate
-
-= render 'form'
+- if signed_in_client.is_account_master
+	%h3 Editing estimate
+	= render 'form'
+- else
+	%h3 Customize your estimate
+	= render 'negotiate'

@@ -102,6 +102,8 @@ body.estimates #content {
 			}
 			td.line_ck {
 				text-align:center;
+				background:white;
+				border:none;
 			}
 			td.line_num {
 				width:65px;
@@ -165,11 +167,14 @@ body.estimates #content {
 				border:none;
 			}
 		}
+		tr.negotiate.removed td {
+			color:#999999;
+		}
 		tr.is_enabled_false {
 			td {
 				background: #f9f9f9;
 				color:#cccccc;
-				text-decoration:line-through;
+				/*text-decoration:line-through;*/
 			}
 		}
 		tr.add_lines {

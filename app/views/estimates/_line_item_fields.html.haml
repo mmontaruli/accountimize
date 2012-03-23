@@ -1,4 +1,4 @@
-%tr.edit
+%tr{:class => 'edit js_edit'}
 	%td.line_ck= f.check_box :is_enabled
 	%td{:class => 'line_num editable'}= f.text_field :number
 	%td{:class => 'line_name editable'}= f.text_field :name

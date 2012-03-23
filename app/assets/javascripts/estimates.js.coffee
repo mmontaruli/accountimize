@@ -4,15 +4,26 @@
 
 $ -> 
 	$body = $('body.estimates')
-	$lineRows = $('table.line_items tr.edit', $body)
+	$lineRows = $('table.line_items tr.js_edit', $body)
 	$lineItemInput = $('td.editable input', $lineRows)
 	$lineCk = $('td.line_ck input[type="checkbox"]', $lineRows)
 	$lineLinks = $('td.line_links a', $lineRows)
 	$estimateTotal = $('table.line_items tr.total_line td.total_price', $body)
 	$client = $('#estimate_client_id', $body)
-
+	$negotiateCks = $('table.line_items tr.negotiate td.line_ck input[type="checkbox"]', $body)
+	
 	$('table.line_items tr.add_lines td a', $body).addClass 'small radius blue button'
 	
+	$negotiateCks.each ->
+		if !$(this).is(':checked')
+			$(this).parents("tr.negotiate").addClass 'removed'
+			
+	$negotiateCks.live "click", ->
+		if $(this).is(':checked')
+			$(this).parents("tr.negotiate").removeClass 'removed'
+		else if !$(this).is(':checked')
+			$(this).parents("tr.negotiate").addClass 'removed'
+			
 	lineItemEffects $lineItemInput
 					
 	$lineItemInput.live "blur", ->
@@ -41,12 +52,26 @@ lineItemEffects = (lineItemInput) ->
 		
 updateEstimateTotals = (lineRow, estimateTotal) ->
 	newLineTotal = 0
+	
+	#if $('tr.negotiate').length > 0
+	#	console.log "true"
+	if $('table.line_items tr.edit').length > 0
+		lineQty = $('td.line_qty input', lineRow).val()
+		lineUnitPrice = $('td.line_u_price input', lineRow).val()
+	
+	if $('table.line_items tr.negotiate').length > 0
+		lineQty = $('td.line_qty', lineRow).html()
+		lineUnitPrice = $('td.line_u_price', lineRow).html()
+		lineUnitPrice = lineUnitPrice.replace(/\,/g,'')
+	#console.log $('td.line_u_price', lineRow).html()
+	
 	if $('td.line_ck input[type="checkbox"]', lineRow).is ":checked"
-		newLineTotal = $('td.line_qty input', lineRow).val()*$('td.line_u_price input', lineRow).val()
+		#newLineTotal = $('td.line_qty input', lineRow).val()*$('td.line_u_price input', lineRow).val()
+		newLineTotal = lineQty*lineUnitPrice
 	newLineTotal = formatNumber newLineTotal,2,',','.','','','-',''
 	$('td.line_t_price', lineRow).html newLineTotal
 		
-	lineUnitPrice = $('td.line_u_price input', lineRow).val()
+	#lineUnitPrice = $('td.line_u_price input', lineRow).val()
 	if lineUnitPrice != ""
 		if !isNaN(lineUnitPrice)
 			lineUnitPrice = formatNumber lineUnitPrice,2,'','.','','','-',''
