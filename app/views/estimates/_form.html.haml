@@ -29,6 +29,7 @@
 					%th
 					%th.col Item #
 					%th.col Description
+					%th.col Unit
 					%th.col Qty
 					%th.col Unit Price
 					%th.col Line Total
@@ -40,7 +41,7 @@
 					%td{:colspan => 7}= link_to_add_fields "Add lines", f, :line_items
 				%tr.total_line
 					%td
-					%td{:colspan => 4} Total
+					%td{:colspan => 5} Total
 					%td.total_price= number_to_currency(@estimate.total_price)
 					%td		
 

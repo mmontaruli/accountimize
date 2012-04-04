@@ -31,6 +31,7 @@
 				%th
 				%th.col Item #
 				%th.col Description
+				%th.col Unit
 				%th.col Qty
 				%th.col Unit Price
 				%th.col Line Total
@@ -40,12 +41,21 @@
 					%td.line_ck= builder.check_box :is_enabled
 					%td.line_num= builder.object.number
 					%td.line_name= builder.object.name
-					%td.line_qty= builder.object.quantity
-					%td.line_u_price= number_with_precision(builder.object.unit_price, :precision => 2, :delimiter => ',')
+					%td.line_price_type= builder.select(:price_type, [['Fixed', 'fixed'], ['Hourly', 'hourly']])
+					%td.line_qty
+						.line_qty_val= builder.object.quantity
+						= builder.hidden_field :quantity, :class => 'line_qty'
+						= builder.hidden_field :fixed_qty, :class => 'fixed_qty'
+						= builder.hidden_field :hours_qty, :class => 'hours_qty'
+					%td.line_u_price
+						.line_unit_price_val= number_with_precision(builder.object.unit_price, :precision => 2)
+						= builder.hidden_field :unit_price, :class => 'line_unit_price', :value => number_with_precision(builder.object.unit_price, :precision => 2)
+						= builder.hidden_field :fixed_rate, :class => 'fixed_rate', :value => number_with_precision(builder.object.fixed_rate, :precision => 2)
+						= builder.hidden_field :hours_rate, :class => 'hours_rate', :value => number_with_precision(builder.object.hours_rate, :precision => 2)
 					%td.line_t_price= number_with_precision(builder.object.total_price, :precision => 2, :delimiter => ',')
 				
 			%tr.total_line
-				%td{:colspan => 5} Total
+				%td{:colspan => 6} Total
 				%td.total_price= number_to_currency(@estimate.total_price)
 				%td
 			

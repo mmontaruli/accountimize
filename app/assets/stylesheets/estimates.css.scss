@@ -120,6 +120,10 @@ body.estimates #content {
 					width:475px;
 				}
 			}
+			td.price_type {
+				text-align:center;
+				text-transform:capitalize;
+			}
 			td.line_qty {
 				width:70px;
 				text-align:center;
@@ -169,6 +173,11 @@ body.estimates #content {
 		}
 		tr.negotiate.removed td {
 			color:#999999;
+			input {
+				color:#ffffff;
+				//font-family:"Verdana";
+				//font-size:12px;
+			}
 		}
 		tr.is_enabled_false {
 			td {
