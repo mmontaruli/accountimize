@@ -38,13 +38,7 @@ $ ->
 	$toggle.live "change", ->
 		fixedHourlyToggle $(this).parents("tr"), $(this)
 		updateEstimateTotals $(this).parents("tr"), $estimateTotal
-		
-	#$line_price.live "blur", ->
-	#	updateFixedAndHourlyRates $(this).parents("tr")
-		
-	#$line_qty.live "blur", ->
-	#	updateFixedAndHourlyQty $(this).parents("tr")
-		
+	
 	$lineVal.live "blur", ->
 		updateFixedAndHourlyValues $(this)
 
@@ -64,15 +58,6 @@ lineItemEffects = (lineItemInput) ->
 updateEstimateTotals = (lineRow, estimateTotal) ->
 	# check for negotiate or edit view then total line and estimate totals as appropriate
 	newLineTotal = 0
-	
-	#if $('table.line_items tr.edit').length > 0
-	#	lineQty = $('td.line_qty input.line_qty', lineRow).val()
-	#	lineUnitPrice = $('td.line_u_price input.line_unit_price', lineRow).val()
-	
-	#if $('table.line_items tr.negotiate').length > 0
-	#	lineQty = $('td.line_qty div.line_qty', lineRow).html()
-	#	lineUnitPrice = $('td.line_u_price div.line_unit_price', lineRow).html()
-	#	lineUnitPrice = lineUnitPrice.replace(/\,/g,'')
 	
 	lineQty = $('td.line_qty input.line_qty', lineRow).val()
 	lineUnitPrice = $('td.line_u_price input.line_unit_price', lineRow).val()
@@ -124,16 +109,6 @@ fixedHourlyToggle = (lineRow, toggle) ->
 	fixedRate = $('td.line_u_price input.fixed_rate', lineRow)
 	hoursRate = $('td.line_u_price input.hours_rate', lineRow)
 	
-	#if $('table.line_items tr.edit').length > 0
-	#	lineQty = $('td.line_qty input.line_qty', lineRow)
-	#	lineUnitPrice = $('td.line_u_price input.line_unit_price', lineRow)
-			
-	
-	#if $('table.line_items tr.negotiate').length > 0
-	#	lineQty = $('td.line_qty div.line_qty', lineRow).html()
-	#	lineUnitPrice = $('td.line_u_price div.line_unit_price', lineRow).html()
-	#	lineUnitPrice = lineUnitPrice.replace(/\,/g,'')
-	
 	lineQty = $('td.line_qty input.line_qty', lineRow)
 	lineUnitPrice = $('td.line_u_price input.line_unit_price', lineRow)
 	
@@ -148,31 +123,7 @@ fixedHourlyToggle = (lineRow, toggle) ->
 		$('td.line_qty .line_qty_val', lineRow).html(lineQty.val())
 		$('td.line_u_price .line_unit_price_val', lineRow).html(lineUnitPrice.val())
 	
-			
-#updateFixedAndHourlyRates = (lineRow) ->
-	# to update fixed and hourly prices on unit_price blur
-	#toggle = $('td.line_price_type select', lineRow)
-	#fixedRate = $('td.line_u_price input.fixed_rate', lineRow)
-	#hoursRate = $('td.line_u_price input.hours_rate', lineRow)
-	#lineUnitPrice = $('td.line_u_price input.line_unit_price', lineRow)
 	
-	#if toggle.val() == 'fixed'
-	#	fixedRate.val(lineUnitPrice.val())
-	#if toggle.val() == 'hourly'
-	#	hoursRate.val(lineUnitPrice.val())
-		
-#updateFixedAndHourlyQty = (lineRow) ->
-	# to update fixed and hourly qty on unit_qty blur
-	#toggle = $('td.line_price_type select', lineRow)
-	#fixedQty = $('td.line_qty input.fixed_qty', lineRow)
-	#hoursQty = $('td.line_qty input.hours_qty', lineRow)
-	#lineQty = $('td.line_qty input.line_qty', lineRow)
-	
-	#if toggle.val() == 'fixed'
-	#	fixedQty.val(lineQty.val())
-	#if toggle.val() == 'hourly'
-	#	hoursQty.val(lineQty.val())
-		
 updateFixedAndHourlyValues = (elem) ->
 	# to update fixed and hourly values on line_value blur
 	lineRow = elem.parents('tr')
