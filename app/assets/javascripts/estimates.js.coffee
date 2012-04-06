@@ -4,13 +4,16 @@
 
 $ -> 
 	$body = $('body.estimates')
-	$lineRows = $('table.line_items tr.js_edit', $body)
-	$lineItemInput = $('td.editable input', $lineRows)
+	#$lineRows = $('table.line_items tr.js_edit', $body)
+	$lineRows = $('table.line_items tr.line_item', $body)
+	#$lineItemInput = $('td.editable input', $lineRows)
+	$lineItemInput = $('td input', $lineRows)
 	$lineCk = $('td.line_ck input[type="checkbox"]', $lineRows)
 	$lineLinks = $('td.line_links a', $lineRows)
 	$estimateTotal = $('table.line_items tr.total_line td.total_price', $body)
 	$client = $('#estimate_client_id', $body)
-	$negotiateCks = $('table.line_items tr.negotiate td.line_ck input[type="checkbox"]', $body)
+	#$negotiateCks = $('table.line_items tr.negotiate td.line_ck input[type="checkbox"]', $body)
+	$negotiateCks = $('table.line_items tr.line_item.edit_false td.line_ck input[type="checkbox"]', $body)
 	$toggle = $('td.line_price_type select', $lineRows)
 	$line_price = $('td.line_u_price input.line_unit_price')
 	$line_qty = $('td.line_qty input.line_qty')
@@ -94,13 +97,16 @@ negotiateCheckAndSelect = (negotiateCks) ->
 	# select line items in negotiate view
 	negotiateCks.each ->
 		if !$(this).is(':checked')
-			$(this).parents("tr.negotiate").addClass 'removed'
+			#$(this).parents("tr.negotiate").addClass 'removed'
+			$(this).parents("tr.line_item.edit_false").addClass 'removed'
 			
 	negotiateCks.live "click", ->
 		if $(this).is(':checked')
-			$(this).parents("tr.negotiate").removeClass 'removed'
+			#$(this).parents("tr.negotiate").removeClass 'removed'
+			$(this).parents("tr.line_item.edit_false").removeClass 'removed'
 		else if !$(this).is(':checked')
-			$(this).parents("tr.negotiate").addClass 'removed'
+			#$(this).parents("tr.negotiate").addClass 'removed'
+			$(this).parents("tr.line_item.edit_false").addClass 'removed'
 	
 fixedHourlyToggle = (lineRow, toggle) ->
 	# to update line_item values to hourly or fixed (on toggle change)
@@ -119,7 +125,8 @@ fixedHourlyToggle = (lineRow, toggle) ->
 		lineQty.val(hoursQty.val())
 		lineUnitPrice.val(hoursRate.val())
 		
-	if lineRow.hasClass('negotiate')
+	#if lineRow.hasClass('negotiate')
+	if lineRow.hasClass('edit_false')
 		$('td.line_qty .line_qty_val', lineRow).html(lineQty.val())
 		$('td.line_u_price .line_unit_price_val', lineRow).html(lineUnitPrice.val())
 	

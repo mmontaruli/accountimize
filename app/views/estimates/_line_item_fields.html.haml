@@ -1,15 +1,27 @@
-%tr{:class => 'edit js_edit'}
+-#%tr{:class => "edit js_edit line_item edit_#{!@disable_form}"}
+%tr{:class => "line_item edit_#{!@disable_form}"}
 	%td.line_ck= f.check_box :is_enabled
-	%td{:class => 'line_num editable'}= f.text_field :number
-	%td{:class => 'line_name editable'}= f.text_field :name
-	%td{:class => 'line_price_type editable'}= f.select(:price_type, [['Fixed', 'fixed'], ['Hourly', 'hourly']])
-	%td{:class => 'line_qty editable'}
-		= f.text_field :quantity, :class => 'line_qty line_value'
+	%td.line_num= f.text_field :number, :disabled => @disable_form
+	%td.line_name= f.text_field :name, :disabled => @disable_form
+	%td.line_price_type= f.select(:price_type, [['Fixed', 'fixed'], ['Hourly', 'hourly']])
+	%td.line_qty
+		-if @disable_form
+			.line_qty_val= f.object.quantity
+			= f.hidden_field :quantity, :class => 'line_qty'
+		- else
+			= f.text_field :quantity, :class => 'line_qty line_value'
+		
 		= f.hidden_field :fixed_qty, :class => 'fixed_qty'
 		= f.hidden_field :hours_qty, :class => 'hours_qty'
-	%td{:class => 'line_u_price editable'}
-		= f.text_field :unit_price, :value => number_with_precision(f.object.unit_price, :precision => 2), :class => 'line_unit_price line_value'
+	%td.line_u_price
+		- if @disable_form
+			.line_unit_price_val= number_with_precision(f.object.unit_price, :precision => 2)
+			= f.hidden_field :unit_price, :class => 'line_unit_price', :value => number_with_precision(f.object.unit_price, :precision => 2)
+		- else
+			= f.text_field :unit_price, :value => number_with_precision(f.object.unit_price, :precision => 2), :class => 'line_unit_price line_value'
+
 		= f.hidden_field :fixed_rate, :class => 'fixed_rate'
 		= f.hidden_field :hours_rate, :class => 'hours_rate'
 	%td.line_t_price= number_with_precision(f.object.total_price, :precision => 2, :delimiter => ',')
-	%td.line_links= link_to_remove_fields "Delete", f
+	- if !@disable_form
+		%td.line_links= link_to_remove_fields "Delete", f

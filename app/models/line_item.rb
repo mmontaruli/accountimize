@@ -1,9 +1,9 @@
 class LineItem < ActiveRecord::Base
   belongs_to :estimate
+  has_many :negotiate_lines, :dependent => :destroy
   
-  #validates :estimate_id, :presence => true
-  #validates :estimate_id, :numericality => {:greater_than_or_equal_to => 1}
-  
+  accepts_nested_attributes_for :negotiate_lines, :allow_destroy => true
+    
   def total_price
     if unit_price and quantity and is_enabled?
       unit_price * quantity

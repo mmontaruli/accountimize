@@ -2,6 +2,7 @@ class Estimate < ActiveRecord::Base
   after_initialize :default_values
   before_validation :default_values
   has_many :line_items, :dependent => :destroy
+  has_many :negotiate_lines, :through => :line_items
   belongs_to :client
   
   accepts_nested_attributes_for :line_items, :allow_destroy => true
