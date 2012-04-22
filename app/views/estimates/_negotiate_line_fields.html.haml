@@ -1,0 +1,16 @@
+%tr.negotiate_line
+	%td.blank
+	%td.blank
+	%td.description= f.text_area :description
+	%td.price_type= f.select(:price_type, [['Fixed', 'fixed'], ['Hourly', 'hourly']])
+	%td.line_qty
+		= f.text_field :line_qty, :class => 'line_qty'
+		= f.hidden_field :fixed_qty, :class => 'fixed_qty'
+		= f.hidden_field :hours_qty, :class => 'hours_qty'
+	%td.line_u_price
+		= f.text_field :line_price, :value => number_with_precision(f.object.line_price, :precision => 2), :class => 'line_unit_price'
+		= f.hidden_field :fixed_rate, :class => 'fixed_rate'
+		= f.hidden_field :hours_rate, :class => 'hours_rate'
+	%td.line_t_price= number_with_precision(f.object.total_price, :precision => 2, :delimiter => ',')
+	%td.blank
+	%td.blank

@@ -33,12 +33,13 @@
 					%th.col Qty
 					%th.col Unit Price
 					%th.col Line Total
-					%th Delete:
+					%th
+					%th
 			%tbody
 				= f.fields_for :line_items do |builder|
 					= render 'line_item_fields', :f => builder
 				%tr.add_lines
-					%td{:colspan => 7}= link_to_add_fields "Add lines", f, :line_items
+					%td{:colspan => 7}= link_to_add_fields "Add lines", f, :line_items, :class => 'small radius blue button'
 				%tr.total_line
 					%td
 					%td{:colspan => 5} Total

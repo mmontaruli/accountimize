@@ -114,10 +114,10 @@ body.estimates #content {
 				}
 			}
 			td.line_name {
-				width:480px;
+				width:405px;
 				padding:0 10px;
 				input {
-					width:475px;
+					width:400px;
 				}
 			}
 			td.price_type {
@@ -149,6 +149,14 @@ body.estimates #content {
 			td.line_links {
 				width:60px;
 				text-align:center;
+				.delete_link a {
+					/*background:url('/assets/delete_icon.png') no-repeat;*/
+					height:0px;
+					padding-top:26px;
+					overflow:hidden;
+					width:26px;
+					display:block;
+				}
 			}
 		}
 		tr.edit_true {
@@ -171,6 +179,11 @@ body.estimates #content {
 				border:none;
 			}
 		}
+		tr.edit_true:hover {
+			td.line_links .delete_link a {
+				background:url('/assets/delete_icon.png') no-repeat;
+			}
+		}
 		tr.line_item.edit_false.removed td {
 			color:#999999;
 			input {
@@ -184,6 +197,56 @@ body.estimates #content {
 				background: #f9f9f9;
 				color:#cccccc;
 				/*text-decoration:line-through;*/
+			}
+		}
+		tr.negotiate_line {
+			td {
+				background-color:#f7f2e5;
+				border:1px solid #ccc6b6;
+				textarea {
+					height:20px;
+					background-color:#f7f2e5;
+					width:354px;
+					margin-right:0px;
+					resize:none;
+					border:none;
+					outline:none;
+					-webkit-box-shadow:inset 5px 5px 5px 5px #f7f2e5;
+					padding:10px 0 10px 10px;
+					/*focus color: #f4d2bf*/
+					/*hover color: #dfd9c8*/
+				}
+			}
+			td.line_u_price {
+				width:80px;
+				text-align:right;
+				input {
+					width:70px;
+					text-align:right;
+					padding:0 10px;
+				}
+			}
+			td.line_t_price {
+				background-color:#d5cebc;
+				border:1px solid #d5cebc;
+			}
+			td.blank {
+				background:white;
+				border:none;
+			}
+			td.hover {
+				background-color:#dfd9c8;
+				textarea, input {
+					background-color:#dfd9c8;
+					-webkit-box-shadow:inset 5px 5px 5px 5px #dfd9c8;
+				}
+			}
+			td.focus {
+				background-color:#f4d2bf;
+				textarea, input {
+					background-color:#f4d2bf;
+					-webkit-box-shadow:inset 5px 5px 5px 5px #f4d2bf;
+				}
 			}
 		}
 		tr.add_lines {

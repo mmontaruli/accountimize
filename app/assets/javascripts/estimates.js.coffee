@@ -1,32 +1,37 @@
-# Place all the behaviors and hooks related to the matching controller here.
-# All this logic will automatically be available in application.js.
-# You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
-
-$ -> 
+$ -> 	
 	$body = $('body.estimates')
-	#$lineRows = $('table.line_items tr.js_edit', $body)
 	$lineRows = $('table.line_items tr.line_item', $body)
-	#$lineItemInput = $('td.editable input', $lineRows)
 	$lineItemInput = $('td input', $lineRows)
+	$negotiateItemInput = $('table.line_items tr.negotiate_line td input, table.line_items tr.negotiate_line td textarea');
+	
+	#$estimateLines = $('table.line_items tr.line_item, table.line_items tr.negotiate_line')
+	$estimateLines = $('table.line_items tr')
+	#$estimateLines = $('table.line_items tr.negotiate_line')
+	#console.log($estimateLines)
+	$estimateInput = $estimateLines.find('td input')
+	#console.log($estimateInput)
+	
 	$lineCk = $('td.line_ck input[type="checkbox"]', $lineRows)
 	$lineLinks = $('td.line_links a', $lineRows)
 	$estimateTotal = $('table.line_items tr.total_line td.total_price', $body)
 	$client = $('#estimate_client_id', $body)
-	#$negotiateCks = $('table.line_items tr.negotiate td.line_ck input[type="checkbox"]', $body)
 	$negotiateCks = $('table.line_items tr.line_item.edit_false td.line_ck input[type="checkbox"]', $body)
 	$toggle = $('td.line_price_type select', $lineRows)
 	$line_price = $('td.line_u_price input.line_unit_price')
 	$line_qty = $('td.line_qty input.line_qty')
 	$lineVal = $('input.line_value', $lineRows)
 	
-	
-	$('table.line_items tr.add_lines td a', $body).addClass 'small radius blue button'
-	
 	negotiateCheckAndSelect $negotiateCks
 	
 	lineItemEffects $lineItemInput
 	
-	$lineItemInput.live "blur", ->
+	lineItemEffects $negotiateItemInput
+	
+	#$lineItemInput.live "blur", ->
+	#	updateEstimateTotals $(this).parents("tr"), $estimateTotal
+	
+	$estimateLines.find('td input').live "blur", ->
+	#	console.log($(this))
 		updateEstimateTotals $(this).parents("tr"), $estimateTotal
 	
 	$lineCk.live "click", ->
@@ -47,6 +52,7 @@ $ ->
 
 lineItemEffects = (lineItemInput) ->
 	# rollover and active effects for edit view	
+	# can this be done with css/scss?
 	lineItemInput.live "mouseenter", ->
 		$(this).parent().addClass 'hover'
 	lineItemInput.live "mouseleave", ->
@@ -57,26 +63,33 @@ lineItemEffects = (lineItemInput) ->
 	lineItemInput.live "blur", ->
 		$(this).parent().removeClass 'focus'
 		
-		
-updateEstimateTotals = (lineRow, estimateTotal) ->
+#updateEstimateTotals = (lineRow, estimateTotal) ->
+updateEstimateTotals = (estimateRow, estimateTotal) ->
 	# check for negotiate or edit view then total line and estimate totals as appropriate
 	newLineTotal = 0
 	
-	lineQty = $('td.line_qty input.line_qty', lineRow).val()
-	lineUnitPrice = $('td.line_u_price input.line_unit_price', lineRow).val()
-	
-	if $('td.line_ck input[type="checkbox"]', lineRow).is ":checked"
+	lineRow = estimateRow.filter('.line_item')
+	#lineQty = $('td.line_qty input.line_qty', lineRow).val()
+	lineQty = $('td.line_qty input.line_qty', estimateRow).val()
+	#lineUnitPrice = $('td.line_u_price input.line_unit_price', lineRow).val()
+	lineUnitPrice = $('td.line_u_price input.line_unit_price', estimateRow).val()
+		
+	#if $('td.line_ck input[type="checkbox"]', lineRow).is ":checked"
+	if $('td.line_ck input[type="checkbox"]', lineRow).is(":checked") or estimateRow.hasClass "negotiate_line"
 		newLineTotal = lineQty*lineUnitPrice
 	newLineTotal = formatNumber newLineTotal,2,',','.','','','-',''
-	$('td.line_t_price', lineRow).html newLineTotal
+	#$('td.line_t_price', lineRow).html newLineTotal
+	$('td.line_t_price', estimateRow).html newLineTotal
 		
-	if lineUnitPrice != ""
-		if !isNaN(lineUnitPrice)
+	unless lineUnitPrice is ""
+		unless isNaN(lineUnitPrice)
 			lineUnitPrice = formatNumber lineUnitPrice,2,'','.','','','-',''
-			$('td.line_u_price input.line_unit_price', lineRow).val(lineUnitPrice)
+			#$('td.line_u_price input.line_unit_price', lineRow).val(lineUnitPrice)
+			$('td.line_u_price input.line_unit_price', estimateRow).val(lineUnitPrice)
 	
 	newEstimateTotal = 0
-	$('td.line_t_price:visible').each ->
+	#$('td.line_t_price:visible', lineRow).each ->
+	$('tr.line_item td.line_t_price:visible').each ->
 		number = Number $(this).html().replace(/[^0-9\.]+/g,"")
 		newEstimateTotal += number
 	newEstimateTotal = formatNumber newEstimateTotal,2,',','.','$','','-',''
@@ -86,7 +99,7 @@ updateEstimateTotals = (lineRow, estimateTotal) ->
 getNewClient = (client) ->
 	# change client address based on selected client in dropdown
 	selected_client = client.val()
-	if selected_client != ''
+	unless selected_client is ''
 		urlbase = client.attr('data-url-base')
 		url = urlbase+'/'+selected_client+'/client_address'
 		$('p.address').load url
@@ -96,16 +109,13 @@ getNewClient = (client) ->
 negotiateCheckAndSelect = (negotiateCks) ->
 	# select line items in negotiate view
 	negotiateCks.each ->
-		if !$(this).is(':checked')
-			#$(this).parents("tr.negotiate").addClass 'removed'
+		unless $(this).is(':checked')
 			$(this).parents("tr.line_item.edit_false").addClass 'removed'
 			
 	negotiateCks.live "click", ->
 		if $(this).is(':checked')
-			#$(this).parents("tr.negotiate").removeClass 'removed'
 			$(this).parents("tr.line_item.edit_false").removeClass 'removed'
-		else if !$(this).is(':checked')
-			#$(this).parents("tr.negotiate").addClass 'removed'
+		else 
 			$(this).parents("tr.line_item.edit_false").addClass 'removed'
 	
 fixedHourlyToggle = (lineRow, toggle) ->
@@ -118,14 +128,13 @@ fixedHourlyToggle = (lineRow, toggle) ->
 	lineQty = $('td.line_qty input.line_qty', lineRow)
 	lineUnitPrice = $('td.line_u_price input.line_unit_price', lineRow)
 	
-	if toggle.val() == 'fixed'
+	if toggle.val() is 'fixed'
 		lineQty.val(fixedQty.val())
 		lineUnitPrice.val(fixedRate.val())
-	if toggle.val() == 'hourly'
+	if toggle.val() is 'hourly'
 		lineQty.val(hoursQty.val())
 		lineUnitPrice.val(hoursRate.val())
 		
-	#if lineRow.hasClass('negotiate')
 	if lineRow.hasClass('edit_false')
 		$('td.line_qty .line_qty_val', lineRow).html(lineQty.val())
 		$('td.line_u_price .line_unit_price_val', lineRow).html(lineUnitPrice.val())
@@ -151,9 +160,9 @@ updateFixedAndHourlyValues = (elem) ->
 	if elem.hasClass ('line_unit_price')
 		changeType = price
 	
-	if toggle.val() == "fixed"
+	if toggle.val() is "fixed"
 		changeVal = changeType.fixed
-	if toggle.val() == "hourly"
+	if toggle.val() is "hourly"
 		changeVal = changeType.hourly
 		
 	changeVal.val(changeType.line.val())

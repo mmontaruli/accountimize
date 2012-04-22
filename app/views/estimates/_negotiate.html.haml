@@ -35,6 +35,7 @@
 				%th.col Qty
 				%th.col Unit Price
 				%th.col Line Total
+				%th
 		%tbody
 			= f.fields_for :line_items do |builder|
 				-#= render 'n_line_item_fields', :f => builder

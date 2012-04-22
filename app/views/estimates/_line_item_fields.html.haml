@@ -23,5 +23,12 @@
 		= f.hidden_field :fixed_rate, :class => 'fixed_rate'
 		= f.hidden_field :hours_rate, :class => 'hours_rate'
 	%td.line_t_price= number_with_precision(f.object.total_price, :precision => 2, :delimiter => ',')
+	%td.line_links
+		.add_negotiation_line= link_to_add_negotiate_fields "Negotiate", f, :negotiate_lines, :class => 'small radius blue button'
+		
 	- if !@disable_form
-		%td.line_links= link_to_remove_fields "Delete", f
+		%td.line_links
+			.delete_link= link_to_remove_fields "Delete", f
+		
+= f.fields_for :negotiate_lines do |builder|
+	= render 'negotiate_line_fields', :f => builder
