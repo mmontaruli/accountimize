@@ -38,24 +38,7 @@
 				%th
 		%tbody
 			= f.fields_for :line_items do |builder|
-				-#= render 'n_line_item_fields', :f => builder
 				= render 'line_item_fields', :f => builder
-				-#%tr{:class => 'negotiate js_edit'}
-				-#	%td.line_ck= builder.check_box :is_enabled
-				-#	%td.line_num= builder.object.number
-				-#	%td.line_name= builder.object.name
-				-#	%td.line_price_type= builder.select(:price_type, [['Fixed', 'fixed'], ['Hourly', 'hourly']])
-				-#	%td.line_qty
-				-#		.line_qty_val= builder.object.quantity
-				-#		= builder.hidden_field :quantity, :class => 'line_qty'
-				-#		= builder.hidden_field :fixed_qty, :class => 'fixed_qty'
-				-#		= builder.hidden_field :hours_qty, :class => 'hours_qty'
-				-#	%td.line_u_price
-				-#		.line_unit_price_val= number_with_precision(builder.object.unit_price, :precision => 2)
-				-#		= builder.hidden_field :unit_price, :class => 'line_unit_price', :value => number_with_precision(builder.object.unit_price, :precision => 2)
-				-#		= builder.hidden_field :fixed_rate, :class => 'fixed_rate', :value => number_with_precision(builder.object.fixed_rate, :precision => 2)
-				-#		= builder.hidden_field :hours_rate, :class => 'hours_rate', :value => number_with_precision(builder.object.hours_rate, :precision => 2)
-				-#	%td.line_t_price= number_with_precision(builder.object.total_price, :precision => 2, :delimiter => ',')
 				
 			%tr.total_line
 				%td{:colspan => 6} Total

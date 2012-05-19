@@ -60,32 +60,25 @@ lineItemEffects = (lineItemInput) ->
 	lineItemInput.live "blur", ->
 		$(this).parent().removeClass 'focus'
 		
-#updateEstimateTotals = (lineRow, estimateTotal) ->
 updateEstimateTotals = (estimateRow, estimateTotal) ->
 	# check for negotiate or edit view then total line and estimate totals as appropriate
 	newLineTotal = 0
 	
 	lineRow = estimateRow.filter('.line_item')
-	#lineQty = $('td.line_qty input.line_qty', lineRow).val()
 	lineQty = $('td.line_qty input.line_qty', estimateRow).val()
-	#lineUnitPrice = $('td.line_u_price input.line_unit_price', lineRow).val()
 	lineUnitPrice = $('td.line_u_price input.line_unit_price', estimateRow).val()
 		
-	#if $('td.line_ck input[type="checkbox"]', lineRow).is ":checked"
 	if $('td.line_ck input[type="checkbox"]', lineRow).is(":checked") or estimateRow.hasClass "negotiate_line"
 		newLineTotal = lineQty*lineUnitPrice
 	newLineTotal = formatNumber newLineTotal,2,',','.','','','-',''
-	#$('td.line_t_price', lineRow).html newLineTotal
 	$('td.line_t_price', estimateRow).html newLineTotal
 		
 	unless lineUnitPrice is ""
 		unless isNaN(lineUnitPrice)
 			lineUnitPrice = formatNumber lineUnitPrice,2,'','.','','','-',''
-			#$('td.line_u_price input.line_unit_price', lineRow).val(lineUnitPrice)
 			$('td.line_u_price input.line_unit_price', estimateRow).val(lineUnitPrice)
 	
 	newEstimateTotal = 0
-	#$('td.line_t_price:visible', lineRow).each ->
 	$('tr.line_item td.line_t_price:visible').each ->
 		number = Number $(this).html().replace(/[^0-9\.]+/g,"")
 		newEstimateTotal += number
@@ -132,10 +125,6 @@ fixedHourlyToggle = (lineRow, toggle) ->
 		lineQty.val(hoursQty.val())
 		lineUnitPrice.val(hoursRate.val())
 		
-	#if lineRow.hasClass('edit_false')
-	#	$('td.line_qty .line_qty_val', lineRow).html(lineQty.val())
-	#	$('td.line_u_price .line_unit_price_val', lineRow).html(lineUnitPrice.val())
-		
 	if lineRow.hasClass('edit_false') or lineRow.hasClass('submitted')
 		$('td.line_qty .line_qty_val', lineRow).html(lineQty.val())
 		$('td.line_u_price .line_unit_price_val', lineRow).html(lineUnitPrice.val())
@@ -168,3 +157,14 @@ updateFixedAndHourlyValues = (elem) ->
 		changeVal = changeType.hourly
 		
 	changeVal.val(changeType.line.val())
+	
+# To stop a user from negotiating twice:
+# Get all negotiate lines for a given line item
+# Get the last item in this array
+# If this last item has a class of "us", disable the negotiate button
+
+# HOWEVER, there will be ruby code to check for this when the page is loaded
+# the only time we'd need to disable the negotiate button with JS is when
+# the negotiate button is clicked
+# therefore, it would make more sense to get the negotiate button,
+# then, this.click disable this
