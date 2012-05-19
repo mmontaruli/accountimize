@@ -9,12 +9,11 @@ function add_fields(link, association, content) {
   $(link).closest("tr").before(content.replace(regexp, new_id));
 }
 
-//rename this function and appropriate link_to function something like
-//add_negotiate_fields, etc...
 function add_negotiate_fields(link, association, content) {
   var new_id = new Date().getTime();
   var regexp = new RegExp("new_" + association, "g")
   var estimateLine = $(link).closest("tr.line_item");
+  $(link).hide();
   if (estimateLine.nextAll("tr").eq(0).hasClass('line_item') || estimateLine.nextAll("tr").eq(0).hasClass('add_lines') || estimateLine.nextAll("tr").eq(0).hasClass('total_line')) {
     estimateLine.after(content.replace(regexp, new_id));
   } else if (estimateLine.nextAll("tr").eq(0).hasClass('negotiate_line')) {
