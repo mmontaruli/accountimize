@@ -149,6 +149,7 @@ body.estimates #content {
 			td.line_links {
 				width:60px;
 				text-align:center;
+				background-color:white;
 				.delete_link a {
 					/*background:url('/assets/delete_icon.png') no-repeat;*/
 					height:0px;
@@ -157,6 +158,9 @@ body.estimates #content {
 					width:26px;
 					display:block;
 				}
+			}
+			td.line_price_type {
+				text-align:center;
 			}
 		}
 		tr.edit_true {
@@ -203,6 +207,7 @@ body.estimates #content {
 			td {
 				background-color:#f7f2e5;
 				border:1px solid #ccc6b6;
+				padding:5px;
 				textarea {
 					height:20px;
 					background-color:#f7f2e5;
@@ -248,6 +253,30 @@ body.estimates #content {
 					-webkit-box-shadow:inset 5px 5px 5px 5px #f4d2bf;
 				}
 			}
+			td.description {
+				color:#827a64;
+				.name {
+					font-weight:bold;
+					padding-bottom:5px;
+					font-size:10px;
+				}
+			}
+		}
+		tr.negotiate_line.negotiatee {
+			td {
+				background-color:#f5e0a9;
+				border:1px solid #cab680;
+			}
+			td.description {
+				color:#987b2d;
+			}
+			td.line_t_price {
+				background-color:#cab580;
+			}
+			td.blank {
+				background:white;
+				border:none;
+			}
 		}
 		tr.add_lines {
 			td {
@@ -271,5 +300,18 @@ body.estimates #content {
 	table.estimate_show {
 		border-spacing:2px;
 		margin-top:25px;
+		tr.negotiate_line.submitted {
+			td {
+				border:1px solid white;
+			}
+			td.line_t_price {
+				border:1px solid white;
+			}
+		}
+		tr.negotiate_line.negotiatee {
+			td {
+				border:1px solid white;
+			}
+		}
 	}
 }

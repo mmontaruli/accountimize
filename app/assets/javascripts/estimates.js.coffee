@@ -4,22 +4,20 @@ $ ->
 	$lineItemInput = $('td input', $lineRows)
 	$negotiateItemInput = $('table.line_items tr.negotiate_line td input, table.line_items tr.negotiate_line td textarea');
 	
-	#$estimateLines = $('table.line_items tr.line_item, table.line_items tr.negotiate_line')
 	$estimateLines = $('table.line_items tr')
-	#$estimateLines = $('table.line_items tr.negotiate_line')
-	#console.log($estimateLines)
-	$estimateInput = $estimateLines.find('td input')
-	#console.log($estimateInput)
+	#$estimateInput = $estimateLines.find('td input')
 	
 	$lineCk = $('td.line_ck input[type="checkbox"]', $lineRows)
 	$lineLinks = $('td.line_links a', $lineRows)
 	$estimateTotal = $('table.line_items tr.total_line td.total_price', $body)
 	$client = $('#estimate_client_id', $body)
 	$negotiateCks = $('table.line_items tr.line_item.edit_false td.line_ck input[type="checkbox"]', $body)
-	$toggle = $('td.line_price_type select', $lineRows)
+	#$toggle = $('td.line_price_type select', $lineRows)
+	$toggle = $('td.line_price_type select', $estimateLines)
 	$line_price = $('td.line_u_price input.line_unit_price')
 	$line_qty = $('td.line_qty input.line_qty')
-	$lineVal = $('input.line_value', $lineRows)
+	#$lineVal = $('input.line_value', $lineRows)
+	$lineVal = $('input.line_value', $estimateLines)
 	
 	negotiateCheckAndSelect $negotiateCks
 	
@@ -31,7 +29,6 @@ $ ->
 	#	updateEstimateTotals $(this).parents("tr"), $estimateTotal
 	
 	$estimateLines.find('td input').live "blur", ->
-	#	console.log($(this))
 		updateEstimateTotals $(this).parents("tr"), $estimateTotal
 	
 	$lineCk.live "click", ->
@@ -135,9 +132,14 @@ fixedHourlyToggle = (lineRow, toggle) ->
 		lineQty.val(hoursQty.val())
 		lineUnitPrice.val(hoursRate.val())
 		
-	if lineRow.hasClass('edit_false')
+	#if lineRow.hasClass('edit_false')
+	#	$('td.line_qty .line_qty_val', lineRow).html(lineQty.val())
+	#	$('td.line_u_price .line_unit_price_val', lineRow).html(lineUnitPrice.val())
+		
+	if lineRow.hasClass('edit_false') or lineRow.hasClass('submitted')
 		$('td.line_qty .line_qty_val', lineRow).html(lineQty.val())
 		$('td.line_u_price .line_unit_price_val', lineRow).html(lineUnitPrice.val())
+	
 	
 	
 updateFixedAndHourlyValues = (elem) ->
