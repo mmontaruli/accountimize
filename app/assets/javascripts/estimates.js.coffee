@@ -157,14 +157,3 @@ updateFixedAndHourlyValues = (elem) ->
 		changeVal = changeType.hourly
 		
 	changeVal.val(changeType.line.val())
-	
-# To stop a user from negotiating twice:
-# Get all negotiate lines for a given line item
-# Get the last item in this array
-# If this last item has a class of "us", disable the negotiate button
-
-# HOWEVER, there will be ruby code to check for this when the page is loaded
-# the only time we'd need to disable the negotiate button with JS is when
-# the negotiate button is clicked
-# therefore, it would make more sense to get the negotiate button,
-# then, this.click disable this

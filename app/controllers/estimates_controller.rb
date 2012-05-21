@@ -60,7 +60,7 @@ class EstimatesController < ApplicationController
     #@clients = Client.all
     @clients = @account.clients.find(:all, :conditions => {:is_account_master => false})
     @client = Client.find_by_id(@estimate.client_id)
-    @disable_form = !signed_in_client.is_account_master
+    #@disable_form = !signed_in_client.is_account_master
     
   end
 

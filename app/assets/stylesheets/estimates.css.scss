@@ -262,6 +262,16 @@ body.estimates #content {
 				}
 			}
 		}
+		tr.negotiate_line.submitted {
+			td {
+				border:1px solid white;
+			}
+		}
+		tr.negotiate_line.submitted.them {
+			td {
+				border:1px solid white;
+			}
+		}
 		tr.negotiate_line.them {
 			td {
 				background-color:#f5e0a9;

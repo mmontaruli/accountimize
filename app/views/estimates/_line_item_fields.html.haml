@@ -1,11 +1,14 @@
--#%tr{:class => "edit js_edit line_item edit_#{!@disable_form}"}
-%tr{:class => "line_item edit_#{!@disable_form}"}
+-#%tr{:class => "line_item edit_#{!@disable_form}"}
+%tr{:class => "line_item edit_#{!disable_form(f.object)}"}
 	%td.line_ck= f.check_box :is_enabled
-	%td.line_num= f.text_field :number, :disabled => @disable_form
-	%td.line_name= f.text_field :name, :disabled => @disable_form
+	-#%td.line_num= f.text_field :number, :disabled => @disable_form
+	%td.line_num= f.text_field :number, :disabled => disable_form(f.object)
+	-#%td.line_name= f.text_field :name, :disabled => @disable_form
+	%td.line_name= f.text_field :name, :disabled => disable_form(f.object)
 	%td.line_price_type= f.select(:price_type, [['Fixed', 'fixed'], ['Hourly', 'hourly']])
 	%td.line_qty
-		-if @disable_form
+		-#-if @disable_form
+		-if disable_form(f.object)
 			.line_qty_val= f.object.quantity
 			= f.hidden_field :quantity, :class => 'line_qty'
 		- else
@@ -14,7 +17,8 @@
 		= f.hidden_field :fixed_qty, :class => 'fixed_qty'
 		= f.hidden_field :hours_qty, :class => 'hours_qty'
 	%td.line_u_price
-		- if @disable_form
+		-#- if @disable_form
+		-if disable_form(f.object)
 			.line_unit_price_val= number_with_precision(f.object.unit_price, :precision => 2)
 			= f.hidden_field :unit_price, :class => 'line_unit_price', :value => number_with_precision(f.object.unit_price, :precision => 2)
 		- else
@@ -27,7 +31,8 @@
 		.add_negotiation_line
 			= link_to_add_negotiate_fields "Negotiate", f, :negotiate_lines, :class => 'small radius blue button' unless disable_negotiate_button(f.object)
 		
-	- if !@disable_form
+	-#- if !@disable_form
+	-if !disable_form(f.object)
 		%td.line_links
 			.delete_link= link_to_remove_fields "Delete", f
 		
