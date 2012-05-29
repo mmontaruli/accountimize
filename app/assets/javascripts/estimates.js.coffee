@@ -25,9 +25,6 @@ $ ->
 	
 	lineItemEffects $negotiateItemInput
 	
-	#$lineItemInput.live "blur", ->
-	#	updateEstimateTotals $(this).parents("tr"), $estimateTotal
-	
 	$estimateLines.find('td input').live "blur", ->
 		updateEstimateTotals $(this).parents("tr"), $estimateTotal
 	
@@ -46,6 +43,9 @@ $ ->
 	
 	$lineVal.live "blur", ->
 		updateFixedAndHourlyValues $(this)
+		
+	$estimateLines.find("td.blank.accept input[type=checkbox]").live "click", ->
+		acceptNegotiateLine $(this)
 
 lineItemEffects = (lineItemInput) ->
 	# rollover and active effects for edit view	
@@ -129,8 +129,6 @@ fixedHourlyToggle = (lineRow, toggle) ->
 		$('td.line_qty .line_qty_val', lineRow).html(lineQty.val())
 		$('td.line_u_price .line_unit_price_val', lineRow).html(lineUnitPrice.val())
 	
-	
-	
 updateFixedAndHourlyValues = (elem) ->
 	# to update fixed and hourly values on line_value blur
 	lineRow = elem.parents('tr')
@@ -157,3 +155,15 @@ updateFixedAndHourlyValues = (elem) ->
 		changeVal = changeType.hourly
 		
 	changeVal.val(changeType.line.val())
+
+acceptNegotiateLine = (accept) ->
+	# Changes color of negotiate_line and hides negotiate button if accepted
+	negotiate_line = accept.parents "tr.negotiate_line"
+	line_item = negotiate_line.prevAll("tr.line_item").eq(0)
+	negotiate_button = line_item.find("td.line_links .add_negotiation_line a")
+	if accept.is ':checked'
+		negotiate_line.addClass "accepted"
+		negotiate_button.hide()
+	else
+		negotiate_line.removeClass "accepted"
+		negotiate_button.show()

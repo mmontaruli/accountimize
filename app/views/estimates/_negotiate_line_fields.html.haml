@@ -37,8 +37,11 @@
 			= f.hidden_field :fixed_rate, :class => 'fixed_rate'
 			= f.hidden_field :hours_rate, :class => 'hours_rate'
 		%td.line_t_price= number_with_precision(f.object.total_price, :precision => 2, :delimiter => ',')
-		-# Use the below for is_accepted but with some kind of toggle "button" instead
-		-#%td.blank= f.check_box :is_accepted
-		%td.blank
+		- if can_accept(f.object)
+			%td{:class => "blank accept"}
+				= f.check_box :is_accepted
+				= f.label :is_accepted, "Accept"
+		-else
+			%td.blank
 		%td.blank
 	

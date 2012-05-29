@@ -25,4 +25,10 @@ module EstimatesHelper
     disable_status
   end
   
+  def can_accept(negotiate_line)
+    line_item = LineItem.find(negotiate_line.line_item_id)
+    last_negotiate_line = line_item.negotiate_lines.find(:last)
+    negotiate_line == last_negotiate_line and who_is_negotiating(negotiate_line.user_negotiating) == "them"
+  end
+  
 end

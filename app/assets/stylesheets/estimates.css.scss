@@ -287,6 +287,45 @@ body.estimates #content {
 				background:white;
 				border:none;
 			}
+			td.blank.accept {
+				input[type=checkbox] {
+					display:none;
+				}
+				input[type=checkbox] + label {
+					background: #aaa;
+					/*height:16px;
+					width:16px;*/
+					height:auto;
+					width:auto;
+					display:inline-block;
+					/*padding: 0 0 0 0px;*/
+					padding:5px 15px;
+					color:white;
+				}
+				input[type=checkbox]:checked + label {
+					background:#69b518;
+					/*height:16px;
+					width:16px;*/
+					height:auto;
+					width:auto;
+					display:inline-block;
+					/*padding: 0 0 0 0px;*/
+					padding:5px 15px;
+				}
+			}
+		}
+		tr.negotiate_line.them.accepted {
+			td {
+				background:#b7e685;
+				color:#666;
+			}
+			td.blank {
+				background:white;
+			}
+			td.line_t_price {
+				background:#91ba65;
+				color:#333;
+			}
 		}
 		tr.add_lines {
 			td {
