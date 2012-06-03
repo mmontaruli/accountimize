@@ -25,7 +25,9 @@
 		%td.description
 			.name= "#{f.object.user_negotiating} says:"
 			.text= f.object.description
-		%td.line_price_type= f.select(:price_type, [['Fixed', 'fixed'], ['Hourly', 'hourly']])
+		%td.line_price_type
+			= f.select(:price_type, [['Fixed', 'fixed'], ['Hourly', 'hourly']])
+			.accept
 		%td.line_qty
 			.line_qty_val= f.object.line_qty
 			= f.hidden_field :line_qty, :class => 'line_qty'

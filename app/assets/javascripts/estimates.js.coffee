@@ -1,23 +1,37 @@
 $ -> 	
 	$body = $('body.estimates')
+	
+	#this is only called in other variables, but could very possibly be replaced with $estimateLines
 	$lineRows = $('table.line_items tr.line_item', $body)
+	
+	#only called once, can we just filter/find this from another variable?
 	$lineItemInput = $('td input', $lineRows)
-	$negotiateItemInput = $('table.line_items tr.negotiate_line td input, table.line_items tr.negotiate_line td textarea');
 	
+	$negotiateItemInput = $('table.line_items tr.negotiate_line td input, table.line_items tr.negotiate_line td textarea');	
 	$estimateLines = $('table.line_items tr')
-	#$estimateInput = $estimateLines.find('td input')
 	
+	#$lineCk and $lineLinks only called once, can we just filter/find this from another variable?
 	$lineCk = $('td.line_ck input[type="checkbox"]', $lineRows)
 	$lineLinks = $('td.line_links a', $lineRows)
+	
 	$estimateTotal = $('table.line_items tr.total_line td.total_price', $body)
+	
+	#only called once, can we just filter/find this from another variable?
 	$client = $('#estimate_client_id', $body)
+	
 	$negotiateCks = $('table.line_items tr.line_item.edit_false td.line_ck input[type="checkbox"]', $body)
-	#$toggle = $('td.line_price_type select', $lineRows)
+	
+	#only called once, can we just filter/find this from another variable?
 	$toggle = $('td.line_price_type select', $estimateLines)
+	
+	#$line_price and $line_qty don't seem to be used...experiment with not using
 	$line_price = $('td.line_u_price input.line_unit_price')
 	$line_qty = $('td.line_qty input.line_qty')
-	#$lineVal = $('input.line_value', $lineRows)
+	
+	#only called once, can we just filter/find this from another variable?
 	$lineVal = $('input.line_value', $estimateLines)
+
+
 	
 	negotiateCheckAndSelect $negotiateCks
 	
@@ -46,6 +60,7 @@ $ ->
 		
 	$estimateLines.find("td.blank.accept input[type=checkbox]").live "click", ->
 		acceptNegotiateLine $(this)
+		updateEstimateTotals $(this).parents("tr").prevAll("tr.line_item").eq(0), $estimateTotal
 
 lineItemEffects = (lineItemInput) ->
 	# rollover and active effects for edit view	
@@ -158,12 +173,60 @@ updateFixedAndHourlyValues = (elem) ->
 
 acceptNegotiateLine = (accept) ->
 	# Changes color of negotiate_line and hides negotiate button if accepted
+	# and changes line_item values according to accepted negotiate line
 	negotiate_line = accept.parents "tr.negotiate_line"
 	line_item = negotiate_line.prevAll("tr.line_item").eq(0)
 	negotiate_button = line_item.find("td.line_links .add_negotiation_line a")
+
+	negotiate = 
+		price_type: 
+			select: negotiate_line.find("td.line_price_type select")
+			accept: negotiate_line.find("td.line_price_type .accept")
+		qty: negotiate_line.find("td.line_qty input.line_qty")
+		price: negotiate_line.find("td.line_u_price input.line_unit_price")
+		other_lines: negotiate_line.prevUntil("tr.line_item", "tr.negotiate_line")
+
+	line = 
+		price_type: 
+			select: line_item.find("td.line_price_type select")
+			accept: line_item.find("td.line_price_type .accept")
+		qty: 
+			valu: line_item.find("td.line_qty input.line_qty")
+			htm: line_item.find("td.line_qty .line_qty_val")
+		price:
+			valu: line_item.find("td.line_u_price input.line_unit_price")
+			htm: line_item.find("td.line_u_price .line_unit_price_val")
+
 	if accept.is ':checked'
 		negotiate_line.addClass "accepted"
 		negotiate_button.hide()
+		
+		# change price_type dropdown to text value
+		line.price_type.select.hide()
+		line.price_type.accept.show().html(negotiate.price_type.select.val())
+		negotiate.price_type.select.hide()
+		negotiate.price_type.accept.show().html(negotiate.price_type.select.val())
+
+		# change line_item values to negotiate values
+		line.qty.htm.html(negotiate.qty.val())
+		line.qty.valu.val(negotiate.qty.val())
+		line.price.htm.html(negotiate.price.val())
+		line.price.valu.val(negotiate.price.val())
+
+		# slide up other negotiate lines on accept
+		negotiate.other_lines.slideUp();
 	else
 		negotiate_line.removeClass "accepted"
 		negotiate_button.show()
+		
+		# change price_type text value back to dropdown
+		line.price_type.accept.hide()
+		line.price_type.select.show()
+		negotiate.price_type.accept.hide()
+		negotiate.price_type.select.show()
+
+		# change line_item values back to original values
+		fixedHourlyToggle(line_item, line.price_type.select)
+
+		# slide down other negotiate lines on accept uncheck
+		negotiate.other_lines.slideDown()

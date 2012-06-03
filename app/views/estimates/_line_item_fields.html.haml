@@ -5,7 +5,9 @@
 	%td.line_num= f.text_field :number, :disabled => disable_form(f.object)
 	-#%td.line_name= f.text_field :name, :disabled => @disable_form
 	%td.line_name= f.text_field :name, :disabled => disable_form(f.object)
-	%td.line_price_type= f.select(:price_type, [['Fixed', 'fixed'], ['Hourly', 'hourly']])
+	%td.line_price_type
+		= f.select(:price_type, [['Fixed', 'fixed'], ['Hourly', 'hourly']])
+		.accept
 	%td.line_qty
 		-#-if @disable_form
 		-if disable_form(f.object)
