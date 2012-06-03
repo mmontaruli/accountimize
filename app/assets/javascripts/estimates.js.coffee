@@ -196,6 +196,9 @@ acceptNegotiateLine = (accept) ->
 		price:
 			valu: line_item.find("td.line_u_price input.line_unit_price")
 			htm: line_item.find("td.line_u_price .line_unit_price_val")
+		is_accepted: line_item.find("td.line_links input.line_is_accepted")
+		is_enabled: line_item.find('td.line_ck input[type="checkbox"]')
+
 
 	if accept.is ':checked'
 		negotiate_line.addClass "accepted"
@@ -215,6 +218,13 @@ acceptNegotiateLine = (accept) ->
 
 		# slide up other negotiate lines on accept
 		negotiate.other_lines.slideUp();
+
+		# set line_item to accepted status
+		line.is_accepted.val(true)
+
+		# enables accepted line item if it was previously unchecked
+		line.is_enabled.attr('checked','checked')
+		line_item.removeClass('removed')
 	else
 		negotiate_line.removeClass "accepted"
 		negotiate_button.show()
@@ -230,3 +240,6 @@ acceptNegotiateLine = (accept) ->
 
 		# slide down other negotiate lines on accept uncheck
 		negotiate.other_lines.slideDown()
+
+		# set line_item to not accepted status
+		line.is_accepted.val(false)

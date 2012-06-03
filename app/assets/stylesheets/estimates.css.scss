@@ -158,6 +158,10 @@ body.estimates #content {
 					width:26px;
 					display:block;
 				}
+				.accepted {
+					font-weight:bold;
+					color:green;
+				}
 			}
 			td.line_price_type {
 				text-align:center;
@@ -201,6 +205,14 @@ body.estimates #content {
 				background: #f9f9f9;
 				color:#cccccc;
 				/*text-decoration:line-through;*/
+			}
+		}
+		tr.line_item.accepted_true {
+			td {
+				background-color:#edf6d2;
+			}
+			td.line_links, td.line_ck {
+				background-color:white;
 			}
 		}
 		tr.negotiate_line {
