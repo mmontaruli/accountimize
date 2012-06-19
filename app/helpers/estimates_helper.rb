@@ -21,6 +21,8 @@ module EstimatesHelper
       disable_status = true
     elsif !line_item.negotiate_lines.empty?
       disable_status = true
+    elsif line_item.is_accepted
+      disable_status = true
     end
     disable_status
   end

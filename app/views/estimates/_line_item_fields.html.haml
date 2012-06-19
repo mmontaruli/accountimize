@@ -5,17 +5,17 @@
 	%td.line_num= f.text_field :number, :disabled => disable_form(f.object)
 	%td.line_name= f.text_field :name, :disabled => disable_form(f.object)
 	%td.line_price_type
-		- unless f.object.is_accepted
+		-unless f.object.is_accepted
 			= f.select(:price_type, [['Fixed', 'fixed'], ['Hourly', 'hourly']])
 			.accept
-		- else
+		-else
 			= f.object.price_type
 	
 	%td.line_qty
 		-if disable_form(f.object)
 			.line_qty_val= f.object.quantity
 			= f.hidden_field :quantity, :class => 'line_qty'
-		- else
+		-else
 			= f.text_field :quantity, :class => 'line_qty line_value'
 		
 		= f.hidden_field :fixed_qty, :class => 'fixed_qty'
@@ -24,22 +24,34 @@
 		-if disable_form(f.object)
 			.line_unit_price_val= number_with_precision(f.object.unit_price, :precision => 2)
 			= f.hidden_field :unit_price, :class => 'line_unit_price', :value => number_with_precision(f.object.unit_price, :precision => 2)
-		- else
+		-else
 			= f.text_field :unit_price, :value => number_with_precision(f.object.unit_price, :precision => 2), :class => 'line_unit_price line_value'
 
 		= f.hidden_field :fixed_rate, :class => 'fixed_rate'
 		= f.hidden_field :hours_rate, :class => 'hours_rate'
 	%td.line_t_price= number_with_precision(f.object.total_price, :precision => 2, :delimiter => ',')
 	%td.line_links
-		= f.hidden_field :is_accepted, :class => 'line_is_accepted'
-		- unless f.object.is_accepted
-			.add_negotiation_line
-				= link_to_add_negotiate_fields "Negotiate", f, :negotiate_lines, :class => 'small radius blue button' unless disable_negotiate_button(f.object)
-		- else
+		-unless f.object.is_accepted
+			.action-button 
+				%a.action-drop-down{:href => "#"} Actions
+				%ul.line-actions
+					%li.add_negotiation_line
+						-unless f.object.is_accepted || f.object.negotiate_lines.empty? && signed_in_client.is_account_master
+							= link_to_add_negotiate_fields "Negotiate", f, :negotiate_lines, :class => ''
+							%div{:class => "disabled hide"}
+						-else
+							.disabled Negotiate
+					%li.accept_line
+						-if f.object.negotiate_lines.empty? && !signed_in_client.is_account_master
+							= f.check_box :is_accepted
+							= f.label :is_accepted, "Accept"
+							%div{:class => "disabled hide"}
+						-else
+							.disabled Accept
+		-else
 			.accepted Accepted
 
-	-if !disable_form(f.object)
-		%td.line_links
+		-if !disable_form(f.object)
 			.delete_link= link_to_remove_fields "Delete", f
 		
 - unless f.object.is_accepted

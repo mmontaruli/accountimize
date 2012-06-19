@@ -114,10 +114,14 @@ body.estimates #content {
 				}
 			}
 			td.line_name {
-				width:405px;
+				//width:405px;
+				width:359px;
+				//width:295px;
 				padding:0 10px;
 				input {
-					width:400px;
+					//width:400px;
+					width:354px;
+					//width:290px;
 				}
 			}
 			td.price_type {
@@ -147,16 +151,123 @@ body.estimates #content {
 				text-align:right;
 			}
 			td.line_links {
-				width:60px;
-				text-align:center;
+				//width:60px;
+				//width:90px;
+				width:137px;
+				//width:177px;
+				/*text-align:center;*/
 				background-color:white;
-				.delete_link a {
-					/*background:url('/assets/delete_icon.png') no-repeat;*/
-					height:0px;
-					padding-top:26px;
-					overflow:hidden;
-					width:26px;
-					display:block;
+				.action-button {
+					display:inline-block;
+					margin-top:2px;
+					float:left;
+					a.action-drop-down {
+						color:#6d6e71;
+						background-color:#eeefef;
+						cursor:pointer;
+						height:24px;
+						display:inline-block;
+						width:90px;
+						padding-top:6px;
+						padding-left:15px;
+						font-size:13px;
+						background-image:url('/assets/actions-arrow.png') no-repeat 90% 50%;
+						background: url('/assets/actions-arrow.png') no-repeat 90% 50%, -moz-linear-gradient(top, rgba(238,239,239,1) 0%, rgba(221,221,221,1) 100%); /* FF3.6+ */
+						background: url('/assets/actions-arrow.png') no-repeat 90% 50%, -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(238,239,239,1)), color-stop(100%,rgba(221,221,221,1))); /* Chrome,Safari4+ */
+						background: url('/assets/actions-arrow.png') no-repeat 90% 50%, -webkit-linear-gradient(top, rgba(238,239,239,1) 0%,rgba(221,221,221,1) 100%); /* Chrome10+,Safari5.1+ */
+						background: url('/assets/actions-arrow.png') no-repeat 90% 50%, -o-linear-gradient(top, rgba(238,239,239,1) 0%,rgba(221,221,221,1) 100%); /* Opera 11.10+ */
+						background: url('/assets/actions-arrow.png') no-repeat 90% 50%, -ms-linear-gradient(top, rgba(238,239,239,1) 0%,rgba(221,221,221,1) 100%); /* IE10+ */
+						background: url('/assets/actions-arrow.png') no-repeat 90% 50%, linear-gradient(top, rgba(238,239,239,1) 0%,rgba(221,221,221,1) 100%); /* W3C */					
+						border-radius:5px;
+					}
+					ul.line-actions {
+						background:#f2f2f2;
+						border-left:1px solid #ccc;
+						border-right:1px solid #ccc;
+						border-bottom:1px solid #ccc;
+						width:95px;
+						margin-left:3px;
+						position:absolute;
+						display:none;
+						li {
+							a {
+								margin:5px 0;
+								padding:5px;
+								display:block;
+								color:#6d6e71;
+							}
+							a:hover {
+								background-color:#a7e0ec;
+								color:black;
+							}
+							input[type=checkbox] {
+								display:none;
+							}
+							input[type=checkbox] + label {
+								display:block;
+								margin:5px 0;
+								padding:5px;
+								color:#6d6e71;
+							}
+							input[type=checkbox] + label:hover {
+								background-color:#a7e0ec;
+								color:black;
+							}
+							input[type=checkbox]:checked + label {
+								background-color:#c9df79;
+								color:#0c7f40;
+							}
+							.disabled {
+								margin:5px 0;
+								padding:5px;
+								color:#aaa;
+							}
+						}
+					}
+					a.action-drop-down:hover {
+						background-color:#eeefef;
+						background-image:url('/assets/actions-arrow.png') no-repeat 90% 50%;
+						background: url('/assets/actions-arrow.png') no-repeat 90% 50%, -moz-linear-gradient(top, rgba(221,221,211,1) 0%, rgba(187,187,187,1) 100%); /* FF3.6+ */
+						background: url('/assets/actions-arrow.png') no-repeat 90% 50%, -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(221,221,221,1)), color-stop(100%,rgba(187,187,187,1))); /* Chrome,Safari4+ */
+						background: url('/assets/actions-arrow.png') no-repeat 90% 50%, -webkit-linear-gradient(top, rgba(221,221,221,1) 0%,rgba(187,187,187,1) 100%); /* Chrome10+,Safari5.1+ */
+						background: url('/assets/actions-arrow.png') no-repeat 90% 50%, -o-linear-gradient(top, rgba(221,221,221,1) 0%,rgba(187,187,187,1) 100%); /* Opera 11.10+ */
+						background: url('/assets/actions-arrow.png') no-repeat 90% 50%, -ms-linear-gradient(top, rgba(221,221,221,1) 0%,rgba(187,187,187,1) 100%); /* IE10+ */
+						background: url('/assets/actions-arrow.png') no-repeat 90% 50%, linear-gradient(top, rgba(221,221,221,1) 0%,rgba(187,187,187,1) 100%); /* W3C */					
+		
+					}
+					a.action-drop-down.click {
+						background-color:#eeefef;
+						background-image:url('/assets/actions-arrow.png') no-repeat;
+						background: url('/assets/actions-arrow.png') no-repeat 90% 50%, -moz-linear-gradient(top, rgba(221,221,211,1) 0%, rgba(170,170,170,1) 100%); /* FF3.6+ */
+						background: url('/assets/actions-arrow.png') no-repeat 90% 50%, -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(221,221,221,1)), color-stop(100%,rgba(170,170,170,1))); /* Chrome,Safari4+ */
+						background: url('/assets/actions-arrow.png') no-repeat 90% 50%, -webkit-linear-gradient(top, rgba(221,221,221,1) 0%,rgba(170,170,170,1) 100%); /* Chrome10+,Safari5.1+ */
+						background: url('/assets/actions-arrow.png') no-repeat 90% 50%, -o-linear-gradient(top, rgba(221,221,221,1) 0%,rgba(170,170,170,1) 100%); /* Opera 11.10+ */
+						background: url('/assets/actions-arrow.png') no-repeat 90% 50%, -ms-linear-gradient(top, rgba(221,221,221,1) 0%,rgba(170,170,170,1) 100%); /* IE10+ */
+						background: url('/assets/actions-arrow.png') no-repeat 90% 50%, linear-gradient(top, rgba(221,221,221,1) 0%,rgba(170,170,170,1) 100%); /* W3C */					
+
+					}
+				}
+				.delete_link {
+					display:inline-block;
+					a {
+						height:0px;
+						padding-top:26px;
+						overflow:hidden;
+						width:26px;
+						display:block;
+						margin-top:3px;
+					}
+				}
+				.add_negotiation_line {
+					display:inline;
+				}
+				.accept_line {
+					//display:inline-block;
+					//padding:5px 15px;
+					//height:auto;
+					//width:auto;
+					//background:#aaa;
+					//color:white;
 				}
 				.accepted {
 					font-weight:bold;

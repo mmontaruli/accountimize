@@ -62,6 +62,18 @@ $ ->
 		acceptNegotiateLine $(this)
 		updateEstimateTotals $(this).parents("tr").prevAll("tr.line_item").eq(0), $estimateTotal
 
+	$estimateLines.find("td.line_links .action-button li.accept_line input[type=checkbox]").live "click", ->
+		acceptLineItem $(this)
+
+	$estimateLines.find("td.line_links .action-button a.action-drop-down").live "click", ->
+		actionButton = $(this)
+		actionButton.addClass("click")
+		actionButton.next().show()
+		$('body').live "click", ->
+			actionButton.next().hide()
+			actionButton.removeClass("click")
+		false
+
 lineItemEffects = (lineItemInput) ->
 	# rollover and active effects for edit view	
 	# can this be done with css/scss?
@@ -176,6 +188,7 @@ acceptNegotiateLine = (accept) ->
 	# and changes line_item values according to accepted negotiate line
 	negotiate_line = accept.parents "tr.negotiate_line"
 	line_item = negotiate_line.prevAll("tr.line_item").eq(0)
+	action_button = line_item.find("td.line_links .action-button")
 	negotiate_button = line_item.find("td.line_links .add_negotiation_line a")
 
 	negotiate = 
@@ -201,8 +214,12 @@ acceptNegotiateLine = (accept) ->
 
 
 	if accept.is ':checked'
+		
+		# highlight negotiate line in green
 		negotiate_line.addClass "accepted"
-		negotiate_button.hide()
+		
+		# hide action button
+		action_button.hide()		
 		
 		# change price_type dropdown to text value
 		line.price_type.select.hide()
@@ -226,8 +243,12 @@ acceptNegotiateLine = (accept) ->
 		line.is_enabled.attr('checked','checked')
 		line_item.removeClass('removed')
 	else
+		
+		#un-highlight negotiate line
 		negotiate_line.removeClass "accepted"
-		negotiate_button.show()
+		
+		# show action button
+		action_button.show()
 		
 		# change price_type text value back to dropdown
 		line.price_type.accept.hide()
@@ -243,3 +264,45 @@ acceptNegotiateLine = (accept) ->
 
 		# set line_item to not accepted status
 		line.is_accepted.val(false)
+
+acceptLineItem = (accept) ->
+	line_item = accept.parents "tr.line_item"
+	negotiate_button = line_item.find("td.line_links .add_negotiation_line a")
+
+	line = 
+		price_type: 
+			select: line_item.find("td.line_price_type select")
+			accept: line_item.find("td.line_price_type .accept")
+		is_enabled: line_item.find('td.line_ck input[type="checkbox"]')
+
+	if accept.is ':checked'
+		
+		# removes any incorrect classes and then highlights line in green
+		line_item.removeClass "accepted_false"
+		line_item.addClass "accepted_true"
+		
+		# disable negotiate menu item
+		negotiate_button.hide()
+		negotiate_button.next().html("Negotiate").show()
+
+		# replace price_type dropdown with text value
+		line.price_type.select.hide()
+		line.price_type.accept.show().html(line.price_type.select.val())
+
+		# enable line_item if not enabled already
+		line.is_enabled.attr('checked','checked')
+		line_item.removeClass('removed')
+	else
+		
+		# removes any incorrect classes and sets class to not accepted
+		line_item.removeClass "accepted_true"
+		line_item.addClass "accepted_false"
+		
+		# enables negotiate button
+		negotiate_button.next().hide()
+		negotiate_button.show()
+
+		# changes price_type text value back to dropdown
+		line.price_type.accept.hide()
+		line.price_type.select.show()
+
