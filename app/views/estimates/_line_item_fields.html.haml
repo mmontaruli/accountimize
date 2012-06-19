@@ -3,9 +3,15 @@
 		-unless f.object.is_accepted
 			= f.check_box :is_enabled
 	%td.line_num= f.text_field :number, :disabled => disable_form(f.object)
+	%td.lock
+		-if !disable_form(f.object)	
+			= f.check_box :is_locked
+			= f.label :is_locked, "Locked"
+		-elsif f.object.is_locked
+			.locked &nbsp;
 	%td.line_name= f.text_field :name, :disabled => disable_form(f.object)
 	%td.line_price_type
-		-unless f.object.is_accepted
+		-unless f.object.is_accepted || f.object.is_locked && !signed_in_client.is_account_master
 			= f.select(:price_type, [['Fixed', 'fixed'], ['Hourly', 'hourly']])
 			.accept
 		-else
@@ -36,7 +42,7 @@
 				%a.action-drop-down{:href => "#"} Actions
 				%ul.line-actions
 					%li.add_negotiation_line
-						-unless f.object.is_accepted || f.object.negotiate_lines.empty? && signed_in_client.is_account_master
+						-unless f.object.is_accepted || f.object.is_locked || f.object.negotiate_lines.empty? && signed_in_client.is_account_master
 							= link_to_add_negotiate_fields "Negotiate", f, :negotiate_lines, :class => ''
 							%div{:class => "disabled hide"}
 						-else

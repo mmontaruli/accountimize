@@ -2,6 +2,7 @@
 	%tr.negotiate_line
 		%td.blank
 		%td.blank
+		%td.blank
 		%td.description
 			= f.hidden_field :user_negotiating, :value => current_user.email
 			= f.text_area :description
@@ -20,6 +21,7 @@
 		
 - else
 	%tr{:class => "negotiate_line submitted #{who_is_negotiating(f.object.user_negotiating)}"}
+		%td.blank
 		%td.blank
 		%td.blank
 		%td.description

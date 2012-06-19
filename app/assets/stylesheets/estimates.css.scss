@@ -16,6 +16,17 @@ body.estimates #content {
 					background:$green;
 					text-align:center;
 				}
+				th.col.lock {
+					vertical-align:bottom;
+					span {
+						display:block;
+						height:0;
+						padding-top:16px;
+						width:11px;
+						overflow:hidden;
+						background:url("/assets/padlock-icon-header.png") no-repeat;
+					}
+				}
 				th {
 					padding:10px;
 				}
@@ -113,14 +124,35 @@ body.estimates #content {
 					text-align:center;
 				}
 			}
+			td.lock {
+				input[type=checkbox] {
+					display:none;
+				}
+				input[type=checkbox] + label, .locked {
+					width:12px;
+					overflow:hidden;
+					padding-top:17px;
+					height:0;
+					background:url("/assets/padlock-sprite.png") no-repeat 0% 100%;
+					margin:0 auto;
+				}
+				input[type=checkbox]:checked + label, .locked {
+					background:url("/assets/padlock-sprite.png") no-repeat 0% 0%;
+				}
+				.locked {
+
+				}
+			}
 			td.line_name {
 				//width:405px;
-				width:359px;
+				//width:359px;
+				width:276px;
 				//width:295px;
 				padding:0 10px;
 				input {
 					//width:400px;
-					width:354px;
+					//width:354px;
+					width:271px;
 					//width:290px;
 				}
 			}
@@ -334,7 +366,8 @@ body.estimates #content {
 				textarea {
 					height:20px;
 					background-color:#f7f2e5;
-					width:354px;
+					//width:354px;
+					width:329px;
 					margin-right:0px;
 					resize:none;
 					border:none;

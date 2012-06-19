@@ -30,6 +30,8 @@
 			%tr
 				%th
 				%th.col Item #
+				%th{:class => "col lock"} 
+					%span Lock
 				%th.col Description
 				%th.col Unit
 				%th.col Qty
@@ -41,7 +43,7 @@
 				= render 'line_item_fields', :f => builder
 				
 			%tr.total_line
-				%td{:colspan => 6} Total
+				%td{:colspan => 7} Total
 				%td.total_price= number_to_currency(@estimate.total_price)
 				%td
 			
