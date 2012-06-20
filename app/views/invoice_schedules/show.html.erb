@@ -1,0 +1,10 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Estimate:</b>
+  <%= @invoice_schedule.estimate_id %>
+</p>
+
+
+<%= link_to 'Edit', edit_invoice_schedule_path(@invoice_schedule) %> |
+<%= link_to 'Back', invoice_schedules_path %>

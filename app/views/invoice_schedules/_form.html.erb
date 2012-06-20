@@ -1,0 +1,21 @@
+<%= form_for(@invoice_schedule) do |f| %>
+  <% if @invoice_schedule.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@invoice_schedule.errors.count, "error") %> prohibited this invoice_schedule from being saved:</h2>
+
+      <ul>
+      <% @invoice_schedule.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :estimate_id %><br />
+    <%= f.number_field :estimate_id %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

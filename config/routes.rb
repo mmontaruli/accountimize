@@ -1,6 +1,8 @@
 require 'subdomain'
 
 Accountimize::Application.routes.draw do
+  resources :invoice_schedules
+
   #get "log_in" => "sessions#new", :as => "log_in"
   #get "log_out" => "sessions#destroy", :as => "log_out"
 
