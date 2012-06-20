@@ -1,0 +1,18 @@
+%h1 Listing invoice_schedules
+
+%table
+	%tr
+		%th Estimate
+		%th
+		%th
+		%th
+		
+	- @invoice_schedules.each do |invoice_schedule|
+		%tr
+			%td= invoice_schedule.estimate_id
+			%td= link_to 'Show', invoice_schedule
+			%td= link_to 'Edit', edit_invoice_schedule_path(invoice_schedule)
+			%td= link_to 'Destroy', invoice_schedule, confirm: 'Are you sure?', method: :delete
+			
+%br
+= link_to 'New Invoice schedule', new_invoice_schedule_path

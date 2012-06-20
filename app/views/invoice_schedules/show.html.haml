@@ -1,0 +1,9 @@
+%p#notice= notice
+
+%p
+	%strong Estimate:
+	= @invoice_schedule.estiamte_id
+
+= link_to 'Edit', edit_invoice_schedule_path(@invoice_schedule)
+|
+= link_to 'Back', invoice_schedules_path
