@@ -1,9 +1,13 @@
-- if signed_in_client.is_account_master
+-unless @estimate.is_accepted
+	- if signed_in_client.is_account_master
+		.row
+			%p{:class => 'three columns offset-by-eight'}= link_to 'Edit Estimate »', edit_account_estimate_path(@account,@estimate), :class => 'nice small radius blue button'
+	- else
+		.row
+			%p{:class => 'three columns offset-by-eight'}= link_to 'Customize Estimate »', edit_account_estimate_path(@account,@estimate), :class => 'nice small radius blue button'
+-else
 	.row
-		%p{:class => 'three columns offset-by-eight'}= link_to 'Edit Estimate »', edit_account_estimate_path(@account,@estimate), :class => 'nice small radius blue button'
-- else
-	.row
-		%p{:class => 'three columns offset-by-eight'}= link_to 'Customize Estimate »', edit_account_estimate_path(@account,@estimate), :class => 'nice small radius blue button'
+		%h4{:class => "estimate-accepted four columns offset-by-seven"} Estimate Accepted
 
 .row
 

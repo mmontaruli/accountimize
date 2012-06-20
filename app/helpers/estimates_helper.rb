@@ -32,5 +32,18 @@ module EstimatesHelper
     last_negotiate_line = line_item.negotiate_lines.find(:last)
     negotiate_line == last_negotiate_line and who_is_negotiating(negotiate_line.user_negotiating) == "them"
   end
+
+  def can_approve_estimate(estimate)
+    status = true
+    estimate.line_items.each do |line_item|
+      if !line_item.negotiate_lines.empty?
+        if !line_item.is_accepted
+          status = false
+          return status
+        end
+      end
+    end
+    status
+  end
   
 end

@@ -23,7 +23,8 @@
 					%td.estimate_date= estimate.date
 					%td.estimate_total= number_to_currency(estimate.total_price)
 					- if signed_in_client.is_account_master
-						%td.estimate_edit= link_to 'Edit', edit_account_estimate_path(@account,estimate)
+						%td.estimate_edit
+							= link_to 'Edit', edit_account_estimate_path(@account,estimate) unless estimate.is_accepted
 						%td.estimate_delete= link_to 'Delete', account_estimate_path(@account,estimate), confirm: 'Are you sure?', method: :delete
 
 - if signed_in_client.is_account_master

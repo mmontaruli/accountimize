@@ -33,6 +33,9 @@ body.estimates #content {
 			}
 		}
 	}
+	h4.estimate-accepted {
+		color:#67b21d;
+	}
 	.client-address {
 		line-height:1.3;
 		font-size:14px;
@@ -516,6 +519,36 @@ body.estimates #content {
 		tr.negotiate_line.them {
 			td {
 				border:1px solid white;
+			}
+		}
+	}
+	.actions {
+		.accept-estimate {
+			margin-bottom:10px;
+			margin-left:20px;
+			input[type=checkbox] {
+				display:none;
+			}
+			input[type=checkbox] + label {
+				display:inline-block;
+				width:auto;
+				height:auto;
+				background:#eee;
+				padding:.5em 1em;
+				font-weight:bold;
+				border:1px solid #ccc;
+				border-radius:5px;
+			}
+			input[type=checkbox]:checked + label {
+				background:#67b21d;
+				color:white;
+			}
+			.notification {
+				background:#F8F2D8;
+				padding:.5em;
+				border:1px solid #cfc6a4;
+				color:#524925;
+				font-size:14px;
 			}
 		}
 	}

@@ -53,6 +53,7 @@
 							= f.label :is_accepted, "Accept"
 							%div{:class => "disabled hide"}
 						-else
+							= f.hidden_field :is_accepted, :class => 'line_is_accepted'
 							.disabled Accept
 		-else
 			.accepted Accepted

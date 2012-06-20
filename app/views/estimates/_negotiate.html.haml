@@ -48,5 +48,15 @@
 				%td
 			
 	.actions
+		%div{:class => "accept-estimate row"}
+			-if can_approve_estimate(f.object) && !signed_in_client.is_account_master
+				= f.check_box :is_accepted
+				= f.label :is_accepted, "Approve Estimate"
+			-elsif !can_approve_estimate(f.object)
+				%div{:class => "notification eight columns"} There are outstanding negotiations that have not been approved yet
+			-elsif signed_in_client.is_account_master
+				%div{:class => "notification eight columns"} Client has not yet approved estimate
+
+
 		= f.submit 'Save »' , :class => 'nice medium radius blue button'
 		= link_to 'Cancel »', account_estimate_path(@account,@estimate), :class => 'nice medium radius white button'

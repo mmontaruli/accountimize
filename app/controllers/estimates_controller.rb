@@ -61,6 +61,13 @@ class EstimatesController < ApplicationController
     @clients = @account.clients.find(:all, :conditions => {:is_account_master => false})
     @client = Client.find_by_id(@estimate.client_id)
     #@disable_form = !signed_in_client.is_account_master
+    #respond_to do |format|
+    if @estimate.is_accepted
+      respond_to do |format|
+        format.html { redirect_to account_estimate_path(@account,@estimate), :flash => {notice: 'Estimate has been accepted and cannot be edited.', :status => 'warning'} }
+      end
+    end
+    #end
     
   end
 
