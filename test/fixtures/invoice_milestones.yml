@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  order: 1
+  description: MyText
+  estimate_percentage: 1
+  invoice_schedule_id: 1
+
+two:
+  order: 1
+  description: MyText
+  estimate_percentage: 1
+  invoice_schedule_id: 1
