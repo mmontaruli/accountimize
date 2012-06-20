@@ -42,7 +42,7 @@
 				%a.action-drop-down{:href => "#"} Actions
 				%ul.line-actions
 					%li.add_negotiation_line
-						-unless f.object.is_accepted || f.object.is_locked || f.object.negotiate_lines.empty? && signed_in_client.is_account_master
+						-unless f.object.is_accepted || f.object.is_locked || disable_negotiate_button(f.object) || f.object.negotiate_lines.empty? && signed_in_client.is_account_master
 							= link_to_add_negotiate_fields "Negotiate", f, :negotiate_lines, :class => ''
 							%div{:class => "disabled hide"}
 						-else
