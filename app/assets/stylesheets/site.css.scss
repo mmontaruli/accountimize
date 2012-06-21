@@ -23,6 +23,18 @@ table.list {
 	vertical-align:middle;
 	border:none;
 	margin-bottom:28px;
+	thead {
+		margin:0;
+		tr {
+			th.col {
+				text-align:center;
+				background:#b2bd40;
+			}
+			th {
+				padding:10px;
+			}
+		}
+	}
 	tr {
 		td {
 			border-bottom:1px solid #e2e2e2;

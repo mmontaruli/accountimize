@@ -2,6 +2,7 @@ class Account < ActiveRecord::Base
   has_many :clients, :dependent => :destroy
   has_many :estimates, :through => :clients
   has_many :users, :through => :clients
+  has_many :invoices, :through => :clients
   
   accepts_nested_attributes_for :clients, :allow_destroy => true
   

@@ -1,4 +1,4 @@
-= form_for(@invoice) do |f|
+= form_for([@account,@invoice], :html => {:class => 'nice'}) do |f|
 	-if @invoice.errors.any?
 		#error_explanation
 			%h2
@@ -9,17 +9,23 @@
 				- @invoice.errors.full_messages.each do |msg|
 					%li= msg
 	
-	.field
-		= f.label :number
-		= f.number_field :number
+	.row
+		.field{:class => 'three columns'}
+			= f.label :client_id
+			= f.collection_select(:client_id, @clients, :id, :name, {:include_blank => true}, data: {'url-base' => account_clients_path(@account)})
+			%p.address
+				= render 'clients/client_address' if @invoice.client_id
+
+		.field{:class => 'four columns offset-by-four'}
+			= f.label :number
+			= f.text_field :number, :class => 'input-text small'
+			= f.label :date
+			= f.date_select :date
 		
-	.field
-		= f.label :date
-		= f.date_select :date
-		
-	.field
-		= f.label :client_id
-		= f.number_field :client_id
 		
 	.actions
-		= f.submit
+		= f.submit 'Save »' , :class => 'nice medium radius blue button'
+		-if params[:action] == 'edit'
+			= link_to 'Cancel »', account_invoice_path(@account,@invoice), :class => 'nice medium radius white button'
+		-else
+			= link_to 'Cancel »', account_invoices_path, :class => 'nice medium radius white button'

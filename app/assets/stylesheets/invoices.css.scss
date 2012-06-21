@@ -1,3 +1,31 @@
 // Place all the styles related to the Invoices controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+body.invoices #content {
+	select {display:inline;}
+	table {
+
+	}
+	table.list {
+		thead {
+
+		}
+		tbody {
+			tr {
+				td{
+
+				}
+				td.invoice_number {
+					text-align:center;
+				}
+				td.invoice_date {
+					text-align:center;
+				}
+				td.invoice_total {
+					text-align:right;
+				}
+			}
+		}
+	}
+}
