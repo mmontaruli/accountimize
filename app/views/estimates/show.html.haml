@@ -49,3 +49,9 @@
 			%td{:colspan => 5} Total
 			%td.total_price= number_to_currency(@estimate.total_price)
 			%td
+
+-if signed_in_client.is_account_master
+	-if !@estimate.invoice_schedule
+		%p= link_to 'Create New Invoice Schedule', new_account_estimate_invoice_schedule_path(@account, @estimate)
+	-else
+		%p= link_to 'View Invoice Schedule', account_estimate_invoice_schedule_path(@account, @estimate, @estimate.invoice_schedule)

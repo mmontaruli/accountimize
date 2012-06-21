@@ -1,9 +1,28 @@
-%p#notice= notice
-
 %p
-	%strong Estimate:
-	= @invoice_schedule.estiamte_id
+	%strong Estimate #:
+	= @estimate.number
 
-= link_to 'Edit', edit_invoice_schedule_path(@invoice_schedule)
-|
-= link_to 'Back', invoice_schedules_path
+.row
+	%p{:class => "nine columns notification"} Use the invoice schedule to automate the generation of invoices based on the agreed upon estimate total and a percent of the contract total you specify to be invoiced upon completion of a project milestone.
+
+.row
+	%table{:class => "six columns"}
+		%thead
+			%tr
+				%th 
+				%th 
+
+		%tbody
+			- @invoice_schedule.invoice_milestones.each do |invoice_milestone|
+				%tr
+					%td= invoice_milestone.description
+					%td= "#{invoice_milestone.estimate_percentage} %"
+			%tr
+				%td 
+					%strong Total
+				%td.total_percent
+					%strong= "#{@invoice_schedule.total_percent} %"
+
+
+= link_to 'Edit Schedule »', edit_account_estimate_invoice_schedule_path(@account,@estimate, @invoice_schedule), :class => 'nice medium radius blue button'
+= link_to 'Back to Estimate »', account_estimate_path(@account, @estimate), :class => 'nice medium radius white button'

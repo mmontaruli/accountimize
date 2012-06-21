@@ -5,6 +5,7 @@ class EstimatesController < ApplicationController
   before_filter :inner_navigation
   before_filter :restrict_access, :except => [:index, :show, :edit, :update]
   before_filter :restrict_estimate_access, :except => [:index]
+  before_filter :restrict_account_access
   
   def index
     #@estimates = Estimate.all

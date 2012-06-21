@@ -1,0 +1,7 @@
+%tr
+	%td= f.text_area :description
+	%td.estimate_percentage
+		= f.text_field :estimate_percentage, :class => 'input-text small'
+		%span %
+	%td.line_links
+		.delete_link= link_to_remove_fields "Delete", f

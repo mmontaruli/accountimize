@@ -5,6 +5,7 @@ class ClientsController < ApplicationController
   before_filter :get_account
   before_filter :inner_navigation
   before_filter :restrict_access
+  before_filter :restrict_account_access
   def index
     #@clients = Client.all
     #@clients = @account.clients.all

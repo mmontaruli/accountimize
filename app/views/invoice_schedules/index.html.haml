@@ -1,18 +1,19 @@
-%h1 Listing invoice_schedules
+%h3 Invoice Schedules
 
-%table
-	%tr
-		%th Estimate
-		%th
-		%th
-		%th
-		
-	- @invoice_schedules.each do |invoice_schedule|
-		%tr
-			%td= invoice_schedule.estimate_id
-			%td= link_to 'Show', invoice_schedule
-			%td= link_to 'Edit', edit_invoice_schedule_path(invoice_schedule)
-			%td= link_to 'Destroy', invoice_schedule, confirm: 'Are you sure?', method: :delete
+.row
+	%table{:class => "invoice-schedule list nine columns"}
+		%thead
+			%tr
+				%th Estimate
+				%th
+				%th
+				%th
 			
-%br
-= link_to 'New Invoice schedule', new_invoice_schedule_path
+		%tbody
+			- @invoice_schedules.each do |invoice_schedule|
+				%tr
+					%td= invoice_schedule.estimate_id
+					%td= link_to 'Show', account_estimate_invoice_schedule_path(@account,@estimate, invoice_schedule)
+					%td= link_to 'Edit', edit_account_estimate_invoice_schedule_path(@account,@estimate, invoice_schedule)
+					%td= link_to 'Destroy', account_estimate_invoice_schedule_path(@account,@estimate, invoice_schedule), confirm: 'Are you sure?', method: :delete
+			

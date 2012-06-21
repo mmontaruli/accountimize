@@ -1,7 +1,6 @@
 require 'subdomain'
 
 Accountimize::Application.routes.draw do
-  resources :invoice_schedules
 
   #get "log_in" => "sessions#new", :as => "log_in"
   #get "log_out" => "sessions#destroy", :as => "log_out"
@@ -16,7 +15,9 @@ Accountimize::Application.routes.draw do
     resources :clients do
       get :client_address, on: :member
     end
-    resources :estimates
+    resources :estimates do
+      resources :invoice_schedules
+    end
   end
   
   #resources :accounts
