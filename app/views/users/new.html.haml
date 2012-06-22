@@ -9,17 +9,14 @@
 					%li= message
 
 	= f.hidden_field :client_id, :value => @client.id
-					
+
 	.field{:class => "row"}
-		-#= f.label :email
 		= f.text_field :email, :placeholder => "Email Address", :class => "input-text medium"
-		
+
 	.field{:class => "row"}
-		-#= f.label :password
 		= f.password_field :password, :placeholder => "Password", :class => "input-text medium"
-		
+
 	.field{:class => "row"}
-		-#= f.label :password_confirmation
 		= f.password_field :password_confirmation, :placeholder => "Confirm Password", :class => "input-text medium"
 
 	.actions
