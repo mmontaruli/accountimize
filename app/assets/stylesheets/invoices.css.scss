@@ -2,10 +2,28 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
+$green: #b2bd40;
+$focus-yellow: #FFF8D5;
+
 body.invoices #content {
 	select {display:inline;}
 	table {
-
+		thead {
+			margin:0;
+			tr {
+				th.col {
+					background:$green;
+					text-align:center;
+				}
+				th {
+					padding:10px;
+				}
+			}
+		}
+	}
+	.client-address {
+		line-height:1.3;
+		font-size:14px;
 	}
 	table.list {
 		thead {
@@ -27,5 +45,148 @@ body.invoices #content {
 				}
 			}
 		}
+	}
+	table.line_items {
+		width:auto;
+		vertical-align:middle;
+		border:none;
+		border-spacing:4px;
+		border-collapse:separate;
+		thead {
+			background:none;
+		}
+		tr {
+			td {
+				background:#eeeeee;
+				height:35px;
+				border:1px solid white;
+				vertical-align:middle;
+				padding:0;
+				input {
+					background:none;
+					border:none;
+					font-size:14px;
+					font-family:arial;
+				}
+				input:focus{
+					border:none;
+					outline:none;
+				}
+			}
+			td.hover {
+				background:#dddddd;
+				input {
+					background:#dddddd;
+				}
+			}
+			td.focus {
+				background:$focus-yellow;
+				input {
+					background:$focus-yellow;
+				}
+			}
+			td.line_num {
+				width:65px;
+				text-align:center;
+				input {
+					width:55px;
+					text-align:center;
+				}
+			}
+			td.line_name {
+				width:405px;
+				padding:0 10px;
+				input {
+					width:400px;
+				}
+			}
+			td.price_type {
+				text-align:center;
+				text-transform:capitalize;
+			}
+			td.line_qty {
+				width:70;
+				text-align:center;
+				input {
+					width:60px;
+					text-align:center;
+				}
+			}
+			td.line_u_price {
+				width:80px;
+				padding:0 10px;
+				text-align:right;
+				input {
+					width:70px;
+					text-align:right;
+				}
+			}
+			td.line_t_price {
+				width:80px;
+				padding:0 10px;
+				text-align:right;
+			}
+			td.line_links {
+				background-color:white;
+				.delete_link {
+					display:inline-block;
+					a {
+						height:0px;
+						padding-top:26px;
+						overflow:hidden;
+						width:26px;
+						display:block;
+						margin-top:3px;
+					}
+				}
+			}
+		}
+		tr.edit {
+			td {
+				border:1px solid #cccccc;
+				padding:0;
+			}
+			td.line_name {
+				padding:0 10px;
+			}
+			td.line_u_price {
+				padding:0 10px;
+			}
+			td.line_t_price {
+				background:#cccccc;
+				padding:0 10px;
+			}
+			td.line_links {
+				background:white;
+				border:none;
+			}
+		}
+		tr.edit:hover {
+			td.line_links .delete_link a {
+				background:url('/assets/delete_icon.png') no-repeat;
+			}
+		}
+		tr.add_lines {
+			td {
+				background:white;
+				a {
+					margin-left:26px;
+				}
+			}
+		}
+		tr.total_line {
+			td {
+				background:white;
+				padding-top:3px;
+				font-weight:bold;
+			}
+			td.total_price {
+				text-align:right;
+			}
+		}
+	}
+	table.invoice_show {
+		margin-top:25px;
+		border-spacing:2px;
 	}
 }

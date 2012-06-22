@@ -20,7 +20,7 @@
 					-else
 						%td.client_name= invoice.client.name
 					%td.invoice_date= invoice.date
-					%td.invoice_total
+					%td.invoice_total= number_to_currency(invoice.total_price)
 					%td= link_to 'Edit', edit_account_invoice_path(@account,invoice)
 					%td= link_to 'Delete', account_invoice_path(@account,invoice), confirm: 'Are you sure?', method: :delete
 			

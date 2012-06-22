@@ -8,7 +8,8 @@ $ ->
 	$lineItemInput = $('td input', $lineRows)
 	
 	$negotiateItemInput = $('table.line_items tr.negotiate_line td input, table.line_items tr.negotiate_line td textarea');	
-	$estimateLines = $('table.line_items tr')
+	$estimateLines = $('table.line_items tr', $body)
+	#added $body to $stimateLines later, don't seem to find any trouble with this
 	
 	#$lineCk and $lineLinks only called once, can we just filter/find this from another variable?
 	$lineCk = $('td.line_ck input[type="checkbox"]', $lineRows)

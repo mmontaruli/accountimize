@@ -1,5 +1,6 @@
 class LineItem < ActiveRecord::Base
   belongs_to :estimate
+  belongs_to :invoice
   has_many :negotiate_lines, :dependent => :destroy
   
   accepts_nested_attributes_for :negotiate_lines, :allow_destroy => true

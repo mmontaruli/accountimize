@@ -21,6 +21,29 @@
 			= f.text_field :number, :class => 'input-text small'
 			= f.label :date
 			= f.date_select :date
+
+	%div
+		%table.line_items{:cellspacing => 4}
+			%thead
+				%tr
+					%th.col Item #
+					%th.col Description
+					%th.col Unit
+					%th.col Qty
+					%th.col Unit Price
+					%th.col Line Total
+					%th
+
+			%tbody
+				= f.fields_for :line_items do |builder|
+					= render 'line_item_fields', :f => builder
+				%tr.add_lines
+					%td{:colspan => 7}= link_to_add_fields "Add lines", f, :line_items, :class => 'small radius blue button'
+				%tr.total_line
+					%td{:colspan => 5} Total
+					%td.total_price= number_to_currency(@invoice.total_price)
+					%td
+
 		
 		
 	.actions

@@ -17,3 +17,25 @@
 			%strong Date:
 			= @invoice.date
 		
+%table{:class => "line_items invoice_show"}
+	%thead
+		%tr
+			%th.col Item #
+			%th.col Description
+			%th.col Unit
+			%th.col Qty
+			%th.col Unit Price
+			%th.col Line Total
+
+	%tbody
+		- @invoice.line_items.each do |line_item|
+			%tr
+				%td.line_num= line_item.number
+				%td.line_name= line_item.name
+				%td.price_type= line_item.price_type
+				%td.line_qty= line_item.quantity
+				%td.line_u_price= number_with_precision(line_item.unit_price, :precision => 2, :delimiter => ',')
+				%td.line_t_price= number_with_precision(line_item.total_price, :precision => 2, :delimiter => ',')
+		%tr.total_line
+			%td{:colspan => 5} Total
+			%td.total_price= number_to_currency(@invoice.total_price)
