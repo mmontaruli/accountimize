@@ -1,15 +1,23 @@
 $ ->
-	$body = $("body.invoices")
-	$lineRows = $('table.line_items tr.line_item', $body)
-	$lineItemInput = $('td input', $lineRows)
-	$client = $('#invoice_client_id', $body)
+	$invoiceBody = $("body.invoices")
+	$invoiceLineRows = $('table.line_items tr.line_item', $invoiceBody)
+	$invoiceLineItemInput = $('td input', $invoiceLineRows)
+	$invoiceClient = $('#invoice_client_id', $invoiceBody)
+	$invoiceTotal = $('tr.total_line td.total_price', $invoiceBody)
+	$invoiceLineDelete = $("td.line_links .delete_link a", $invoiceLineRows)
 
-	lineItemEffects $lineItemInput
+	invoiceLineItemEffects $invoiceLineItemInput
 	
-	$client.change ->
-		getNewClient $clientl
+	$invoiceClient.change ->
+		invoiceGetNewClient $invoiceClient
+		
+	$invoiceLineItemInput.live "blur", ->
+		updateInvoiceTotals $(this).parents("tr.line_item"), $invoiceTotal
+		
+	$invoiceLineDelete.live "click", ->
+		subtractInvoiceLineTotal $(this).parents("tr.line_item"), $invoiceTotal
 
-lineItemEffects = (lineItemInput) ->
+invoiceLineItemEffects = (lineItemInput) ->
 	# rollover and active effects for edit view	
 	# can this be done with css/scss?
 	lineItemInput.live "mouseenter", ->
@@ -22,7 +30,49 @@ lineItemEffects = (lineItemInput) ->
 	lineItemInput.live "blur", ->
 		$(this).parent().removeClass 'focus'
 
-getNewClient = (client) ->
+updateInvoiceTotals = (lineRow, invoiceTotal) ->
+	lineQty = lineRow.find("td.line_qty input").val()
+	lineUnitPrice = lineRow.find("td.line_u_price input").val()
+	lineTotalPrice = lineRow.find("td.line_t_price")
+	
+	if isNaN(lineQty)
+		lineQty = 0
+	if isNaN(lineUnitPrice)
+		lineUnitPrice = 0
+	
+	newLineTotal = 0
+	newLineTotal = lineQty * lineUnitPrice
+	newLineTotal = formatNumber newLineTotal,2,',','.','','','-',''
+	lineTotalPrice.html(newLineTotal)
+	
+	unless lineUnitPrice is ""
+		unless isNaN(lineUnitPrice)
+			lineUnitPrice = formatNumber lineUnitPrice,2,'','.','','','-',''
+			$('td.line_u_price input', lineRow).val(lineUnitPrice)
+	
+	newInvoiceTotal = 0
+	$("tr.line_item td.line_t_price:visible").each ->
+		number = Number $(this).html().replace(/[^0-9\.]+/g,"")
+		newInvoiceTotal += number
+	newInvoiceTotal = formatNumber newInvoiceTotal,2,',','.','$','','-',''
+	invoiceTotal.html(newInvoiceTotal)
+	
+subtractInvoiceLineTotal = (lineRow, invoiceTotal) ->
+	
+	newInvoiceTotal = invoiceTotal.html()
+	newInvoiceTotal = newInvoiceTotal.slice(1)
+	newInvoiceTotal = newInvoiceTotal.replace(/,/, '')
+	newInvoiceTotal = Number newInvoiceTotal
+	
+	lineTotalPrice = lineRow.find("td.line_t_price").html()
+	lineTotalPrice = lineTotalPrice.replace(/,/, '')
+	lineTotalPrice = Number lineTotalPrice
+	
+	newInvoiceTotal = newInvoiceTotal - lineTotalPrice
+	newInvoiceTotal = formatNumber newInvoiceTotal,2,',','.','$','','-',''
+	invoiceTotal.html(newInvoiceTotal)
+
+invoiceGetNewClient = (client) ->
 	# change client address based on selected client in dropdown
 	selected_client = client.val()
 	unless selected_client is ''

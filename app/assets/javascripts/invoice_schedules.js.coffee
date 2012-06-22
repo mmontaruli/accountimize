@@ -1,13 +1,13 @@
 $ ->
-	$body = $('body.invoice_schedules')
-	$percentTotal = $('form table td.total_percent strong', $body)
-	$percents = $('form table td.estimate_percentage input', $body)
+	$scheduleBody = $('body.invoice_schedules')
+	$percentTotal = $('form table td.total_percent strong', $scheduleBody)
+	$percents = $('form table td.estimate_percentage input', $scheduleBody)
 
 	$percents.live "blur", ->
 		updatePercentTotal $(this), $percentTotal
 		addWarning $percentTotal
 
-	$("form table td.line_links .delete_link a", $body).live "click", ->
+	$("form table td.line_links .delete_link a", $scheduleBody).live "click", ->
 		subtractRemovedPercentage($(this).parents("tr").find("td.estimate_percentage input"), $percentTotal)
 		addWarning $percentTotal
 

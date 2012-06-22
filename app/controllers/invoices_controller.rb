@@ -36,6 +36,11 @@ class InvoicesController < ApplicationController
   def new
     @invoice = Invoice.new(number: @account.invoices.default_number)
     @clients = @account.clients.find(:all, :conditions => {:is_account_master => false})
+    @client = Client.find_by_id(params[:client_id])
+    @invoice.client_id = @client.id if @client
+    3.times do
+      line_item = @invoice.line_items.build
+    end
 
     respond_to do |format|
       format.html # new.html.erb
@@ -57,7 +62,7 @@ class InvoicesController < ApplicationController
 
     respond_to do |format|
       if @invoice.save
-        format.html { redirect_to account_invoice_path(@account,@invoice), notice: 'Invoice was successfully created.' }
+        format.html { redirect_to account_invoice_path(@account,@invoice), :flash => {:notice => 'Invoice was successfully created.', :status => 'success'} }
         format.json { render json: @invoice, status: :created, location: @invoice }
       else
         format.html { render action: "new" }
@@ -73,7 +78,7 @@ class InvoicesController < ApplicationController
 
     respond_to do |format|
       if @invoice.update_attributes(params[:invoice])
-        format.html { redirect_to account_invoice_path(@account,@invoice), notice: 'Invoice was successfully updated.' }
+        format.html { redirect_to account_invoice_path(@account,@invoice), :flash => {:notice => 'Invoice was successfully updated.', :status => 'success'} }
         format.json { head :ok }
       else
         format.html { render action: "edit" }
