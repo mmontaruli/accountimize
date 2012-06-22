@@ -11,12 +11,18 @@
 			%tr
 				%th 
 				%th 
+				%th
 
 		%tbody
 			- @invoice_schedule.invoice_milestones.each do |invoice_milestone|
 				%tr
 					%td= invoice_milestone.description
 					%td= "#{invoice_milestone.estimate_percentage} %"
+					%td
+						-unless invoice_milestone.invoice_id
+							= link_to 'Generate Invoice', :controller => 'invoices', :action => 'generateInvoiceFromMilestone', :invoice_milestone_id => invoice_milestone.id
+						-else
+							Invoice already generated
 			%tr
 				%td 
 					%strong Total

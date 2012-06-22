@@ -98,4 +98,31 @@ class InvoicesController < ApplicationController
       format.json { head :ok }
     end
   end
+  
+  def generateInvoiceFromMilestone
+    @invoice = Invoice.new(number: @account.invoices.default_number)
+    @invoice.date = Date.today
+    @invoice_milestone = InvoiceMilestone.find_by_id(params[:invoice_milestone_id])
+    @invoice_schedule = InvoiceSchedule.find_by_id(@invoice_milestone.invoice_schedule_id)
+    @estimate = Estimate.find_by_id(@invoice_schedule.estimate_id)
+    @client = Client.find_by_id(@estimate.client_id)
+    @line_items = @estimate.line_items.where(:is_enabled => true)
+    @invoice.client_id = @client.id
+    @invoice.save
+    @invoice_milestone.invoice_id = @invoice.id
+    @invoice_milestone.save
+    percent = Float(@invoice_milestone.estimate_percentage)/100
+    @line_items.each do |line_item|
+      new_line_item = line_item.dup
+      new_line_item.unit_price = Float(line_item.unit_price) * percent
+      new_line_item.invoice_id = @invoice.id
+      new_line_item.estimate_id = nil
+      new_line_item.save
+    end
+    
+    respond_to do |format|
+      format.html { redirect_to account_invoice_path(@account,@invoice), :flash => {:notice => 'Invoice was successfully generated.', :status => 'success'} }
+      format.json { head :ok }
+    end
+  end
 end

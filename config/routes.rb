@@ -20,7 +20,11 @@ Accountimize::Application.routes.draw do
     resources :estimates do
       resources :invoice_schedules
     end
-    resources :invoices
+    resources :invoices do
+      member do
+        get 'generateInvoiceFromMilestone'
+      end
+    end
   end
   
   #resources :accounts
