@@ -1,14 +1,8 @@
-// Place all the styles related to the InvoiceSchedules controller here.
-// They will automatically be included in application.css.
-// You can use Sass (SCSS) here: http://sass-lang.com/
 
 body.invoice_schedules #content {
 	.schedule-table.row {
 		position:relative;
 		table {
-			thead {
-
-			}
 			tbody {
 				tr {
 					td {
@@ -26,33 +20,8 @@ body.invoice_schedules #content {
 							font-size:16px;
 						}
 					}
-					td.total_percent {
-
-					}
 					td.total_percent.alert {
 						color:red;
-					}
-					td.line_links {
-						.delete_link {
-							display:inline-block;
-							a {
-								height:0;
-								padding-top:26px;
-								overflow:hidden;
-								width:26px;
-								display:block;
-								margin-top:3px;
-							}
-						}
-					}
-				}
-				tr:hover {
-					td.line_links {
-						.delete_link {
-							a {
-								background:url('/assets/delete_icon.png') no-repeat;
-							}
-						}
 					}
 				}
 			}

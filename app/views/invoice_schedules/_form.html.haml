@@ -4,11 +4,11 @@
 			%h2
 				= pluralize(@invoice_schedule.errors.count, "error")
 				prohibited this invoice_schedule from being saved:
-				
+
 			%ul
 				- @invoice_schedule.errors.full_messages.each do |msg|
 					%li= msg
-					
+
 	.field
 		= "For estimate#: #{@estimate.number}"
 
@@ -28,19 +28,19 @@
 				= f.fields_for :invoice_milestones do |builder|
 					= render 'invoice_milestone_fields', :f => builder
 				%tr
-					%td{:colspan => 3}= link_to_add_fields "Add lines", f, :invoice_milestones, :class => ""
+					%td{:colspan => 3, :class => "desc"}= link_to_add_fields "Add lines", f, :invoice_milestones, :class => ""
 				%tr
-					%td 
+					%td.desc
 						%strong Total
 					%td.total_percent
 						%strong= "#{@invoice_schedule.total_percent} %"
-					%td 
+					%td
 
 		%div{:class => "warning four columns"} Total must equal 100%
 
 	-if (params[:action]) == 'new'
 		= f.hidden_field :estimate_id, :value => @estimate.id
-		
+
 	.actions
 		= f.submit 'Save »', :class => 'nice medium radius blue button'
 		-if params[:action] == 'edit'

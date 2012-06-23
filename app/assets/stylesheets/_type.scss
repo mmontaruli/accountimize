@@ -1,0 +1,9 @@
+@mixin main_font () {
+	font:16px/1.4 arial, "Sans-Serif";
+}
+
+$small:						85%;
+
+$notification-font-size: 	$small;
+$client-address-font-size:	$small;
+$footer-font-size:			$small;

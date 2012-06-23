@@ -1,10 +1,10 @@
-= form_for([@account,@estimate], :html => {:class => 'nice'}) do |f|	
+= form_for([@account,@estimate], :html => {:class => 'nice'}) do |f|
 	- if @estimate.errors.any?
 		#error_explanation
 			%h2
 				= pluralize(@estimate.errors.count, "error")
 				prohibited this estimate from being saved:
-				
+
 			%ul
 				- @estimate.errors.full_messages.each do |msg|
 					%li= msg
@@ -14,7 +14,7 @@
 			= @client.name
 			%br
 			= render 'clients/client_address'
-		
+
 		%div{:class => 'three columns offset-by-three'}
 			%p
 				%strong Estimate Number:
@@ -23,14 +23,14 @@
 			%p
 				%strong Date:
 				= @estimate.date
-		
+
 
 	%table{:class => 'line_items estimate_show'}
 		%thead
 			%tr
 				%th
 				%th.col Item #
-				%th{:class => "col lock"} 
+				%th{:class => "col lock"}
 					%span Lock
 				%th.col Description
 				%th.col Unit
@@ -41,17 +41,18 @@
 		%tbody
 			= f.fields_for :line_items do |builder|
 				= render 'line_item_fields', :f => builder
-				
+
 			%tr.total_line
-				%td{:colspan => 7} Total
-				%td.total_price= number_to_currency(@estimate.total_price)
+				%td{:colspan => 7, :class => "desc"} Total
+				%td{:class => "amount total_price"}= number_to_currency(@estimate.total_price)
 				%td
-			
+
 	.actions
 		%div{:class => "accept-estimate row"}
 			-if can_approve_estimate(f.object) && !signed_in_client.is_account_master
-				= f.check_box :is_accepted
-				= f.label :is_accepted, "Approve Estimate"
+				.checkbox-btn
+					= f.check_box :is_accepted
+					= f.label :is_accepted, "Approve Estimate"
 			-elsif !can_approve_estimate(f.object)
 				%div{:class => "notification eight columns"} There are outstanding negotiations that have not been approved yet
 			-elsif signed_in_client.is_account_master
