@@ -80,6 +80,7 @@ body.estimates #content {
 								padding:5px;
 								display:block;
 								color:$darkest-gray;
+								font-size:$action-menu-text;
 							}
 							a:hover {
 								background-color:$action-menu-hover;
@@ -93,6 +94,7 @@ body.estimates #content {
 								margin:5px 0;
 								padding:5px;
 								color:$darkest-gray;
+								font-size:$action-menu-text;
 							}
 							input[type=checkbox] + label:hover {
 								background-color:$action-menu-hover;
@@ -106,6 +108,7 @@ body.estimates #content {
 								margin:5px 0;
 								padding:5px;
 								color:$darker-gray;
+								font-size:$action-menu-text;
 							}
 						}
 					}
