@@ -3,13 +3,15 @@ class InvoicesController < ApplicationController
   # GET /invoices.json
   before_filter :get_account
   before_filter :inner_navigation
-  before_filter :restrict_access
+  before_filter :restrict_access, :except => [:index, :show]
+  before_filter :restrict_invoice_access, :except => [:index]
+  before_filter :restrict_account_access
   def index
     #@invoices = Invoice.all
     if signed_in_client.is_account_master
       @invoices = @account.invoices.find(:all, :include => :client)
     else
-      @estimates = signed_in_client.invoices.find(:all, :include => :client)
+      @invoices = signed_in_client.invoices.find(:all, :include => :client)
     end
 
 
@@ -98,7 +100,7 @@ class InvoicesController < ApplicationController
       format.json { head :ok }
     end
   end
-  
+
   def generateInvoiceFromMilestone
     @invoice = Invoice.new(number: @account.invoices.default_number)
     @invoice.date = Date.today
@@ -119,10 +121,22 @@ class InvoicesController < ApplicationController
       new_line_item.estimate_id = nil
       new_line_item.save
     end
-    
+
     respond_to do |format|
       format.html { redirect_to account_invoice_path(@account,@invoice), :flash => {:notice => 'Invoice was successfully generated.', :status => 'success'} }
       format.json { head :ok }
     end
   end
+
+  private
+
+      def restrict_invoice_access
+      unless signed_in_client.is_account_master
+        @invoice = Invoice.find(params[:id])
+        unless signed_in_client.id == @invoice.client_id
+          redirect_to account_invoices_path
+        end
+      end
+    end
+
 end
