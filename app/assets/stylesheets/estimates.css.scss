@@ -27,6 +27,9 @@ body.estimates #content {
 	}
 	table.line_items {
 		tr {
+			td.line_ck {
+				input{font-size:45px;}
+			}
 			td.lock {
 				padding:0;
 				input[type=checkbox] {
@@ -136,6 +139,8 @@ body.estimates #content {
 			color:$darker-gray;
 			input {
 				color:white;
+				//color:$darker-gray;
+				//cross-browser, this is weird...
 			}
 		}
 		tr.is_enabled_false {
@@ -227,5 +232,8 @@ body.estimates #content {
 			margin-bottom:10px;
 			margin-left:20px;
 		}
+	}
+	table.doc {
+		tr td.line_name {width:405px;}
 	}
 }

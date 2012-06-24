@@ -171,6 +171,7 @@ body {
 			margin:5px 0 0 0;
 			padding:0;
 			list-style:none;
+			float:right;
 			li {
 				float:right;
 				margin-right:30px;
@@ -186,10 +187,11 @@ body {
 		#logo {
 			float: left;
 			margin-left: 30px;
-			margin-top:0;
+			//margin-top:0;
+			margin-top:15px;
 			margin-bottom:21px;
 			a {
-				@include logo (100);
+				@include logo (50);
 			}
 		}
 		.trial {
@@ -231,50 +233,61 @@ body {
 	}
 }
 
-body.site #content {
-	background: none repeat scroll 0 0 $body-content-bg;
-	.column {
-		width: 67%;
-		float: right;
-		h3 {
-			font-size:256%;
-			font-weight: normal;
-			width: 85%;
-			margin-top:41px;
-			margin-bottom:41px;
-			em {
-				color: $green;
-				font-style: normal;
-				background: white;
-				border: 1px black solid;
-			}
+body.site {
+	#header {
+		ul.login_links {
+			float:none;
 		}
-		p {
-			font-weight:bold;
-			font-size:100%;
-		}
-		ul {
-			font-weight:bold;
-			font-size:100%;
-			list-style:disc outside none;
-			padding-left:40px;
-			li {
-				margin-bottom:0;
-			}
+		#logo {
+			margin-top:0px;
+			@include logo (100);
 		}
 	}
-	.sidebar {
-		width: 33%;
-		float: left;
-		img.calculator {
-			margin-left: 20px;
-			margin-top: 10px;
+	#content {
+		background: none repeat scroll 0 0 $body-content-bg;
+		.column {
+			width: 67%;
+			float: right;
+			h3 {
+				font-size:256%;
+				font-weight: normal;
+				width: 85%;
+				margin-top:41px;
+				margin-bottom:41px;
+				em {
+					color: $green;
+					font-style: normal;
+					background: white;
+					border: 1px black solid;
+				}
+			}
+			p {
+				font-weight:bold;
+				font-size:100%;
+			}
+			ul {
+				font-weight:bold;
+				font-size:100%;
+				list-style:disc outside none;
+				padding-left:40px;
+				li {
+					margin-bottom:0;
+				}
+			}
 		}
-		a.demo {
-			width: 287px;
-			display: block;
-			height: 255px;
-			margin: 10px 0 15px 20px;
+		.sidebar {
+			width: 33%;
+			float: left;
+			img.calculator {
+				margin-left: 20px;
+				margin-top: 10px;
+			}
+			a.demo {
+				width: 287px;
+				display: block;
+				height: 255px;
+				margin: 10px 0 15px 20px;
+			}
 		}
 	}
 }
