@@ -10,18 +10,18 @@
 				%th.col Total
 				%th.col
 				%th.col
-			
+
 		%tbody
 			- @invoices.each do |invoice|
 				%tr
 					%td.invoice_number= link_to invoice.number, account_invoice_path(@account,invoice)
 					- if signed_in_client.is_account_master
-						%td.client_name= link_to invoice.client.name, account_client_path(@account,invoice.client)
+						%td{:class => "desc client_name"}= link_to invoice.client.name, account_client_path(@account,invoice.client)
 					-else
-						%td.client_name= invoice.client.name
+						%td{:class => "desc client_name"}= invoice.client.name
 					%td.invoice_date= invoice.date
-					%td.invoice_total= number_to_currency(invoice.total_price)
+					%td{:class => "amount invoice_total"}= number_to_currency(invoice.total_price)
 					%td= link_to 'Edit', edit_account_invoice_path(@account,invoice)
 					%td= link_to 'Delete', account_invoice_path(@account,invoice), confirm: 'Are you sure?', method: :delete
-			
+
 %p.row= link_to 'New Invoice »', new_account_invoice_path(@account), :class => 'nice medium radius blue button'

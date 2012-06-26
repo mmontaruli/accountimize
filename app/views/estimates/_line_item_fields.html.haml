@@ -1,32 +1,32 @@
 %tr{:class => "line_item edit_#{!disable_form(f.object)} accepted_#{f.object.is_accepted}"}
-	%td.line_ck
+	%td{:class => "line_ck blank"}
 		-unless f.object.is_accepted
 			= f.check_box :is_enabled
 	%td.line_num= f.text_field :number, :disabled => disable_form(f.object)
 	%td.lock
-		-if !disable_form(f.object)	
+		-if !disable_form(f.object)
 			= f.check_box :is_locked
 			= f.label :is_locked, "Locked"
 		-elsif f.object.is_locked
 			.locked &nbsp;
-	%td.line_name= f.text_field :name, :disabled => disable_form(f.object)
+	%td{:class => "line_name desc"}= f.text_field :name, :disabled => disable_form(f.object)
 	%td.line_price_type
 		-unless f.object.is_accepted || f.object.is_locked && !signed_in_client.is_account_master
 			= f.select(:price_type, [['Fixed', 'fixed'], ['Hourly', 'hourly']])
 			.accept
 		-else
 			= f.object.price_type
-	
+
 	%td.line_qty
 		-if disable_form(f.object)
 			.line_qty_val= f.object.quantity
 			= f.hidden_field :quantity, :class => 'line_qty'
 		-else
 			= f.text_field :quantity, :class => 'line_qty line_value'
-		
+
 		= f.hidden_field :fixed_qty, :class => 'fixed_qty'
 		= f.hidden_field :hours_qty, :class => 'hours_qty'
-	%td.line_u_price
+	%td{:class => "line_u_price amount"}
 		-if disable_form(f.object)
 			.line_unit_price_val= number_with_precision(f.object.unit_price, :precision => 2)
 			= f.hidden_field :unit_price, :class => 'line_unit_price', :value => number_with_precision(f.object.unit_price, :precision => 2)
@@ -35,10 +35,10 @@
 
 		= f.hidden_field :fixed_rate, :class => 'fixed_rate'
 		= f.hidden_field :hours_rate, :class => 'hours_rate'
-	%td.line_t_price= number_with_precision(f.object.total_price, :precision => 2, :delimiter => ',')
-	%td.line_links
+	%td{:class => "line_t_price amount"}= number_with_precision(f.object.total_price, :precision => 2, :delimiter => ',')
+	%td{:class => "line_links desc blank"}
 		-unless f.object.is_accepted
-			.action-button 
+			.action-button
 				%a.action-drop-down{:href => "#"} Actions
 				%ul.line-actions
 					%li.add_negotiation_line
@@ -60,7 +60,7 @@
 
 		-if !disable_form(f.object)
 			.delete_link= link_to_remove_fields "Delete", f
-		
+
 - unless f.object.is_accepted
 	= f.fields_for :negotiate_lines do |builder|
 		= render 'negotiate_line_fields', :f => builder

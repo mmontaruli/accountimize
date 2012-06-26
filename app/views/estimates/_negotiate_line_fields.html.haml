@@ -3,7 +3,7 @@
 		%td.blank
 		%td.blank
 		%td.blank
-		%td.description
+		%td{:class => "description desc"}
 			= f.hidden_field :user_negotiating, :value => current_user.email
 			= f.text_area :description
 		%td.line_price_type= f.select(:price_type, [['Fixed', 'fixed'], ['Hourly', 'hourly']])
@@ -11,20 +11,20 @@
 			= f.text_field :line_qty, :class => 'line_qty line_value'
 			= f.hidden_field :fixed_qty, :class => 'fixed_qty'
 			= f.hidden_field :hours_qty, :class => 'hours_qty'
-		%td.line_u_price
+		%td{:class => "line_u_price amount"}
 			= f.text_field :line_price, :value => number_with_precision(f.object.line_price, :precision => 2), :class => 'line_unit_price line_value'
 			= f.hidden_field :fixed_rate, :class => 'fixed_rate'
 			= f.hidden_field :hours_rate, :class => 'hours_rate'
-		%td.line_t_price= number_with_precision(f.object.total_price, :precision => 2, :delimiter => ',')
+		%td{:class => "line_t_price amount"}= number_with_precision(f.object.total_price, :precision => 2, :delimiter => ',')
 		%td.blank
 		%td.blank
-		
+
 - else
 	%tr{:class => "negotiate_line submitted #{who_is_negotiating(f.object.user_negotiating)}"}
 		%td.blank
 		%td.blank
 		%td.blank
-		%td.description
+		%td{:class => "description desc"}
 			.name= "#{f.object.user_negotiating} says:"
 			.text= f.object.description
 		%td.line_price_type
@@ -35,17 +35,16 @@
 			= f.hidden_field :line_qty, :class => 'line_qty'
 			= f.hidden_field :fixed_qty, :class => 'fixed_qty'
 			= f.hidden_field :hours_qty, :class => 'hours_qty'
-		%td.line_u_price
+		%td{:class => "line_u_price amount"}
 			.line_unit_price_val= number_with_precision(f.object.line_price, :precision => 2)
 			= f.hidden_field :line_price, :value => number_with_precision(f.object.line_price, :precision => 2), :class => 'line_unit_price'
 			= f.hidden_field :fixed_rate, :class => 'fixed_rate'
 			= f.hidden_field :hours_rate, :class => 'hours_rate'
-		%td.line_t_price= number_with_precision(f.object.total_price, :precision => 2, :delimiter => ',')
+		%td{:class => "line_t_price amount"}= number_with_precision(f.object.total_price, :precision => 2, :delimiter => ',')
 		- if can_accept(f.object)
-			%td{:class => "blank accept"}
+			%td{:class => "accept desc blank checkbox-btn"}
 				= f.check_box :is_accepted
 				= f.label :is_accepted, "Accept"
 		-else
 			%td.blank
 		%td.blank
-	

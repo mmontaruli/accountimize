@@ -6,15 +6,13 @@
 			%tr
 				%th.col Name
 				%th.col Subdomain
-				-#%th.col
 				%th.col
-		
+
 		%tbody
 			- @accounts.each do |account|
 				%tr
-					%td= link_to account.name, site_url(:subdomain => account.subdomain)
-					%td= account.subdomain
-					-#%td= link_to 'Edit', edit_account_path(account)
+					%td.desc= link_to account.name, site_url(:subdomain => account.subdomain)
+					%td.desc= account.subdomain
 					%td= link_to 'Delete', account, confirm: 'Are you sure?', method: :delete
-			
+
 %p.row= link_to 'New account »', new_account_path, :class => 'nice medium radius blue button'
