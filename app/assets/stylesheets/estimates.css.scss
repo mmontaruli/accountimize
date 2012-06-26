@@ -10,21 +10,12 @@ body.estimates #content {
 			tr{
 				th.col.lock {
 					vertical-align:bottom;
-					span {
-						display:block;
-						height:0;
-						padding-top:16px;
-						width:11px;
-						overflow:hidden;
-						background:url("/assets/padlock-icon-header.png") no-repeat;
-					}
+					span {@include bgimage (url("/assets/padlock-icon-header.png") no-repeat, 16px, 11px);}
 				}
 			}
 		}
 	}
-	h4.estimate-accepted {
-		color:$accept-text-1;
-	}
+	h4.estimate-accepted {color:$accept-text-1;}
 	table.line_items {
 		tr {
 			td.line_ck {
@@ -36,20 +27,14 @@ body.estimates #content {
 					display:none;
 				}
 				input[type=checkbox] + label, .locked {
-					width:12px;
-					overflow:hidden;
-					padding-top:17px;
-					height:0;
-					background:url("/assets/padlock-sprite.png") no-repeat 0% 100%;
+					@include bgimage (url("/assets/padlock-sprite.png") no-repeat 0% 100%, 17px, 12px);
 					margin:0 auto;
 				}
 				input[type=checkbox]:checked + label, .locked {
 					background:url("/assets/padlock-sprite.png") no-repeat 0% 0%;
 				}
 			}
-			td.line_name {
-				width:276px;
-			}
+			td.line_name {width:276px;}
 			td.line_links {
 				.action-button {
 					display:inline-block;
@@ -62,8 +47,7 @@ body.estimates #content {
 						height:24px;
 						display:inline-block;
 						width:90px;
-						padding-top:6px;
-						padding-left:15px;
+						padding:6px 0 0 15px;
 						font-size:13px;
 						background-image:url($action-nav-arrow) no-repeat 90% 50%;
 						@include gradient($action-nav-arrow, no-repeat, 90%, 50%, $action-btn-bg, $action-btn-bg-2, 0%, 100%);
@@ -126,9 +110,7 @@ body.estimates #content {
 						@include gradient($action-nav-arrow, no-repeat, 90%, 50%, $action-btn-bg-clk, $action-btn-bg-clk-2, 0%, 100%);
 					}
 				}
-				.add_negotiation_line {
-					display:inline;
-				}
+				.add_negotiation_line {display:inline;}
 				.accepted {
 					font-weight:bold;
 					color:$accept-text-1;
@@ -138,9 +120,8 @@ body.estimates #content {
 		tr.line_item.edit_false.removed td {
 			color:$darker-gray;
 			input {
-				color:white;
-				//color:$darker-gray;
-				//cross-browser, this is weird...
+				color:$darker-gray;
+				-webkit-text-fill-color:$darker-gray;
 			}
 		}
 		tr.is_enabled_false {
@@ -149,11 +130,7 @@ body.estimates #content {
 				color: $disable-line-tx;
 			}
 		}
-		tr.line_item.accepted_true {
-			td {
-				background-color:$accept-bg-2;
-			}
-		}
+		tr.line_item.accepted_true td {background-color:$accept-bg-2;}
 		tr.negotiate_line {
 			td {
 				background-color:$negotiate-us-bg;
@@ -198,27 +175,14 @@ body.estimates #content {
 				}
 			}
 		}
-		tr.negotiate_line.submitted {
-			td {
-				border:1px solid white;
-			}
-		}
-		tr.negotiate_line.submitted.them {
-			td {
-				border:1px solid white;
-			}
-		}
+		tr.negotiate_line.submitted td, tr.negotiate_line.submitted.them td {border:1px solid white;}
 		tr.negotiate_line.them {
 			td {
 				background-color:$negotiate-them-bg;
 				border:1px solid $negotiate-them-brdr;
 			}
-			td.description {
-				color:$negotiate-them-tx;
-			}
-			td.line_t_price {
-				background-color:$negotiate-them-ttl;
-			}
+			td.description {color:$negotiate-them-tx;}
+			td.line_t_price {background-color:$negotiate-them-ttl;}
 		}
 		tr.negotiate_line.them.accepted {
 			td {
@@ -228,10 +192,7 @@ body.estimates #content {
 		}
 	}
 	.actions {
-		.accept-estimate {
-			margin-bottom:10px;
-			margin-left:20px;
-		}
+		.accept-estimate {margin: 0 0 10px 20px;}
 	}
 	table.doc {
 		tr td.line_name {width:405px;}

@@ -5,7 +5,8 @@
 @import "layout";
 
 p {margin: 1em 0;}
-h3 {font-weight:normal;}
+p, ul {@include main_font;}
+h3 {font-weight:$h3-font-weight; font-size:$h3-font-size;}
 
 a, a:active, a:visited {
 	color: $darker-green;
@@ -41,21 +42,8 @@ table {
 					}
 				}
 			}
-			td.desc {
-				text-align:left;
-				input {
-					text-align:left;
-				}
-				textarea {
-					text-align:left;
-				}
-			}
-			td.amount {
-				text-align:right;
-				input {
-					text-align:right;
-				}
-			}
+			td.desc, td.desc input, td.desc textarea {text-align:left;}
+			td.amount, td.amount input {text-align:right;}
 			td.blank {
 				background:$blank-row-bg !important;
 				border:none !important;
@@ -65,13 +53,9 @@ table {
 	}
 }
 
-.client-address {
-	font-size:$client-address-font-size;
-}
+.client-address {font-size:$client-address-font-size;}
 
-.checkbox-btn {
-	@include checkbox-btn ();
-}
+.checkbox-btn {@include checkbox-btn ();}
 
 table.list {
 	margin-bottom:28px;
@@ -108,46 +92,22 @@ table.line_items {
 				outline:none;
 			}
 		}
-		td.hover {
-			background:$line-row-hover;
-			input {
-				background:$line-row-hover;
-			}
-		}
-		td.focus {
-			background:$line-row-focus;
-			input {
-				background:$line-row-focus;
-			}
-		}
-		td.line_num, td.line_qty {
-			width:65px;
-		}
-		td.price_type {
-			text-transform: capitalize;
-		}
-		td.line_u_price, td.line_t_price {
-			width:80px;
-		}
-		td.line_num, td.price_type, td.line_qty, td.line_links {
-			padding:0;
-		}
+		td.hover, td.hover input {background:$line-row-hover;}
+		td.focus, td.focus input {background:$line-row-focus;}
+		td.line_num, td.line_qty {width:65px;}
+		td.price_type {text-transform: capitalize;}
+		td.line_u_price, td.line_t_price {width:80px;}
+		td.line_num, td.price_type, td.line_qty, td.line_links {padding:0;}
 	}
 	tr.edit_true {
-		td {
-			border:1px solid $line-row-border;
-		}
-		td.line_t_price {
-			background:$line-total-bg;
-		}
+		td {border:1px solid $line-row-border;}
+		td.line_t_price {background:$line-total-bg;}
 	}
 }
 
 table.doc {border-spacing:2px; margin-top:25px;}
 
-.hidden {
-	display:none;
-}
+.hidden {display:none;}
 
 body {
 	@include main_font;
@@ -158,7 +118,6 @@ body {
 	>*:after {
 		@include self-clear;
 	}
-	p, ul {@include main_font;}
 	.notification {
 		font-size:$notification-font-size;
 		padding:.5em;
@@ -176,9 +135,6 @@ body {
 				float:right;
 				margin-right:30px;
 				font-size:$login-links-font-size;
-				a {
-					font-size:12px;
-				}
 			}
 		}
 		ul.login_links:after {
@@ -187,7 +143,6 @@ body {
 		#logo {
 			float: left;
 			margin-left: 30px;
-			//margin-top:0;
 			margin-top:15px;
 			margin-bottom:21px;
 			a {
@@ -216,9 +171,9 @@ body {
 		p {font-size:$small;}
 	}
 	#footer {
-		font-size:$footer-font-size;
 		p {
 			float:right;
+			font-size:$footer-font-size;
 			span {
 				margin-top: 6px;
 				display: block;
@@ -235,9 +190,7 @@ body {
 
 body.site {
 	#header {
-		ul.login_links {
-			float:none;
-		}
+		ul.login_links {float:none;}
 		#logo {
 			margin-top:0px;
 			@include logo (100);
@@ -249,8 +202,6 @@ body.site {
 			width: 67%;
 			float: right;
 			h3 {
-				font-size:256%;
-				font-weight: normal;
 				width: 85%;
 				margin-top:41px;
 				margin-bottom:41px;
@@ -263,11 +214,11 @@ body.site {
 			}
 			p {
 				font-weight:bold;
-				font-size:100%;
+				font-size:$normal;
 			}
 			ul {
 				font-weight:bold;
-				font-size:100%;
+				font-size:$normal;
 				list-style:disc outside none;
 				padding-left:40px;
 				li {

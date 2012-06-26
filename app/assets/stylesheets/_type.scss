@@ -2,11 +2,21 @@
 	font:16px/1.4 arial, "Sans-Serif";
 }
 
+$smallest:					75%;
 $smaller:					80%;
 $small:						85%;
+$normal:					100%;
+$larger:					256%;
 
-$login-links-font-size:		$small;
+$login-links-font-size:		$smallest;
+
 $notification-font-size: 	$small;
+
 $client-address-font-size:	$small;
+
 $footer-font-size:			$small;
+
 $action-menu-text:			$smaller;
+
+$h3-font-size:				$larger;
+$h3-font-weight:			normal;
