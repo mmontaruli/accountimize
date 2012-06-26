@@ -242,9 +242,6 @@ acceptNegotiateLine = (accept) ->
 		# slide up other negotiate lines on accept
 		negotiate.other_lines.slideUp();
 
-		# set line_item to accepted status
-		line.is_accepted.val(true)
-
 		# enables accepted line item if it was previously unchecked
 		line.is_enabled.attr('checked','checked')
 		line_item.removeClass('removed')
@@ -267,9 +264,6 @@ acceptNegotiateLine = (accept) ->
 
 		# slide down other negotiate lines on accept uncheck
 		negotiate.other_lines.slideDown()
-
-		# set line_item to not accepted status
-		line.is_accepted.val(false)
 
 acceptLineItem = (accept) ->
 	line_item = accept.parents "tr.line_item"
