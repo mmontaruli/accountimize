@@ -15,7 +15,7 @@
 		= @client.name
 		%br
 		= render 'clients/client_address'
-		
+
 	%div{:class => 'three columns offset-by-three'}
 		%p
 			%strong Estimate Number:
@@ -24,9 +24,9 @@
 		%p
 			%strong Date:
 			= @estimate.date
-		
 
-%table{:class => 'line_items estimate_show'}
+
+%table{:class => 'line_items estimate_show doc'}
 	%thead
 		%tr
 			%th.col Item #
@@ -39,16 +39,18 @@
 		- @estimate.line_items.each do |line_item|
 			%tr{:class => "is_enabled_#{line_item.is_enabled}"}
 				%td.line_num= line_item.number
-				%td.line_name= line_item.name
+				%td{:class => "desc line_name"}= line_item.name
 				%td.price_type= line_item.price_type
 				%td.line_qty= line_item.quantity
-				%td.line_u_price= number_with_precision(line_item.unit_price, :precision => 2, :delimiter => ',')
-				%td.line_t_price= number_with_precision(line_item.total_price, :precision => 2, :delimiter => ',')
-				
+				%td{:class => "amount line_u_price"}= number_with_precision(line_item.unit_price, :precision => 2, :delimiter => ',')
+				%td{:class => "amount line_t_price"}= number_with_precision(line_item.total_price, :precision => 2, :delimiter => ',')
+
 		%tr.total_line
-			%td{:colspan => 5} Total
-			%td.total_price= number_to_currency(@estimate.total_price)
-			%td
+			%td{:colspan => 5, :class=>"desc blank"}
+				%strong Total
+			%td{:class => "amount blank total_price"}
+				%strong= number_to_currency(@estimate.total_price)
+			%td.blank
 
 -if signed_in_client.is_account_master
 	-if !@estimate.invoice_schedule

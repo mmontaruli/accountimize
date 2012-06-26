@@ -1,11 +1,11 @@
-%tr{:class => "line_item edit"}
+%tr{:class => "line_item edit_true"}
 	%td.line_num
 		= f.text_field :number
 		= f.hidden_field :is_enabled, :value => true
-	%td.line_name= f.text_field :name
+	%td{:class => "line_name desc"}= f.text_field :name
 	%td.line_price_type= f.select(:price_type, [['Fixed', 'fixed'], ['Hourly', 'hourly']])
 	%td.line_qty= f.text_field :quantity
-	%td.line_u_price= f.text_field :unit_price, :value => number_with_precision(f.object.unit_price, :precision => 2)
-	%td.line_t_price= number_with_precision(f.object.total_price, :precision => 2, :delimiter => ',')
-	%td.line_links
+	%td{:class => "line_u_price amount"}= f.text_field :unit_price, :value => number_with_precision(f.object.unit_price, :precision => 2)
+	%td{:class => "line_t_price amount"}= number_with_precision(f.object.total_price, :precision => 2, :delimiter => ',')
+	%td{:class => "line_links desc blank"}
 		.delete_link= link_to_remove_fields "Delete", f

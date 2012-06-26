@@ -4,11 +4,11 @@
 			%h2
 				= pluralize(@invoice.errors.count, "error")
 				prohibited this invoice from being saved:
-				
+
 			%ul
 				- @invoice.errors.full_messages.each do |msg|
 					%li= msg
-	
+
 	.row
 		.field{:class => 'three columns'}
 			= f.label :client_id
@@ -38,14 +38,16 @@
 				= f.fields_for :line_items do |builder|
 					= render 'line_item_fields', :f => builder
 				%tr.add_lines
-					%td{:colspan => 7}= link_to_add_fields "Add lines", f, :line_items, :class => 'small radius blue button'
+					%td{:colspan => 7, :class => "desc blank"}= link_to_add_fields "Add lines", f, :line_items, :class => 'small radius blue button'
 				%tr.total_line
-					%td{:colspan => 5} Total
-					%td.total_price= number_to_currency(@invoice.total_price)
-					%td
+					%td{:colspan => 5, :class => "desc blank"}
+						%strong Total
+					%td{:class => "amount blank total_price"}
+						%strong= number_to_currency(@invoice.total_price)
+					%td.blank
 
-		
-		
+
+
 	.actions
 		= f.submit 'Save »' , :class => 'nice medium radius blue button'
 		-if params[:action] == 'edit'

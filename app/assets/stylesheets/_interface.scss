@@ -1,0 +1,49 @@
+
+$action-nav-arrow: '/assets/actions-arrow.png';
+
+@mixin gradient($bgimg, $rpt, $img-h, $img-v, $color1, $color2, $pos1, $pos2) {
+	background: url($bgimg) $rpt $img-h $img-v, -moz-linear-gradient(top,  $color1 $pos1, $color2 $pos2); /* FF3.6+ */
+	background: url($bgimg) $rpt $img-h $img-v, -webkit-gradient(linear, left top, left bottom, color-stop($pos1,$color1), color-stop($pos2,$color2)); /* Chrome,Safari4+ */
+	background: url($bgimg) $rpt $img-h $img-v, -webkit-linear-gradient(top,  $color1 $pos1,$color2 $pos2); /* Chrome10+,Safari5.1+ */
+	background: url($bgimg) $rpt $img-h $img-v, -o-linear-gradient(top,  $color1 $pos1,$color2 $pos2); /* Opera 11.10+ */
+	background: url($bgimg) $rpt $img-h $img-v, -ms-linear-gradient(top,  $color1 $pos1,$color2 $pos2); /* IE10+ */
+	background: url($bgimg) $rpt $img-h $img-v, linear-gradient(top,  $color1 $pos1,$color2 $pos2); /* W3C */
+}
+
+.nice.blue.button, .nice.black.button, .nice.red.button {color:white;}
+.button {display:inline;}
+
+select {display:inline;}
+
+@mixin checkbox-btn () {
+	display:inline-block;
+	width:auto;
+	height:auto;
+	input[type=checkbox] {
+		display:none;
+	}
+	@include checkbox-btn-fnc(inline-block, .5em 1em, auto, auto, black, $light-gray, black, $light-gray, white, $accept-bg-1);
+
+}
+
+@mixin checkbox-btn-fnc($dspl, $padding, $width, $height, $color, $bg, $color-hv, $bg-hv, $color-ck, $bg-ck) {
+	input[type=checkbox] + label {
+		display:$dspl;
+		padding: $padding;
+		color: $color;
+		background: $bg;
+		width: $width;
+		height: $height;
+		margin:0;
+		border-radius:5px;
+		border:1px solid $darker-gray;
+		&:hover {
+			color: $color-hv;
+			background: $bg-hv;
+		}
+	}
+	input[type=checkbox]:checked + label {
+		color: $color-ck;
+		background: $bg-ck;
+	}
+}

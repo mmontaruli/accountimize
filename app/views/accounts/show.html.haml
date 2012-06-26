@@ -1,11 +1,11 @@
-%p 
+%p
 	%strong Name:
 	= @account.name
-	
+
 %p
 	%strong Subdomain:
 	= @account.subdomain
-	
+
 - if signed_in_client.is_account_master
 	%p
 		= link_to 'Edit', edit_account_path(@account)
@@ -14,8 +14,3 @@
 		|
 		= link_to 'Back', accounts_url(:subdomain => false)
 
--#%p
--#	= link_to 'Clients', account_clients_path(@account)
--#	|
--#	= link_to 'Estimates', account_estimates_path(@account)
-	

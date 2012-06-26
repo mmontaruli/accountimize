@@ -1,0 +1,21 @@
+@mixin self-clear {
+	content:".";
+	display:block;
+	height:0;
+	clear:both;
+	visibility:hidden;
+}
+
+@mixin bgimage ($bg, $height, $width) {
+	background: $bg;
+	height:0;
+	padding-top:$height;
+	overflow:hidden;
+	display:block;
+	width:$width;
+}
+
+@mixin logo ($percent) {
+	@include bgimage (url('/assets/logo.gif') no-repeat, $percent/100 * 121px, $percent/100 * 672px);
+	background-size: $percent/100 * 672px $percent/100 * 121px;
+}

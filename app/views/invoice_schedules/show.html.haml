@@ -9,8 +9,8 @@
 	%table{:class => "six columns"}
 		%thead
 			%tr
-				%th 
-				%th 
+				%th
+				%th
 				%th
 
 		%tbody
@@ -24,10 +24,11 @@
 						-else
 							Invoice already generated
 			%tr
-				%td 
+				%td
 					%strong Total
 				%td.total_percent
 					%strong= "#{@invoice_schedule.total_percent} %"
+				%td
 
 
 = link_to 'Edit Schedule »', edit_account_estimate_invoice_schedule_path(@account,@estimate, @invoice_schedule), :class => 'nice medium radius blue button'

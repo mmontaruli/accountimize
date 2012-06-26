@@ -9,14 +9,14 @@
 				%th.col Country
 				%th.col
 				%th.col
-		
+
 		%tbody
 			- @clients.each do |client|
 				%tr
-					%td= link_to client.name, account_client_path(@account, client)
+					%td.desc= link_to client.name, account_client_path(@account, client)
 					%td= client.address_state
 					%td= client.country
 					%td= link_to 'Edit', edit_account_client_path(@account, client)
 					%td= link_to 'Delete', account_client_path(@account, client), confirm: 'Are you sure?', method: :delete
-			
+
 %p.row= link_to 'New client »', new_account_client_path, :class => 'nice medium radius blue button'

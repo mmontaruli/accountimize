@@ -11,17 +11,17 @@
 				- if signed_in_client.is_account_master
 					%th.col
 					%th.col
-		
+
 		%tbody
 			- @estimates.each do |estimate|
 				%tr
 					%td.estimate_number= link_to estimate.number, account_estimate_path(@account,estimate)
 					- if signed_in_client.is_account_master
-						%td.client_name= link_to estimate.client.name, account_client_path(@account,estimate.client)
+						%td{:class => "desc client_name"}= link_to estimate.client.name, account_client_path(@account,estimate.client)
 					- else
 						%td.client_name= estimate.client.name
 					%td.estimate_date= estimate.date
-					%td.estimate_total= number_to_currency(estimate.total_price)
+					%td{:class => "amount estimate_total"}= number_to_currency(estimate.total_price)
 					- if signed_in_client.is_account_master
 						%td.estimate_edit
 							= link_to 'Edit', edit_account_estimate_path(@account,estimate) unless estimate.is_accepted
