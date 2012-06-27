@@ -21,6 +21,7 @@ class InvoiceSchedulesController < ApplicationController
   def show
     @invoice_schedule = InvoiceSchedule.find(params[:id])
     @estimate = Estimate.find_by_id(@invoice_schedule.estimate_id)
+    @estimate_number = @estimate.number
 
     respond_to do |format|
       format.html # show.html.erb
@@ -47,7 +48,8 @@ class InvoiceSchedulesController < ApplicationController
   # GET /invoice_schedules/1/edit
   def edit
     @invoice_schedule = InvoiceSchedule.find(params[:id])
-    @estimate = Estimate.find_by_id(@invoice_schedule.estimate_id)
+    @estimate = nil
+    @estimate_number = Estimate.find_by_id(@invoice_schedule.estimate_id).number
   end
 
   # POST /invoice_schedules
@@ -58,7 +60,7 @@ class InvoiceSchedulesController < ApplicationController
 
     respond_to do |format|
       if @invoice_schedule.save
-        format.html { redirect_to estimate_invoice_schedule_path(@estimate,@invoice_schedule), :flash => {:notice => 'Invoice schedule was successfully created.', :status => 'success'} }
+        format.html { redirect_to invoice_schedule_path(@invoice_schedule), :flash => {:notice => 'Invoice schedule was successfully created.', :status => 'success'} }
         format.json { render json: @invoice_schedule, status: :created, location: @invoice_schedule }
       else
         format.html { render action: "new" }
@@ -71,11 +73,11 @@ class InvoiceSchedulesController < ApplicationController
   # PUT /invoice_schedules/1.json
   def update
     @invoice_schedule = InvoiceSchedule.find(params[:id])
-    @estimate = Estimate.find_by_id(@invoice_schedule.estimate_id)
+    #@estimate = Estimate.find_by_id(@invoice_schedule.estimate_id)
 
     respond_to do |format|
       if @invoice_schedule.update_attributes(params[:invoice_schedule])
-        format.html { redirect_to estimate_invoice_schedule_path(@estimate,@invoice_schedule), :flash => {:notice => 'Invoice schedule was successfully updated.', :status => 'success'} }
+        format.html { redirect_to invoice_schedule_path(@invoice_schedule), :flash => {:notice => 'Invoice schedule was successfully updated.', :status => 'success'} }
         format.json { head :ok }
       else
         format.html { render action: "edit" }
@@ -88,11 +90,12 @@ class InvoiceSchedulesController < ApplicationController
   # DELETE /invoice_schedules/1.json
   def destroy
     @invoice_schedule = InvoiceSchedule.find(params[:id])
+    @estimate = Estimate.find_by_id(@invoice_schedule.estimate_id)
     @invoice_schedule.destroy
-    @estimate = Estimate.find_by_id(params[:estimate_id])
+    #@estimate = Estimate.find_by_id(params[:estimate_id])
 
     respond_to do |format|
-      format.html { redirect_to estimate_invoice_schedules_url(@estimate) }
+      format.html { redirect_to estimate_path(@estimate) }
       format.json { head :ok }
     end
   end

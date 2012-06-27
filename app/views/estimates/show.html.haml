@@ -56,4 +56,4 @@
 	-if !@estimate.invoice_schedule
 		%p= link_to 'Create New Invoice Schedule', new_estimate_invoice_schedule_path(@estimate)
 	-else
-		%p= link_to 'View Invoice Schedule', estimate_invoice_schedule_path(@estimate, @estimate.invoice_schedule)
+		%p= link_to 'View Invoice Schedule', invoice_schedule_path(@estimate.invoice_schedule)
