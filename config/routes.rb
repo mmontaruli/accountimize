@@ -2,7 +2,11 @@ require 'subdomain'
 
 Accountimize::Application.routes.draw do
 
-  #resources :invoices
+  resources :invoices do
+    member do
+      get 'generateInvoiceFromMilestone'
+    end
+  end
 
   #get "log_in" => "sessions#new", :as => "log_in"
   #get "log_out" => "sessions#destroy", :as => "log_out"
@@ -12,28 +16,30 @@ Accountimize::Application.routes.draw do
   resources :sessions
 
   get "sign_up" => "accounts#new", :as => "sign_up"
-  
-  resources :accounts do
-    resources :clients do
-      get :client_address, on: :member
-    end
-    resources :estimates do
-      resources :invoice_schedules
-    end
-    resources :invoices do
-      member do
-        get 'generateInvoiceFromMilestone'
-      end
-    end
-  end
-  
-  #resources :accounts
 
-  #resources :clients do
-  #  get :client_address, on: :member
+  #resources :accounts do
+    #resources :clients do
+    #  get :client_address, on: :member
+    #end
+    #resources :estimates do
+    #  resources :invoice_schedules
+    #end
+    #resources :invoices do
+    #  member do
+    #    get 'generateInvoiceFromMilestone'
+    #  end
+    #end
   #end
-  
-  #resources :estimates
+
+  resources :accounts
+
+  resources :clients do
+    get :client_address, on: :member
+  end
+
+  resources :estimates do
+    resources :invoice_schedules
+  end
 
   #get "site/index"
 

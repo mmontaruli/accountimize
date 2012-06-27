@@ -1,4 +1,4 @@
-= form_for([@account,@estimate,@invoice_schedule], :html => {:class => 'nice'}) do |f|
+= form_for([@estimate,@invoice_schedule], :html => {:class => 'nice'}) do |f|
 	-if @invoice_schedule.errors.any?
 		#error_explanation
 			%h2
@@ -44,6 +44,6 @@
 	.actions
 		= f.submit 'Save »', :class => 'nice medium radius blue button'
 		-if params[:action] == 'edit'
-			= link_to "Cancel »", account_estimate_invoice_schedule_path(@account,@estimate, @invoice_schedule), :class => 'nice medium radius white button'
+			= link_to "Cancel »", estimate_invoice_schedule_path(@estimate, @invoice_schedule), :class => 'nice medium radius white button'
 		-else
-			= link_to "Cancel »", account_estimate_path(@account, @estimate), :class => 'nice medium radius white button'
+			= link_to "Cancel »", estimate_path(@estimate), :class => 'nice medium radius white button'

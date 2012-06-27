@@ -8,12 +8,12 @@
 				%th
 				%th
 				%th
-			
+
 		%tbody
 			- @invoice_schedules.each do |invoice_schedule|
 				%tr
 					%td= invoice_schedule.estimate_id
-					%td= link_to 'Show', account_estimate_invoice_schedule_path(@account,@estimate, invoice_schedule)
-					%td= link_to 'Edit', edit_account_estimate_invoice_schedule_path(@account,@estimate, invoice_schedule)
-					%td= link_to 'Destroy', account_estimate_invoice_schedule_path(@account,@estimate, invoice_schedule), confirm: 'Are you sure?', method: :delete
-			
+					%td= link_to 'Show', estimate_invoice_schedule_path(@estimate, invoice_schedule)
+					%td= link_to 'Edit', edit_estimate_invoice_schedule_path(@estimate, invoice_schedule)
+					%td= link_to 'Destroy', estimate_invoice_schedule_path(@estimate, invoice_schedule), confirm: 'Are you sure?', method: :delete
+

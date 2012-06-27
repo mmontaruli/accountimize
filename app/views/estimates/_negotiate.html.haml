@@ -1,4 +1,4 @@
-= form_for([@account,@estimate], :html => {:class => 'nice'}) do |f|
+= form_for(@estimate, :html => {:class => 'nice'}) do |f|
 	- if @estimate.errors.any?
 		#error_explanation
 			%h2
@@ -62,4 +62,4 @@
 
 
 		= f.submit 'Save »' , :class => 'nice medium radius blue button'
-		= link_to 'Cancel »', account_estimate_path(@account,@estimate), :class => 'nice medium radius white button'
+		= link_to 'Cancel »', estimate_path(@estimate), :class => 'nice medium radius white button'

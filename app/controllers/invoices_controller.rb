@@ -5,7 +5,7 @@ class InvoicesController < ApplicationController
   before_filter :inner_navigation
   before_filter :restrict_access, :except => [:index, :show]
   before_filter :restrict_invoice_access, :except => [:index]
-  before_filter :restrict_account_access
+  #before_filter :restrict_account_access
   def index
     #@invoices = Invoice.all
     if signed_in_client.is_account_master
@@ -64,7 +64,7 @@ class InvoicesController < ApplicationController
 
     respond_to do |format|
       if @invoice.save
-        format.html { redirect_to account_invoice_path(@account,@invoice), :flash => {:notice => 'Invoice was successfully created.', :status => 'success'} }
+        format.html { redirect_to invoice_path(@invoice), :flash => {:notice => 'Invoice was successfully created.', :status => 'success'} }
         format.json { render json: @invoice, status: :created, location: @invoice }
       else
         format.html { render action: "new" }
@@ -80,7 +80,7 @@ class InvoicesController < ApplicationController
 
     respond_to do |format|
       if @invoice.update_attributes(params[:invoice])
-        format.html { redirect_to account_invoice_path(@account,@invoice), :flash => {:notice => 'Invoice was successfully updated.', :status => 'success'} }
+        format.html { redirect_to invoice_path(@invoice), :flash => {:notice => 'Invoice was successfully updated.', :status => 'success'} }
         format.json { head :ok }
       else
         format.html { render action: "edit" }
@@ -96,7 +96,7 @@ class InvoicesController < ApplicationController
     @invoice.destroy
 
     respond_to do |format|
-      format.html { redirect_to account_invoices_url }
+      format.html { redirect_to invoices_url }
       format.json { head :ok }
     end
   end
@@ -123,7 +123,7 @@ class InvoicesController < ApplicationController
     end
 
     respond_to do |format|
-      format.html { redirect_to account_invoice_path(@account,@invoice), :flash => {:notice => 'Invoice was successfully generated.', :status => 'success'} }
+      format.html { redirect_to invoice_path(@invoice), :flash => {:notice => 'Invoice was successfully generated.', :status => 'success'} }
       format.json { head :ok }
     end
   end

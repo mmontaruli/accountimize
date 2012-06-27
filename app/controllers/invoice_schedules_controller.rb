@@ -58,7 +58,7 @@ class InvoiceSchedulesController < ApplicationController
 
     respond_to do |format|
       if @invoice_schedule.save
-        format.html { redirect_to account_estimate_invoice_schedule_path(@account,@estimate,@invoice_schedule), :flash => {:notice => 'Invoice schedule was successfully created.', :status => 'success'} }
+        format.html { redirect_to estimate_invoice_schedule_path(@estimate,@invoice_schedule), :flash => {:notice => 'Invoice schedule was successfully created.', :status => 'success'} }
         format.json { render json: @invoice_schedule, status: :created, location: @invoice_schedule }
       else
         format.html { render action: "new" }
@@ -75,7 +75,7 @@ class InvoiceSchedulesController < ApplicationController
 
     respond_to do |format|
       if @invoice_schedule.update_attributes(params[:invoice_schedule])
-        format.html { redirect_to account_estimate_invoice_schedule_path(@account,@estimate,@invoice_schedule), :flash => {:notice => 'Invoice schedule was successfully updated.', :status => 'success'} }
+        format.html { redirect_to estimate_invoice_schedule_path(@estimate,@invoice_schedule), :flash => {:notice => 'Invoice schedule was successfully updated.', :status => 'success'} }
         format.json { head :ok }
       else
         format.html { render action: "edit" }
@@ -92,7 +92,7 @@ class InvoiceSchedulesController < ApplicationController
     @estimate = Estimate.find_by_id(params[:estimate_id])
 
     respond_to do |format|
-      format.html { redirect_to account_estimate_invoice_schedules_url(@account,@estimate) }
+      format.html { redirect_to estimate_invoice_schedules_url(@estimate) }
       format.json { head :ok }
     end
   end

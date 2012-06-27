@@ -9,6 +9,7 @@
 					%li= message
 
 	= f.hidden_field :client_id, :value => @client.id
+	-#= @client.id
 
 	.field{:class => "row"}
 		= f.text_field :email, :placeholder => "Email Address", :class => "input-text medium"

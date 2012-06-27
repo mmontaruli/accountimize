@@ -1,7 +1,7 @@
 class ClientsController < ApplicationController
   # GET /clients
   # GET /clients.json
-  
+
   before_filter :get_account
   before_filter :inner_navigation
   before_filter :restrict_access
@@ -52,7 +52,7 @@ class ClientsController < ApplicationController
 
     respond_to do |format|
       if @client.save
-        format.html { redirect_to account_client_path(@account,@client), :flash => {notice: 'Client was successfully created.', :status => 'success'} }
+        format.html { redirect_to client_path(@client), :flash => {notice: 'Client was successfully created.', :status => 'success'} }
         format.json { render json: @client, status: :created, location: @client }
       else
         format.html { render action: "new" }
@@ -68,7 +68,7 @@ class ClientsController < ApplicationController
 
     respond_to do |format|
       if @client.update_attributes(params[:client])
-        format.html { redirect_to account_client_path(@account,@client), :flash => {notice: 'Client was successfully updated.', :status => 'success'} }
+        format.html { redirect_to client_path(@client), :flash => {notice: 'Client was successfully updated.', :status => 'success'} }
         format.json { head :ok }
       else
         format.html { render action: "edit" }
@@ -84,11 +84,11 @@ class ClientsController < ApplicationController
     @client.destroy
 
     respond_to do |format|
-      format.html { redirect_to account_clients_url }
+      format.html { redirect_to clients_url }
       format.json { head :ok }
     end
   end
-  
+
   # GET /clients/1/client_address
   def client_address
     @client = @account.clients.find(params[:id])
