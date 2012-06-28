@@ -5,7 +5,7 @@ class InvoiceSchedulesController < ApplicationController
   before_filter :get_account
   before_filter :inner_navigation
   before_filter :restrict_access
-  before_filter :restrict_account_access
+  before_filter :restrict_account_access, :except => [:index, :new, :create]
   def index
     @invoice_schedules = InvoiceSchedule.all
     @estimate = Estimate.find_by_id(params[:estimate_id])
@@ -97,6 +97,18 @@ class InvoiceSchedulesController < ApplicationController
     respond_to do |format|
       format.html { redirect_to estimate_path(@estimate) }
       format.json { head :ok }
+    end
+  end
+
+  private
+
+  def restrict_account_access
+    @invoice_schedule = InvoiceSchedule.find(params[:id])
+    @invoice_schedule_estimate = Estimate.find_by_id(@invoice_schedule.estimate_id)
+    @invoice_schedule_client = Client.find_by_id(@invoice_schedule_estimate.client_id)
+    @invoice_schedule_account = Account.find_by_id(@invoice_schedule_client.account_id)
+    if @invoice_schedule_account != @account
+      redirect_to site_url
     end
   end
 end

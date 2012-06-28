@@ -5,7 +5,7 @@ class EstimatesController < ApplicationController
   before_filter :inner_navigation
   before_filter :restrict_access, :except => [:index, :show, :edit, :update]
   before_filter :restrict_estimate_access, :except => [:index]
-  before_filter :restrict_account_access
+  before_filter :restrict_account_access, :except => [:index, :new, :create]
 
   def index
     #@estimates = Estimate.all
@@ -126,6 +126,15 @@ class EstimatesController < ApplicationController
         unless signed_in_client.id == @estimate.client_id
           redirect_to estimates_path
         end
+      end
+    end
+
+    def restrict_account_access
+      @estimate = Estimate.find_by_id(params[:id])
+      @estimate_client = Client.find_by_id(@estimate.client_id)
+      @estimate_account = Account.find_by_id(@estimate_client.account_id)
+      if @estimate_account != @account
+        redirect_to site_url
       end
     end
 

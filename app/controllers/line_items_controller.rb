@@ -2,7 +2,7 @@ class LineItemsController < ApplicationController
   # GET /line_items
   # GET /line_items.json
   before_filter :restrict_access
-  before_filter :restrict_account_access
+  #before_filter :restrict_account_access
   def index
     @line_items = LineItem.all
 
@@ -95,5 +95,5 @@ class LineItemsController < ApplicationController
       format.json { head :ok }
       #format.js   { render :nothing => true }
     end
-  end  
+  end
 end

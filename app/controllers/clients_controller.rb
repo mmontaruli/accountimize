@@ -5,7 +5,7 @@ class ClientsController < ApplicationController
   before_filter :get_account
   before_filter :inner_navigation
   before_filter :restrict_access
-  before_filter :restrict_account_access
+  before_filter :restrict_account_access, :except => [:index, :new, :create]
   def index
     #@clients = Client.all
     #@clients = @account.clients.all
@@ -93,6 +93,16 @@ class ClientsController < ApplicationController
   def client_address
     @client = @account.clients.find(params[:id])
     render partial: 'client_address', layout: nil
+  end
+
+  private
+
+  def restrict_account_access
+    @client = Client.find(params[:id])
+    @client_account = Account.find_by_id(@client.account_id)
+    if @client_account != @account
+      redirect_to site_url
+    end
   end
 
 end

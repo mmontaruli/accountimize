@@ -42,8 +42,8 @@ class ApplicationController < ActionController::Base
       redirect_to site_url unless signed_in_client.is_account_master
     end
 
-    def restrict_account_access
-      subdomain_account = Account.find_by_subdomain(request.subdomain)
-      redirect_to site_url unless @account == subdomain_account
-    end
+    #def restrict_account_access
+    #  subdomain_account = Account.find_by_subdomain(request.subdomain)
+    #  redirect_to site_url unless @account == subdomain_account
+    #end
 end

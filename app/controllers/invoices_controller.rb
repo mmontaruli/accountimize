@@ -5,7 +5,7 @@ class InvoicesController < ApplicationController
   before_filter :inner_navigation
   before_filter :restrict_access, :except => [:index, :show]
   before_filter :restrict_invoice_access, :except => [:index]
-  #before_filter :restrict_account_access
+  before_filter :restrict_account_access, :except => [:index, :new, :create]
   def index
     #@invoices = Invoice.all
     if signed_in_client.is_account_master
@@ -135,6 +135,15 @@ class InvoicesController < ApplicationController
         @invoice = Invoice.find(params[:id])
         unless signed_in_client.id == @invoice.client_id
           redirect_to account_invoices_path
+        end
+      end
+
+      def restrict_account_access
+        @invoice = Invoice.find(params[:id])
+        @invoice_client = Client.find_by_id(@invoice.client_id)
+        @invoice_account = Account.find_by_id(@invoice_client.account_id)
+        if @invoice_account != @account
+          redirect_to site_url
         end
       end
     end
