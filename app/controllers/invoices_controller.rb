@@ -134,7 +134,7 @@ class InvoicesController < ApplicationController
       unless signed_in_client.is_account_master
         @invoice = Invoice.find(params[:id])
         unless signed_in_client.id == @invoice.client_id
-          redirect_to account_invoices_path
+          redirect_to invoices_path
         end
       end
 
