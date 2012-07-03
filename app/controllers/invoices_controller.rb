@@ -61,6 +61,7 @@ class InvoicesController < ApplicationController
   # POST /invoices.json
   def create
     @invoice = Invoice.new(params[:invoice])
+    @clients = @account.clients.find(:all, :conditions => {:is_account_master => false})
 
     respond_to do |format|
       if @invoice.save
@@ -77,6 +78,7 @@ class InvoicesController < ApplicationController
   # PUT /invoices/1.json
   def update
     @invoice = Invoice.find(params[:id])
+    @clients = @account.clients.find(:all, :conditions => {:is_account_master => false})
 
     respond_to do |format|
       if @invoice.update_attributes(params[:invoice])
