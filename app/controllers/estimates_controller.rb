@@ -5,8 +5,8 @@ class EstimatesController < ApplicationController
   before_filter :inner_navigation
   before_filter :restrict_access, :except => [:index, :show, :edit, :update]
   before_filter :restrict_estimate_access, :except => [:index]
-  before_filter :restrict_account_access
-  
+  before_filter :restrict_account_access, :except => [:index, :new, :create]
+
   def index
     #@estimates = Estimate.all
     #@estimates = Estimate.find(:all, :include => :client)
@@ -65,11 +65,11 @@ class EstimatesController < ApplicationController
     #respond_to do |format|
     if @estimate.is_accepted
       respond_to do |format|
-        format.html { redirect_to account_estimate_path(@account,@estimate), :flash => {notice: 'Estimate has been accepted and cannot be edited.', :status => 'warning'} }
+        format.html { redirect_to estimate_path(@estimate), :flash => {notice: 'Estimate has been accepted and cannot be edited.', :status => 'warning'} }
       end
     end
     #end
-    
+
   end
 
   # POST /estimates
@@ -79,7 +79,7 @@ class EstimatesController < ApplicationController
 
     respond_to do |format|
       if @estimate.save
-        format.html { redirect_to account_estimate_path(@account,@estimate), :flash => {notice: 'Estimate was successfully created.', :status => 'success'} }
+        format.html { redirect_to estimate_path(@estimate), :flash => {notice: 'Estimate was successfully created.', :status => 'success'} }
         format.json { render json: @estimate, status: :created, location: @estimate }
       else
         format.html { render action: "new" }
@@ -96,7 +96,7 @@ class EstimatesController < ApplicationController
     respond_to do |format|
       if @estimate.update_attributes(params[:estimate])
         #format.html { redirect_to @estimate, notice: 'Estimate was successfully updated.' }
-        format.html { redirect_to account_estimate_path(@account,@estimate), :flash => {notice: 'Estimate was successfully updated.', :status => 'success'} }
+        format.html { redirect_to estimate_path(@estimate), :flash => {notice: 'Estimate was successfully updated.', :status => 'success'} }
         format.json { head :ok }
         #format.js
       else
@@ -113,20 +113,29 @@ class EstimatesController < ApplicationController
     @estimate.destroy
 
     respond_to do |format|
-      format.html { redirect_to account_estimates_url }
+      format.html { redirect_to estimates_url }
       format.json { head :ok }
     end
   end
-  
+
   private
 
     def restrict_estimate_access
       unless signed_in_client.is_account_master
         @estimate = Estimate.find(params[:id])
         unless signed_in_client.id == @estimate.client_id
-          redirect_to account_estimates_path
+          redirect_to estimates_path
         end
       end
     end
-      
+
+    def restrict_account_access
+      @estimate = Estimate.find_by_id(params[:id])
+      @estimate_client = Client.find_by_id(@estimate.client_id)
+      @estimate_account = Account.find_by_id(@estimate_client.account_id)
+      if @estimate_account != @account
+        redirect_to site_url
+      end
+    end
+
 end

@@ -2,6 +2,6 @@
 	%dl{:class => 'tabs'}
 		%dd= link_to 'Dashboard', site_url, :class => @section_name == "accounts" ? "active" : ""
 		- if signed_in_client.is_account_master
-			%dd= link_to 'Clients', account_clients_path(@account), :class => @section_name == "clients" ? "active" : ""
-		%dd= link_to 'Estimates', account_estimates_path(@account), :class => @section_name == "estimates" ? "active" : ""
-		%dd= link_to 'Invoices', account_invoices_path(@account), :class => @section_name == "invoices" ? "active" : ""
+			%dd= link_to 'Clients', clients_path, :class => @section_name == "clients" ? "active" : ""
+		%dd= link_to 'Estimates', estimates_path, :class => @section_name == "estimates" ? "active" : ""
+		%dd= link_to 'Invoices', invoices_path, :class => @section_name == "invoices" ? "active" : ""

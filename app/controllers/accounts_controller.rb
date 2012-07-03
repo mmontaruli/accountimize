@@ -1,10 +1,10 @@
 class AccountsController < ApplicationController
   # GET /accounts
   # GET /accounts.json
-  
+
   skip_before_filter :authorize, :only => [:index, :new, :create]
   before_filter :restrict_access, :except => [:index, :new, :create, :show]
-    
+
   def index
     @accounts = Account.all
 
@@ -90,7 +90,7 @@ class AccountsController < ApplicationController
     @account.destroy
 
     respond_to do |format|
-      format.html { redirect_to accounts_url }
+      format.html { redirect_to accounts_url(:subdomain => false) }
       format.json { head :ok }
     end
   end

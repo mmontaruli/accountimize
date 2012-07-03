@@ -1,4 +1,4 @@
-= form_for([@account,@client], :html => {:class => 'nice'}) do |f|
+= form_for(@client, :html => {:class => 'nice'}) do |f|
 	- if @client.errors.any?
 		#error_explanation
 			%h2
@@ -42,6 +42,6 @@
 		= f.submit 'Save »' , :class => 'nice medium radius blue button'
 
 		-if params[:action] == 'edit'
-			= link_to 'Cancel »', account_client_path(@account,@client), :class => 'nice medium radius white button'
+			= link_to 'Cancel »', client_path(@client), :class => 'nice medium radius white button'
 		-else
-			= link_to 'Cancel »', account_clients_path, :class => 'nice medium radius white button'
+			= link_to 'Cancel »', clients_path, :class => 'nice medium radius white button'

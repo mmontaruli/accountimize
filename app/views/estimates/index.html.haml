@@ -15,17 +15,17 @@
 		%tbody
 			- @estimates.each do |estimate|
 				%tr
-					%td.estimate_number= link_to estimate.number, account_estimate_path(@account,estimate)
+					%td.estimate_number= link_to estimate.number, estimate_path(estimate)
 					- if signed_in_client.is_account_master
-						%td{:class => "desc client_name"}= link_to estimate.client.name, account_client_path(@account,estimate.client)
+						%td{:class => "desc client_name"}= link_to estimate.client.name, client_path(estimate.client)
 					- else
 						%td.client_name= estimate.client.name
 					%td.estimate_date= estimate.date
 					%td{:class => "amount estimate_total"}= number_to_currency(estimate.total_price)
 					- if signed_in_client.is_account_master
 						%td.estimate_edit
-							= link_to 'Edit', edit_account_estimate_path(@account,estimate) unless estimate.is_accepted
-						%td.estimate_delete= link_to 'Delete', account_estimate_path(@account,estimate), confirm: 'Are you sure?', method: :delete
+							= link_to 'Edit', edit_estimate_path(estimate) unless estimate.is_accepted
+						%td.estimate_delete= link_to 'Delete', estimate_path(estimate), confirm: 'Are you sure?', method: :delete
 
 - if signed_in_client.is_account_master
-	%p.row= link_to 'New estimate »', new_account_estimate_path, :class => 'nice medium radius blue button'
+	%p.row= link_to 'New estimate »', new_estimate_path, :class => 'nice medium radius blue button'

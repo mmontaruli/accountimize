@@ -5,13 +5,13 @@ class ApplicationController < ActionController::Base
   helper_method :current_user
   before_filter :authorize
   helper_method :signed_in_client
-  
+
   private
-    
+
     def get_section_name
       @section_name = params[:controller]
     end
-    
+
     def current_user
       @current_user ||= User.find(session[:user_id]) if session[:user_id]
     end
@@ -23,11 +23,12 @@ class ApplicationController < ActionController::Base
     def inner_navigation
       @inner_navigation = true
     end
-    
+
     def get_account
-      @account = Account.find(params[:account_id])
+      #@account = Account.find(params[:account_id])
+      @account = Account.find_by_subdomain(request.subdomain)
     end
-    
+
     def authorize
       #if current_user
         #redirect_to current_user if User.find(params[:id]).id != current_user.id
@@ -41,8 +42,8 @@ class ApplicationController < ActionController::Base
       redirect_to site_url unless signed_in_client.is_account_master
     end
 
-    def restrict_account_access
-      subdomain_account = Account.find_by_subdomain(request.subdomain)
-      redirect_to site_url unless @account == subdomain_account
-    end
+    #def restrict_account_access
+    #  subdomain_account = Account.find_by_subdomain(request.subdomain)
+    #  redirect_to site_url unless @account == subdomain_account
+    #end
 end
