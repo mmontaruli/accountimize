@@ -1,67 +1,27 @@
 $ ->
 	$body = $('body.estimates')
-
-	#this is only called in other variables, but could very possibly be replaced with $estimateLines
-	$lineRows = $('table.line_items tr.line_item', $body)
-
-	#only called once, can we just filter/find this from another variable?
-	$lineItemInput = $('td input', $lineRows)
-
-	$negotiateItemInput = $('table.line_items tr.negotiate_line td input, table.line_items tr.negotiate_line td textarea');
 	$estimateLines = $('table.line_items tr', $body)
-	#added $body to $stimateLines later, don't seem to find any trouble with this
-
-	#$lineCk and $lineLinks only called once, can we just filter/find this from another variable?
-	$lineCk = $('td.line_ck input[type="checkbox"]', $lineRows)
-	$lineLinks = $('td.line_links a', $lineRows)
-
-	$estimateTotal = $('table.line_items tr.total_line td.total_price', $body)
-
-	#only called once, can we just filter/find this from another variable?
-	$client = $('#estimate_client_id', $body)
-
-	$negotiateCks = $('table.line_items tr.line_item.edit_false td.line_ck input[type="checkbox"]', $body)
-
-	#only called once, can we just filter/find this from another variable?
+	$lineCk = $('td.line_ck input[type="checkbox"]', $estimateLines)
+	$estimateTotal = $('table.line_items tr.total_line td.total_price strong', $body)
 	$toggle = $('td.line_price_type select', $estimateLines)
-
-	#$line_price and $line_qty don't seem to be used...experiment with not using
-	$line_price = $('td.line_u_price input.line_unit_price')
-	$line_qty = $('td.line_qty input.line_qty')
-
-	#only called once, can we just filter/find this from another variable?
 	$lineVal = $('input.line_value', $estimateLines)
 
 
-
-	negotiateCheckAndSelect $negotiateCks
-
-	lineItemEffects $lineItemInput
-
-	lineItemEffects $negotiateItemInput
-
-	$estimateLines.find('td input').live "blur", ->
-		updateEstimateTotals $(this).parents("tr"), $estimateTotal
+	negotiateCheckAndSelect $lineCk
 
 	$lineCk.live "click", ->
-		updateEstimateTotals $(this).parents("tr"), $estimateTotal
-
-	$lineLinks.live "click", ->
-		t = setTimeout( (-> updateEstimateTotals($(this).parents("tr"), $estimateTotal)), 500 )
-
-	$client.change ->
-		getNewClient $client
+		updateLineTotals $(this).parents("tr"), $estimateTotal
 
 	$toggle.live "change", ->
 		fixedHourlyToggle $(this).parents("tr"), $(this)
-		updateEstimateTotals $(this).parents("tr"), $estimateTotal
+		updateLineTotals $(this).parents("tr"), $estimateTotal
 
 	$lineVal.live "blur", ->
 		updateFixedAndHourlyValues $(this)
 
 	$estimateLines.find("td.blank.accept input[type=checkbox]").live "click", ->
 		acceptNegotiateLine $(this)
-		updateEstimateTotals $(this).parents("tr").prevAll("tr.line_item").eq(0), $estimateTotal
+		updateLineTotals $(this).parents("tr").prevAll("tr.line_item").eq(0), $estimateTotal
 
 	$estimateLines.find("td.line_links .action-button li.accept_line input[type=checkbox]").live "click", ->
 		acceptLineItem $(this)
@@ -74,60 +34,6 @@ $ ->
 			actionButton.next().hide()
 			actionButton.removeClass("click")
 		false
-
-lineItemEffects = (lineItemInput) ->
-	# rollover and active effects for edit view
-	# can this be done with css/scss?
-	lineItemInput.live "mouseenter", ->
-		$(this).parent().addClass 'hover'
-	lineItemInput.live "mouseleave", ->
-		$(this).parent().removeClass 'hover'
-
-	lineItemInput.live "focus", ->
-		$(this).parent().addClass 'focus'
-	lineItemInput.live "blur", ->
-		$(this).parent().removeClass 'focus'
-
-updateEstimateTotals = (estimateRow, estimateTotal) ->
-	# check for negotiate or edit view then total line and estimate totals as appropriate
-	newLineTotal = 0
-
-	lineRow = estimateRow.filter('.line_item')
-	lineQty = $('td.line_qty input.line_qty', estimateRow).val()
-	lineUnitPrice = $('td.line_u_price input.line_unit_price', estimateRow).val()
-
-	if $('td.line_ck input[type="checkbox"]', lineRow).is(":checked") or estimateRow.hasClass "negotiate_line"
-		newLineTotal = lineQty*lineUnitPrice
-	newLineTotal = formatNumber newLineTotal,2,',','.','','','-',''
-	$('td.line_t_price', estimateRow).html newLineTotal
-
-	unless lineUnitPrice is ""
-		unless isNaN(lineUnitPrice)
-			lineUnitPrice = formatNumber lineUnitPrice,2,'','.','','','-',''
-			$('td.line_u_price input.line_unit_price', estimateRow).val(lineUnitPrice)
-
-	newEstimateTotal = 0
-	$('tr.line_item td.line_t_price:visible').each ->
-		negative = false
-		if $(this).html().slice(0,1) == "-"
-			negative = true
-		number = Number $(this).html().replace(/[^0-9\.]+/g,"")
-		if negative == true
-			number = 0 - number
-		newEstimateTotal += number
-	newEstimateTotal = formatNumber newEstimateTotal,2,',','.','$','','-',''
-	estimateTotal.html newEstimateTotal
-
-
-getNewClient = (client) ->
-	# change client address based on selected client in dropdown
-	selected_client = client.val()
-	unless selected_client is ''
-		urlbase = client.attr('data-url-base')
-		url = urlbase+'/'+selected_client+'/client_address'
-		$('p.address').load url
-	else
-		$('p.address').empty()
 
 negotiateCheckAndSelect = (negotiateCks) ->
 	# select line items in negotiate view

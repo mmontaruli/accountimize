@@ -17,7 +17,7 @@
 
 
 	%div{:class => "schedule-table row"}
-		%table{:class => "six columns"}
+		%table{:class => "six columns has_total"}
 			%thead
 				%tr
 					%th
@@ -32,7 +32,7 @@
 				%tr
 					%td.desc
 						%strong Total
-					%td.total_percent
+					%td{:class => 'total_percent table_total'}
 						%strong= "#{@invoice_schedule.total_percent} %"
 					%td
 

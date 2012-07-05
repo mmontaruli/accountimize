@@ -12,7 +12,7 @@
 	.row
 		.field{:class => 'three columns'}
 			= f.label :client_id
-			= f.collection_select(:client_id, @clients, :id, :name, {:include_blank => true}, data: {'url-base' => clients_path})
+			= f.collection_select(:client_id, @clients, :id, :name, {:include_blank => true}, data: {'url-base' => clients_path}, :class => 'client_select')
 			%p.address
 				= render 'clients/client_address' if @invoice.client_id
 
@@ -23,7 +23,7 @@
 			= f.date_select :date
 
 	%div
-		%table.line_items{:cellspacing => 4}
+		%table{:cellspacing => 4, :class => 'line_items has_total'}
 			%thead
 				%tr
 					%th.col Item #
