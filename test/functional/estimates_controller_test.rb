@@ -2,8 +2,11 @@ require 'test_helper'
 
 class EstimatesControllerTest < ActionController::TestCase
   setup do
-    @account = accounts(:one)
-    @estimate = estimates(:one)
+    @account = accounts(:lorem)
+    @estimate = estimates(:lorem_one)
+    @user = users(:lorem_vendor)
+    @request.host = "#{@account.subdomain}.myapp.local"
+    session[:user_id] = @user.id
   end
 
   test "should get index" do
@@ -22,7 +25,7 @@ class EstimatesControllerTest < ActionController::TestCase
       post :create, account_id: @account, estimate: @estimate.attributes
     end
 
-    assert_redirected_to account_estimate_path(@account, assigns(:estimate))
+    assert_redirected_to estimate_path(assigns(:estimate))
   end
 
   test "should show estimate" do
@@ -37,7 +40,7 @@ class EstimatesControllerTest < ActionController::TestCase
 
   test "should update estimate" do
     put :update, account_id: @account, id: @estimate.to_param, estimate: @estimate.attributes
-    assert_redirected_to account_estimate_path(@account, assigns(:estimate))
+    assert_redirected_to estimate_path(assigns(:estimate))
   end
 
   test "should destroy estimate" do
@@ -45,17 +48,18 @@ class EstimatesControllerTest < ActionController::TestCase
       delete :destroy, account_id: @account, id: @estimate.to_param
     end
 
-    assert_redirected_to account_estimates_path(@account)
+    assert_redirected_to estimates_path
   end
-  
+
   test "should generate three line items" do
     get :new, account_id: @account
-    assert_select "table.line_items tr.edit", 3
+    #assert_select "table.line_items tr.edit", 3
+    assert_select "table.line_items tr.line_item", 3
   end
-  
+
   test "estimate number should not be empty" do
     get :new, account_id: @account
     assert_equal 1000002, assigns(:estimate).number
   end
-  
+
 end

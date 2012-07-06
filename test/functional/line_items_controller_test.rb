@@ -2,8 +2,12 @@ require 'test_helper'
 
 class LineItemsControllerTest < ActionController::TestCase
   setup do
-    @line_item = line_items(:one)
-    @estimate = estimates(:one)
+    @account = accounts(:lorem)
+    @line_item = line_items(:lorem_one)
+    @estimate = estimates(:lorem_one)
+    @user = users(:lorem_vendor)
+    @request.host = "#{@account.subdomain}.myapp.local"
+    session[:user_id] = @user.id
   end
 
   test "should get index" do

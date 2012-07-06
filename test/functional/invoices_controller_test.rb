@@ -2,7 +2,11 @@ require 'test_helper'
 
 class InvoicesControllerTest < ActionController::TestCase
   setup do
-    @invoice = invoices(:one)
+    @account = accounts(:lorem)
+    @invoice = invoices(:lorem_one)
+    @user = users(:lorem_vendor)
+    @request.host = "#{@account.subdomain}.myapp.local"
+    session[:user_id] = @user.id
   end
 
   test "should get index" do

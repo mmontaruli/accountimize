@@ -1,5 +1,11 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
 
+lorem_vendor:
+  email: lorem@ipsum.com
+  password_hash: blahblah
+  password_salt: blahblah
+  client: lorem_am
+
 one:
   email: MyString
   password_hash: MyString

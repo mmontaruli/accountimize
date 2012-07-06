@@ -1,7 +1,13 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
 
-one:
-  estimate_id: 1
+lorem_one:
+  estimate: lorem_one
 
-two:
-  estimate_id: 1
+lorem_two:
+  estimate:
+
+#one:
+#  estimate_id: 1
+
+#two:
+#  estimate_id: 1

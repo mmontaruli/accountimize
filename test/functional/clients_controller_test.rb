@@ -2,9 +2,12 @@ require 'test_helper'
 
 class ClientsControllerTest < ActionController::TestCase
   setup do
-    @client = clients(:one_one)
-    @account = accounts(:one)
+    @client = clients(:lorem_one)
+    @account = accounts(:lorem)
+    @user = users(:lorem_vendor)
     @data = @client.attributes.merge({name: 'unique name'})
+    @request.host = "#{@account.subdomain}.myapp.local"
+    session[:user_id] = @user.id
   end
 
   test "should get index" do
@@ -20,14 +23,14 @@ class ClientsControllerTest < ActionController::TestCase
 
   test "should create client" do
     assert_difference('Client.count') do
-      post :create, account_id: @account, client: @data
+      post :create, client: @data
     end
 
-    assert_redirected_to account_client_path(@account, assigns(:client))
+    assert_redirected_to client_path(assigns(:client))
   end
 
   test "should show client" do
-    get :show, account_id: @account, id: @client.to_param
+    get :show, account_id: @account.to_param, id: @client.to_param
     assert_response :success
   end
 
@@ -37,15 +40,15 @@ class ClientsControllerTest < ActionController::TestCase
   end
 
   test "should update client" do
-    put :update, account_id: @account, id: @client.to_param, client: @client.attributes
-    assert_redirected_to account_client_path(@account, assigns(:client))
+    put :update, id: @client.to_param, client: @client.attributes
+    assert_redirected_to client_path(assigns(:client))
   end
 
   test "should destroy client" do
     assert_difference('Client.count', -1) do
-      delete :destroy, account_id: @account, id: @client.to_param
+      delete :destroy, id: @client.to_param
     end
 
-    assert_redirected_to account_clients_path(@account)
+    assert_redirected_to clients_path
   end
 end

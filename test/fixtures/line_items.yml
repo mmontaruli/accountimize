@@ -1,5 +1,13 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
 
+lorem_one:
+  number: 1
+  name: MyString
+  quantity: 1
+  unit_price: 9.99
+  is_enabled: true
+  estimate: lorem_one
+
 one:
   number: 1
   name: MyString

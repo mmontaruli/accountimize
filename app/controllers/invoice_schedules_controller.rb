@@ -7,11 +7,12 @@ class InvoiceSchedulesController < ApplicationController
   before_filter :restrict_access
   before_filter :restrict_account_access, :except => [:index, :new, :create]
   def index
-    @invoice_schedules = InvoiceSchedule.all
-    @estimate = Estimate.find_by_id(params[:estimate_id])
+    #@invoice_schedules = InvoiceSchedule.all
+    #@estimate = Estimate.find_by_id(params[:estimate_id])
 
     respond_to do |format|
-      format.html # index.html.erb
+      #format.html # index.html.erb
+      format.html { redirect_to estimates_path }
       format.json { render json: @invoice_schedules }
     end
   end

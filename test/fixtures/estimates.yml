@@ -1,5 +1,15 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
 
+lorem_one:
+  client: lorem_one
+  number: 1000000
+  date: 2011-10-19
+
+lorem_two:
+  client: lorem_two
+  number: 1000001
+  date: 2011-10-19
+
 one:
   client: one_one
   number: 1000000

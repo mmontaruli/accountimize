@@ -1,5 +1,9 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
 
+lorem:
+  name: Lorem Ipsum
+  subdomain: loremipsum
+
 one:
   name: MyString
   subdomain: MyString
