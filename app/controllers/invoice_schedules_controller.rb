@@ -35,9 +35,6 @@ class InvoiceSchedulesController < ApplicationController
   def new
     @invoice_schedule = InvoiceSchedule.new
     @estimate = Estimate.find_by_id(params[:estimate_id])
-    #3.times do
-    #  invoice_milestone = @invoice_schedule.invoice_milestones.build
-    #end
     invoice_milestone = @invoice_schedule.invoice_milestones.build(:estimate_percentage => 100)
 
     respond_to do |format|
@@ -58,7 +55,6 @@ class InvoiceSchedulesController < ApplicationController
   def create
     @invoice_schedule = InvoiceSchedule.new(params[:invoice_schedule])
     @estimate = Estimate.find_by_id(params[:estimate_id])
-
     respond_to do |format|
       if @invoice_schedule.save
         format.html { redirect_to invoice_schedule_path(@invoice_schedule), :flash => {:notice => 'Invoice schedule was successfully created.', :status => 'success'} }

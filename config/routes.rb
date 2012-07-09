@@ -39,6 +39,7 @@ Accountimize::Application.routes.draw do
 
   resources :estimates do
     resources :invoice_schedules, :shallow => true
+    #resource :invoice_schedule, :shallow => true
   end
 
   #get "site/index"

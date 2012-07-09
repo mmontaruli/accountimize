@@ -8,12 +8,7 @@ class InvoiceSchedulesControllerTest < ActionController::TestCase
     @request.host = "#{@account.subdomain}.myapp.local"
     session[:user_id] = @user.id
     @invoice_schedule = invoice_schedules(:lorem_one)
-    @invoice_milestone = invoice_milestones(:lorem_one)
-    #@data_invoice_schedule = invoice_schedules(:lorem_two)
     @data_estimate = estimates(:lorem_two)
-    @invoice_schedule_two = invoice_schedules(:lorem_two)
-    @data_invoice_schedule = @invoice_schedule_two.attributes.merge({estimate_id: @data_estimate.id})
-    #@data_invoice_milestone = invoice_milestones(:lorem_two)
   end
 
   test "should redirect index to estimate index" do
@@ -28,11 +23,14 @@ class InvoiceSchedulesControllerTest < ActionController::TestCase
 
   test "should create invoice_schedule" do
     assert_difference('InvoiceSchedule.count') do
-      post :create, estimate_id: @data_estimate, invoice_schedule: @data_invoice_schedule
-      #post :create, :invoice_schedule => { estimate_id: @data_estimate, :invoice_milestones => {estimate_percenteage: 100}}
+      post :create, :estimate_id => @data_estimate.id,
+                    :invoice_schedule => {
+                      :invoice_milestones_attributes => {
+                        "0" =>{:estimate_percentage => 100, :description => "test"}
+                      }
+                    }
     end
-
-    assert_redirected_to estimate_invoice_schedule_path(@estimate, assigns(:invoice_schedule))
+    assert_redirected_to invoice_schedule_path(assigns(:invoice_schedule))
   end
 
   test "should show invoice_schedule" do
