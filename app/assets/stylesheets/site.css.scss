@@ -17,6 +17,15 @@ a, a:active, a:visited {
 	}
 }
 
+a.button, a.button:active a.button:visited {color:white;}
+a.secondary.button, a.secondary.button:active, a.secondary.button:visited {color:black;}
+a.button:hover {background-color:#2284a1;}
+a.alert.button:hover {background-color:#970b0e;}
+a.success.button:hover {background-color:#457a1a;}
+a.secondary.button:hover {background-color:#d0d0d0;}
+
+.date-select select {width:auto;}
+
 table {
 	th.col {
 		background-color:$header-row;
@@ -26,7 +35,7 @@ table {
 		tr {
 			td {
 				text-align:center;
-				input {
+				input, input[type="text"] {
 					text-align:center;
 					width:95%;
 				}
@@ -45,7 +54,7 @@ table {
 					}
 				}
 			}
-			td.desc, td.desc input, td.desc textarea {text-align:left;}
+			td.desc, td.desc input, td.desc textarea, td.desc input[type="text"] {text-align:left;}
 			td.amount, td.amount input {text-align:right;}
 			td.blank {
 				background:$blank-row-bg !important;
@@ -62,6 +71,7 @@ table {
 
 table.list {
 	margin-bottom:28px;
+	padding:0;
 	tr.hover {
 		background-color:$list-row-hover;
 	}
@@ -84,22 +94,38 @@ table.line_items {
 			border:1px solid white;
 			vertical-align:middle;
 			padding:0 10px;
-			input {
+			input, input[type="text"], textarea {
 				background:none;
 				border:none;
 				font-size:14px;
 				font-family:arial;
+				box-shadow:none;
+				transition:none;
+				-moz-transition:none;
+				-webkit-transition:none;
+				-o-transition:none;
+				border-radius:0;
+				margin:0;
+				padding:0;
+				box-sizing:content-box;
+				-moz-box-sizing:content-box;
+				-webkit-box-sizing:content-box;
+				-o-box-sizing:content-box;
+				display:inline;
 			}
 			input:focus {
 				border:none;
 				outline:none;
 			}
+			div {
+				font-size:13px;
+			}
 		}
 		td.hover, td.hover input {background:$line-row-hover;}
 		td.focus, td.focus input {background:$line-row-focus;}
-		td.line_num, td.line_qty {width:65px;}
+		td.line_num, td.line_qty {width:65px;/*width:67px;*/}
 		td.price_type {text-transform: capitalize;}
-		td.line_u_price, td.line_t_price {width:80px;}
+		td.line_u_price, td.line_t_price {width:80px;/*width:102px;*/}
 		td.line_num, td.price_type, td.line_qty, td.line_links {padding:0;}
 	}
 	tr.edit_true {
@@ -163,12 +189,20 @@ body {
 		dl.tabs {
 			dd {
 				a:hover {
-					background-color:$tab-bg-hover;
-					color:$tab-color;
+					//background-color:$tab-bg-hover;
+					//color:$tab-color;
+					background-color:white;
+					color:#6f6f6f;
+					//text-decoration:underline;
+					border-bottom:1px solid #E6E6E6;
 				}
 				a.active:hover {
 					background-color:$tab-bg-active;
+					border-bottom:none;
 				}
+			}
+			dd.active {
+				border-top-color:$green;
 			}
 		}
 		p {font-size:$small;}
@@ -205,9 +239,11 @@ body.site {
 			width: 67%;
 			float: right;
 			h3 {
-				width: 85%;
+				width: 88%;
 				margin-top:41px;
 				margin-bottom:41px;
+				font-size:292%;
+				line-height:51.2px;
 				em {
 					color: $green;
 					font-style: normal;
@@ -217,7 +253,7 @@ body.site {
 			}
 			p {
 				font-weight:bold;
-				font-size:$normal;
+				font-size:$moderate;
 			}
 			ul {
 				font-weight:bold;
@@ -226,6 +262,7 @@ body.site {
 				padding-left:40px;
 				li {
 					margin-bottom:0;
+					font-size:$moderate;
 				}
 			}
 		}

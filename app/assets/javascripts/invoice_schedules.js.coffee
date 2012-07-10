@@ -1,12 +1,14 @@
 $ ->
 	$scheduleBody = $('body.invoice_schedules')
 	$percentTotal = $('form table td.total_percent strong', $scheduleBody)
-	$percents = $('form table td.estimate_percentage input', $scheduleBody)
+	$percentTable = $('form table', $scheduleBody)
+	percents = 'td.estimate_percentage input'
+	delete_link = 'td.line_links .delete_link a'
 
-	$percents.live "blur", ->
+	$percentTable.on "blur", percents, ->
 		addWarning $percentTotal
 
-	$("form table td.line_links .delete_link a", $scheduleBody).live "click", ->
+	$percentTable.on "click", delete_link, ->
 		addWarning $percentTotal
 
 addWarning = (percentTotal) ->

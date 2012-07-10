@@ -2,7 +2,7 @@ class SessionsController < ApplicationController
   skip_before_filter :authorize
   def new
   end
-  
+
   def create
     user = User.authenticate(params[:email], params[:password])
     if user
@@ -20,9 +20,9 @@ class SessionsController < ApplicationController
       #render "new"
     end
   end
-  
+
   def destroy
     session[:user_id] = nil
-    redirect_to log_in_path, :flash => {:notice => "Logged out!", :status => "warning"}
+    redirect_to log_in_path, :flash => {:notice => "Logged out!", :status => "secondary"}
   end
 end

@@ -24,6 +24,7 @@
 					%td{:class => "amount invoice_total"}= number_to_currency(invoice.total_price)
 					-if signed_in_client.is_account_master
 						%td= link_to 'Edit', edit_invoice_path(invoice)
-						%td= link_to 'Delete', invoice_path(invoice), confirm: 'Are you sure?', method: :delete
+						%td= link_to 'Delete', invoice_path(invoice), :data => { :confirm => 'Are you sure?' }, method: :delete
 
-%p.row= link_to 'New Invoice »', new_invoice_path, :class => 'nice medium radius blue button'
+-if signed_in_client.is_account_master
+	%p.row= link_to 'New Invoice »', new_invoice_path, :class => 'medium radius button'

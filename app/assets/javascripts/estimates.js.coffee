@@ -1,47 +1,51 @@
 $ ->
 	$body = $('body.estimates')
-	$estimateLines = $('table.line_items tr', $body)
-	$lineCk = $('td.line_ck input[type="checkbox"]', $estimateLines)
+	$tableLineItems = $('table.line_items', $body)
 	$estimateTotal = $('table.line_items tr.total_line td.total_price strong', $body)
-	$toggle = $('td.line_price_type select', $estimateLines)
-	$lineVal = $('input.line_value', $estimateLines)
+	lineCk = 'tr td.line_ck input[type="checkbox"]'
+	toggle = 'tr td.line_price_type select'
+	lineVal = 'tr input.line_value'
+	acceptNegotiateButton = 'tr td.blank.accept input[type=checkbox]'
+	acceptLineMenuItem = 'tr td.line_links .action-button li.accept_line input[type=checkbox]'
+	actionMenu = 'tr td.line_links .action-button a.action-drop-down'
 
 
-	negotiateCheckAndSelect $lineCk
+	negotiateCheckAndSelect lineCk
 
-	$lineCk.live "click", ->
+	$tableLineItems.on "click", lineCk, ->
 		updateLineTotals $(this).parents("tr"), $estimateTotal
 
-	$toggle.live "change", ->
+	$tableLineItems.on "change", toggle, ->
 		fixedHourlyToggle $(this).parents("tr"), $(this)
 		updateLineTotals $(this).parents("tr"), $estimateTotal
 
-	$lineVal.live "blur", ->
+	$tableLineItems.on "blur", lineVal, ->
 		updateFixedAndHourlyValues $(this)
 
-	$estimateLines.find("td.blank.accept input[type=checkbox]").live "click", ->
+	$tableLineItems.on "click", acceptNegotiateButton, ->
 		acceptNegotiateLine $(this)
 		updateLineTotals $(this).parents("tr").prevAll("tr.line_item").eq(0), $estimateTotal
 
-	$estimateLines.find("td.line_links .action-button li.accept_line input[type=checkbox]").live "click", ->
+	$tableLineItems.on "click", acceptLineMenuItem, ->
 		acceptLineItem $(this)
 
-	$estimateLines.find("td.line_links .action-button a.action-drop-down").live "click", ->
+	$tableLineItems.on "click", actionMenu, ->
 		actionButton = $(this)
 		actionButton.addClass("click")
 		actionButton.next().show()
-		$('body').live "click", ->
+		$body.on "click", ->
 			actionButton.next().hide()
 			actionButton.removeClass("click")
 		false
 
-negotiateCheckAndSelect = (negotiateCks) ->
-	# select line items in negotiate view
-	negotiateCks.each ->
+negotiateCheckAndSelect = (lineCk) ->
+	negotiateCks = 'table.line_items ' + lineCk
+
+	$(negotiateCks).each ->
 		unless $(this).is(':checked')
 			$(this).parents("tr.line_item.edit_false").addClass 'removed'
 
-	negotiateCks.live "click", ->
+	$(document).on "click", negotiateCks, ->
 		if $(this).is(':checked')
 			$(this).parents("tr.line_item.edit_false").removeClass 'removed'
 		else

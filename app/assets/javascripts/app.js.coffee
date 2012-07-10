@@ -1,31 +1,36 @@
 $ ->
 	$tableTotal = $('.table_total strong, .total_price strong')
 	$deleteLink = $("table.has_total td.line_links .delete_link a, table.line_items td.line_links .delete_link a")
+	$tableHasTotal = $("table.has_total")
+	$tableLineItems = $("table.line_items")
 	$invoiceLines = $('table.has_total tr')
 	$editableLines = $('table.line_items tr td input, table.line_items tr td textarea')
 	$client_select = $('.client_select')
+	deleteLink = 'td.line_links .delete_link a'
+	lineItemInput = "tr td input"
 
-	$deleteLink.live "click", ->
+	$tableHasTotal.on "click", deleteLink, ->
 		subtractFromTotal $(this).parents('tr'), $tableTotal
 
-	lineItemEffects $editableLines
+	lineItemEffects $tableLineItems
 
 	$client_select.change ->
 		getNewClient $client_select
 
-	$invoiceLines.find("td input").live "blur", ->
+	$tableHasTotal.on "blur", lineItemInput, ->
 		updateLineTotals $(this).parents("tr"), $tableTotal
 
-
-lineItemEffects = (lineItemInput) ->
+lineItemEffects = (table) ->
 	# rollover and active effects for edit view
-	lineItemInput.live "mouseenter", ->
+	editableLines = 'tr td input, tr td textarea'
+
+	table.on "mouseenter", editableLines, ->
 		$(this).parent().addClass('hover')
-	lineItemInput.live "mouseleave", ->
+	table.on "mouseleave", editableLines, ->
 		$(this).parent().removeClass('hover')
-	lineItemInput.live "focus", ->
+	table.on "focus", editableLines, ->
 		$(this).parent().addClass('focus')
-	lineItemInput.live "blur", ->
+	table.on "blur", editableLines, ->
 		$(this).parent().removeClass('focus')
 
 getNewClient = (client) ->

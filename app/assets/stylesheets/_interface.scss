@@ -10,8 +10,10 @@ $action-nav-arrow: '/assets/actions-arrow.png';
 	background: url($bgimg) $rpt $img-h $img-v, linear-gradient(top,  $color1 $pos1,$color2 $pos2); /* W3C */
 }
 
-.nice.blue.button, .nice.black.button, .nice.red.button {color:white;}
-.button {display:inline;}
+//.nice.blue.button, .nice.black.button, .nice.red.button {color:white;}
+//a.button, a.button:active a.button:visited {color:white;}
+//a.secondary.button, a.secondary.button:active, a.secondary.button:visited {color:black;}
+//.button {display:inline;}
 
 select {display:inline;}
 

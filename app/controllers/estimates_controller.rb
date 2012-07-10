@@ -65,7 +65,7 @@ class EstimatesController < ApplicationController
     #respond_to do |format|
     if @estimate.is_accepted
       respond_to do |format|
-        format.html { redirect_to estimate_path(@estimate), :flash => {notice: 'Estimate has been accepted and cannot be edited.', :status => 'warning'} }
+        format.html { redirect_to estimate_path(@estimate), :flash => {notice: 'Estimate has been accepted and cannot be edited.', :status => 'secondary'} }
       end
     end
     #end

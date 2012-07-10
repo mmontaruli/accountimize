@@ -1,15 +1,13 @@
 %h3 Log in
 
-= form_tag(sessions_path, :class => 'nice') do
+= form_tag(sessions_path, :class => 'row') do
+	%fieldset{:class =>"five columns"}
+		%legend Log in
+		.field
+			= text_field_tag :email, params[:email], :placeholder => "Email Address", :class => ""
 
-	.field{:class => 'row'}
-		= text_field_tag :email, params[:email], :placeholder => "Email Address", :class => "input-text medium"
+		.field
+			= password_field_tag :password, nil, :placeholder => "Password", :class => ""
 
-	.field{:class => 'row'}
-		= password_field_tag :password, nil, :placeholder => "Password", :class => "input-text medium"
-
-	.actions
-		= submit_tag 'Log In »', :class => 'nice medium radius blue button'
-		-#= link_to 'Cancel »', site_url, :class => 'nice medium radius white button'
-
--#%p= link_to "Register New User", register_url
+		.actions
+			= submit_tag 'Log In »', :class => 'small radius success button'

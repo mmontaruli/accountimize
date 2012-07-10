@@ -1,6 +1,6 @@
 %h3 Register New User
 
-= form_for(@user, :html => {:class => 'nice'}) do |f|
+= form_for(@user, :html => {:class => 'row'}) do |f|
 	- if @user.errors.any?
 		.error_messages
 			%h4 Form is invalid
@@ -8,18 +8,20 @@
 				- for message in @user.errors.full_messages
 					%li= message
 
-	= f.hidden_field :client_id, :value => @client.id
-	-#= @client.id
+	%fieldset{:class => "six columns"}
+		%legend All fields are required
+		= f.hidden_field :client_id, :value => @client.id
+		-#= @client.id
 
-	.field{:class => "row"}
-		= f.text_field :email, :placeholder => "Email Address", :class => "input-text medium"
+		.field
+			= f.text_field :email, :placeholder => "Email Address", :class => ""
 
-	.field{:class => "row"}
-		= f.password_field :password, :placeholder => "Password", :class => "input-text medium"
+		.field
+			= f.password_field :password, :placeholder => "Password", :class => ""
 
-	.field{:class => "row"}
-		= f.password_field :password_confirmation, :placeholder => "Confirm Password", :class => "input-text medium"
+		.field
+			= f.password_field :password_confirmation, :placeholder => "Confirm Password", :class => ""
 
-	.actions
-		= f.submit 'Create User »', :class => 'nice medium radius blue button'
-		= link_to 'Cancel »', site_url, :class => 'nice medium radius white button'
+		.actions
+			= f.submit 'Create User »', :class => 'small radius success button'
+			= link_to 'Cancel »', site_url, :class => 'small radius secondary button'

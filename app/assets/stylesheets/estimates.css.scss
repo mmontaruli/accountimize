@@ -19,7 +19,7 @@ body.estimates #content {
 	table.line_items {
 		tr {
 			td.line_ck {
-				input{font-size:45px;}
+				input{font-size:45px; width:14px; height:14px;}
 			}
 			td.lock {
 				padding:0;
@@ -34,7 +34,7 @@ body.estimates #content {
 					background:url("/assets/padlock-sprite.png") no-repeat 0% 0%;
 				}
 			}
-			td.line_name {width:293px;}
+			td.line_name {width:293px;/*width:315px;*/}
 			td.line_links {
 				.action-button {
 					display:inline-block;
@@ -52,6 +52,11 @@ body.estimates #content {
 						background-image:url($action-nav-arrow) no-repeat 90% 50%;
 						@include gradient($action-nav-arrow, no-repeat, 90%, 50%, $action-btn-bg, $action-btn-bg-2, 0%, 100%);
 						border-radius:5px;
+						box-sizing:content-box;
+						-moz-box-sizing:content-box;
+						-webkit-box-sizing:content-box;
+						-o-box-sizing:content-box;
+
 					}
 					ul.line-actions {
 						background:$off-white;
@@ -61,6 +66,7 @@ body.estimates #content {
 						margin-left:3px;
 						position:absolute;
 						display:none;
+						list-style:none;
 						li {
 							a {
 								margin:5px 0;

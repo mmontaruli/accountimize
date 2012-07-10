@@ -1,10 +1,10 @@
 -unless @estimate.is_accepted
 	- if signed_in_client.is_account_master
 		.row
-			%p{:class => 'three columns offset-by-eight'}= link_to 'Edit Estimate »', edit_estimate_path(@estimate), :class => 'nice small radius blue button'
+			%p{:class => 'three columns offset-by-eight'}= link_to 'Edit Estimate »', edit_estimate_path(@estimate), :class => 'small radius button'
 	- else
 		.row
-			%p{:class => 'three columns offset-by-eight'}= link_to 'Customize Estimate »', edit_estimate_path(@estimate), :class => 'nice small radius blue button'
+			%p{:class => 'three columns offset-by-eight'}= link_to 'Customize Estimate »', edit_estimate_path(@estimate), :class => 'small radius button'
 -else
 	.row
 		%h4{:class => "estimate-accepted four columns offset-by-seven"} Estimate Accepted
@@ -16,7 +16,7 @@
 		%br
 		= render 'clients/client_address'
 
-	%div{:class => 'three columns offset-by-three'}
+	%div{:class => 'three columns offset-by-three end'}
 		%p
 			%strong Estimate Number:
 			= @estimate.number

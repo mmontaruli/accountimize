@@ -1,4 +1,4 @@
-= form_for(@estimate, :html => {:class => 'nice'}) do |f|
+= form_for(@estimate, :html => {:class => ''}) do |f|
 	- if @estimate.errors.any?
 		#error_explanation
 			%h2
@@ -16,11 +16,12 @@
 			%p.address
 				= render 'clients/client_address' if @estimate.client_id
 
-		.field{:class => 'four columns offset-by-four'}
-			= f.label :number
-			=f.text_field :number, :class => 'input-text small'
-			=f.label :date
-			=f.date_select :date
+		.field{:class => 'three columns offset-by-four end'}
+			=f.label :number
+			=f.text_field :number, :class => ''
+			.date-select
+				=f.label :date
+				=f.date_select :date
 
 	%div
 		%table{:cellspacing => 4, :class => 'line_items has_total'}
@@ -42,7 +43,7 @@
 					= render 'line_item_fields', :f => builder
 				%tr.add_lines
 					%td.blank
-					%td{:colspan => 7, :class => "desc blank"}= link_to_add_fields "Add lines", f, :line_items, :class => 'small radius blue button'
+					%td{:colspan => 7, :class => "desc blank"}= link_to_add_fields "Add lines", f, :line_items, :class => 'small radius button'
 				%tr.total_line
 					%td.blank
 					%td{:colspan => 6, :class => "desc blank"}
@@ -62,8 +63,8 @@
 				%div{:class => "notification eight columns"} Client has not yet approved estimate
 
 
-		= f.submit 'Save »' , :class => 'nice medium radius blue button'
+		= f.submit 'Save »' , :class => 'medium radius success button'
 		-if params[:action] == 'edit'
-			= link_to 'Cancel »', estimate_path(@estimate), :class => 'nice medium radius white button'
+			= link_to 'Cancel »', estimate_path(@estimate), :class => 'medium radius secondary button'
 		-else
-			= link_to 'Cancel »', estimates_path, :class => 'nice medium radius white button'
+			= link_to 'Cancel »', estimates_path, :class => 'medium radius secondary button'
