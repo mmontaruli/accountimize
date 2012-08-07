@@ -8,17 +8,28 @@ describe ClientsController do
   		@request.host = "#{@user.client.account.subdomain}.test.host"
   		session[:user_id] = @user.id
   		@client = create(:client, account_id: @user.client.account_id)
+  		@client_user = create(:user, client_id: @client.id)
 	end
 	describe "#index" do
 		it "should be successful" do
 			get :index
 			response.should be_success
 		end
+		it "should not allow access to client" do
+			session[:user_id] = @client_user.id
+			get :index
+			response.should redirect_to site_url
+		end
 	end
 	describe "#new" do
 		it "should be successful" do
 			get :new
 			response.should be_success
+		end
+		it "should not allow access to client" do
+			session[:user_id] = @client_user.id
+			get :new
+			response.should redirect_to site_url
 		end
 	end
 	describe "#create" do
@@ -30,8 +41,13 @@ describe ClientsController do
 	end
 	describe "#edit" do
 		it "should be successful" do
-			visit edit_client_url(@client)
+			get :edit, id: @client
 			response.should be_success
+		end
+		it "should not allow access to client" do
+			session[:user_id] = @client_user.id
+			get :edit, id: @client
+			response.should redirect_to site_url
 		end
 	end
 	describe "#update" do

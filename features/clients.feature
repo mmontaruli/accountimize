@@ -31,3 +31,8 @@ Feature: Manage clients
 		When I go to the list of clients
 		And I click the delete button next to this client
 		Then I should not see "Google"
+
+	Scenario: Blocked access for client user
+		Given I am logged in as a client
+		When I go to any client section
+		Then I should be redirected to the account dashboard

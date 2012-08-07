@@ -1,4 +1,4 @@
-require "ruby-debug"
+#require "ruby-debug"
 Given /^I do not have an account$/ do
 end
 
@@ -38,7 +38,6 @@ When /^I log in$/ do
 end
 
 Given /^I am logged in$/ do
-  #@user = create(:user)
   login(@user.client.account.subdomain, @user.email, @user.password)
 end
 
@@ -61,6 +60,13 @@ Given /^I am logged in as a vendor$/ do
   @user.client.is_account_master = true
   @user.client.save
   login(@user.client.account.subdomain, @user.email, @user.password)
+end
+
+Given /^I am logged in as a client$/ do
+  @vendor = create(:client, is_account_master: true)
+  @client = create(:client, account_id: @vendor.account_id)
+  @user = create(:user, client_id: @client.id)
+  login(@vendor.account.subdomain, @user.email, @user.password)
 end
 
 Given /^I have clients "(.*?)" and "(.*?)"$/ do |client1, client2|
@@ -100,6 +106,29 @@ end
 
 When /^I click the delete button next to this client$/ do
   find('a', :href => "#{client_path(@client)}", :text => 'Delete').click
+end
+
+When /^I go to any client section$/ do
+  @blocked_urls = [
+    "http://#{@vendor.account.subdomain}.example.com/clients",
+    "http://#{@vendor.account.subdomain}.example.com/clients/#{@user.client.id}/edit",
+    "http://#{@vendor.account.subdomain}.example.com/clients/#{@user.client.id}"
+  ]
+end
+
+Then /^I should be redirected to the account dashboard$/ do
+  @blocked_urls.each do |url|
+    visit url
+    find('h4').should have_content('Account Dashboard')
+  end
+end
+
+Given /^I have created estimate number "(.*?)" for them$/ do |estimate_number|
+  @estimate = create(:estimate, number: estimate_number, client_id: @client.id)
+end
+
+When /^I go to the list of estimates$/ do
+  visit "http://#{@user.client.account.subdomain}.example.com/estimates"
 end
 
 module LoginSteps

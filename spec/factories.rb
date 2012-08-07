@@ -24,4 +24,10 @@ FactoryGirl.define do
   	client
   end
 
+  factory :estimate do
+    sequence(:number) { |n| 100+n }
+    date Date.today
+    client
+  end
+
 end
