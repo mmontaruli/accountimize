@@ -9,6 +9,7 @@ describe EstimatesController do
   		session[:user_id] = @user.id
   		@client = create(:client, account_id: @user.client.account_id)
   		@estimate = create(:estimate, client_id: @client.id)
+  		@client_user = create(:user, client_id: @client.id)
 	end
 	describe "#index" do
 		it "should be a success" do
@@ -20,6 +21,11 @@ describe EstimatesController do
 		it "should be a success" do
 			get :new
 			response.should be_success
+		end
+		it "should not allow access to client" do
+			session[:user_id] = @client_user.id
+			get :new
+			response.should redirect_to site_url
 		end
 	end
 	describe "#create" do

@@ -115,6 +115,13 @@ When /^I go to any client section$/ do
   ]
 end
 
+When /^I go to any blocked estimate section$/ do
+  @blocked_urls = [
+    "http://#{@vendor.account.subdomain}.example.com/estimates/new"
+  ]
+
+end
+
 Then /^I should be redirected to the account dashboard$/ do
   @blocked_urls.each do |url|
     visit url

@@ -39,3 +39,8 @@ Feature: Manage estimates
 		When I go to the list of estimates
 		And I click the delete button next to this estimate
 		Then I should not see "1003"
+
+	Scenario: Blocked access for client user
+		Given I am logged in as a client
+		When I go to any blocked estimate section
+		Then I should be redirected to the account dashboard
