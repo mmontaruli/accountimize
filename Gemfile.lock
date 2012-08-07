@@ -87,8 +87,7 @@ GEM
     fssm (0.2.9)
     gherkin (2.11.1)
       json (>= 1.4.6)
-    haml (3.2.0.beta.1)
-      tilt
+    haml (3.1.6)
     hike (1.2.1)
     i18n (0.6.0)
     journey (1.0.4)
@@ -191,7 +190,7 @@ DEPENDENCIES
   database_cleaner
   debugger
   factory_girl_rails
-  haml (>= 3.2.0.beta.1)
+  haml (~> 3.1.6)
   jquery-rails
   minitest
   rails (= 3.2.6)

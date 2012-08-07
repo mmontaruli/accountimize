@@ -30,4 +30,13 @@ FactoryGirl.define do
     client
   end
 
+  factory :line_item do
+    number 100
+    name "Services"
+    quantity 1
+    unit_price 100
+    is_enabled true
+    estimate
+  end
+
 end
