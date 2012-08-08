@@ -16,7 +16,7 @@ Feature: Manage estimates
 		And The client would like a quote for "Web Design"
 		And My services cost "3000"
 		When I go to the New Estimate page
-		And I fill in and submit this information
+		And I fill in and submit this estimate information
 		Then I should see "Estimate was successfully created."
 
 	Scenario: New estimate should start with three line items

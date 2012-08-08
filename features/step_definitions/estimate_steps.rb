@@ -18,7 +18,7 @@ When /^I go to the New Estimate page$/ do
   visit "http://#{@user.client.account.subdomain}.example.com/estimates/new"
 end
 
-When /^I fill in and submit this information$/ do
+When /^I fill in and submit this estimate information$/ do
   select("Google", :from => "estimate_client_id")
   find('input#estimate_line_items_attributes_0_name').set @service_name
   find('input#estimate_line_items_attributes_0_quantity').set 1
