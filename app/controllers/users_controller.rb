@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  skip_before_filter :authorize
+  #skip_before_filter :authorize
   before_filter :get_account
   before_filter :restrict_account_access
   before_filter :restrict_client_access
