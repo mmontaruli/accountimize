@@ -61,3 +61,8 @@ When /^I go to any blocked estimate section$/ do
   ]
 end
 
+Given /^I have created an estimate for this client$/ do
+  @estimate = create(:estimate, client_id: @client.id)
+  line_item = create(:line_item, estimate_id: @estimate.id)
+end
+

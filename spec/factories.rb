@@ -42,7 +42,16 @@ FactoryGirl.define do
     quantity 1
     unit_price 100
     is_enabled true
-    #estimate
+  end
+
+  factory :invoice_schedule do
+    estimate
+  end
+
+  factory :invoice_milestone do
+    description "Description"
+    estimate_percentage 100
+    invoice_schedule
   end
 
 end
