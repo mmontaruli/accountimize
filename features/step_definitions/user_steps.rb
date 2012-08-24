@@ -3,7 +3,7 @@ Given /^I have a new contact whose email is "(.*?)"$/ do |email_address|
 end
 
 When /^I go to the page to add a contact for this client$/ do
-  visit "http://#{@user.client.account.subdomain}.example.com/users/new?client_id=#{@client.id}"
+  visit new_user_url(:client_id => @client.id, :subdomain => @user.client.account.subdomain)
 end
 
 When /^I fill in and save this new contacts email and temporary password$/ do
@@ -15,6 +15,6 @@ end
 
 When /^I go to any blocked user section$/ do
 	@blocked_urls = [
-		"http://#{@user.client.account.subdomain}.example.com/users/new?client_id=#{@client.id}"
+		new_user_url(:client_id => @client.id, :subdomain => @user.client.account.subdomain)
 	]
 end

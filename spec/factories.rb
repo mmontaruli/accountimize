@@ -42,6 +42,15 @@ FactoryGirl.define do
     quantity 1
     unit_price 100
     is_enabled true
+    estimate
+    #invoice
+  end
+
+  factory :negotiate_line do
+    description 'Description'
+    line_qty 1
+    line_price 90
+    line_item
   end
 
   factory :invoice_schedule do

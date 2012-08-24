@@ -1,5 +1,5 @@
 When /^I go to the New Invoice Schedule page$/ do
-  visit "http://#{@user.client.account.subdomain}.example.com/estimates/#{@estimate.id}/invoice_schedules/new"
+  visit new_estimate_invoice_schedule_url(@estimate, :subdomain => @user.client.account.subdomain)
 end
 
 When /^I create only one Invoice Milestone$/ do
@@ -16,7 +16,7 @@ Given /^I have created an invoice schedule$/ do
 end
 
 When /^I go to the Edit Invoice Schedule page$/ do
-  visit "http://#{@user.client.account.subdomain}.example.com/invoice_schedules/#{@invoice_schedule.id}/edit"
+  visit edit_invoice_schedule_url(@invoice_schedule, :subdomain => @user.client.account.subdomain)
 end
 
 When /^I change milestone "(.*?)" to "(.*?)" percent$/ do |invoice_milestone_number, estimate_percentage|
@@ -35,7 +35,7 @@ When /^I go to any blocked invoice schedules section$/ do
   end
   @invoice_schedule.save
   @blocked_urls = [
-    "http://#{@vendor.account.subdomain}.example.com/estimates/#{@estimate.id}/invoice_schedules/new",
-    "http://#{@vendor.account.subdomain}.example.com/invoice_schedules/#{@invoice_schedule.id}/edit"
+    new_estimate_invoice_schedule_url(@estimate, :subdomain => @vendor.account.subdomain),
+    edit_invoice_schedule_url(@invoice_schedule, :subdomain => @vendor.account.subdomain)
   ]
 end

@@ -3,7 +3,7 @@ Given /^I have created estimate number "(.*?)" for them$/ do |estimate_number|
 end
 
 When /^I go to the list of estimates$/ do
-  visit "http://#{@user.client.account.subdomain}.example.com/estimates"
+  visit estimates_url(:subdomain => @user.client.account.subdomain)
 end
 
 Given /^The client would like a quote for "(.*?)"$/ do |service_name|
@@ -15,7 +15,7 @@ Given /^My services cost "(.*?)"$/ do |service_cost|
 end
 
 When /^I go to the New Estimate page$/ do
-  visit "http://#{@user.client.account.subdomain}.example.com/estimates/new"
+  visit new_estimate_url(:subdomain => @user.client.account.subdomain)
 end
 
 When /^I fill in and submit this estimate information$/ do
@@ -38,7 +38,7 @@ Given /^I have an estimate created for them for "(.*?)" for "(.*?)"$/ do |servic
 end
 
 When /^I go to the Edit Estimate page$/ do
-  visit "http://#{@user.client.account.subdomain}.example.com/estimates/#{@estimate.id}/edit"
+  visit edit_estimate_url(@estimate, :subdomain => @user.client.account.subdomain)
 end
 
 When /^I change the price to "(.*?)" and submit$/ do |new_price|
@@ -57,7 +57,7 @@ end
 
 When /^I go to any blocked estimate section$/ do
   @blocked_urls = [
-    "http://#{@vendor.account.subdomain}.example.com/estimates/new"
+    new_estimate_url(:subdomain => @vendor.account.subdomain)
   ]
 end
 

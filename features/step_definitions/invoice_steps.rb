@@ -3,7 +3,7 @@ Given /^I have created invoice number "(.*?)" for them$/ do |invoice_number|
 end
 
 When /^I go to the list of invoices$/ do
-  visit "http://#{@user.client.account.subdomain}.example.com/invoices"
+  visit invoices_url(:subdomain => @user.client.account.subdomain)
 end
 
 Given /^I need to invoice this client for "(.*?)"$/ do |service_name|
@@ -11,7 +11,7 @@ Given /^I need to invoice this client for "(.*?)"$/ do |service_name|
 end
 
 When /^I go to the New Invoice page$/ do
-  visit "http://#{@user.client.account.subdomain}.example.com/invoices/new"
+  visit new_invoice_url(:subdomain => @user.client.account.subdomain)
 end
 
 When /^I fill in and submit this invoicing information$/ do
@@ -28,7 +28,7 @@ Given /^I have an invoice created for them for "(.*?)" for "(.*?)"$/ do |service
 end
 
 When /^I go to the Edit Invoice page$/ do
-  visit "http://#{@user.client.account.subdomain}.example.com/invoices/#{@invoice.id}/edit"
+  visit edit_invoice_url(@invoice, :subdomain => @user.client.account.subdomain)
 end
 
 When /^I change the invoice line price to "(.*?)" and submit$/ do |new_price|
@@ -48,8 +48,7 @@ end
 When /^I go to any blocked invoice section$/ do
   @invoice = create(:invoice, client_id: @client.id)
   @blocked_urls = [
-    "http://#{@vendor.account.subdomain}.example.com/invoices/new",
-    "http://#{@vendor.account.subdomain}.example.com/invoices/#{@invoice.id}/edit"
+    new_invoice_url(:subdomain => @vendor.account.subdomain),
+    edit_invoice_url(@invoice, :subdomain => @vendor.account.subdomain)
   ]
-
 end

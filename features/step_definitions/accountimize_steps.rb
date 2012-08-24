@@ -37,7 +37,7 @@ end
 
 module LoginSteps
   def login(subdomain, name, password)
-    visit "http://#{subdomain}.example.com/log_in"
+    visit log_in_url(:subdomain => subdomain)
     find("input[placeholder='Email Address']").set name
     find("input[placeholder='Password']").set password
     click_button('Log In')

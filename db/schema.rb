@@ -16,8 +16,8 @@ ActiveRecord::Schema.define(:version => 20120622163546) do
   create_table "accounts", :force => true do |t|
     t.string   "name"
     t.string   "subdomain"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   create_table "clients", :force => true do |t|
@@ -28,8 +28,8 @@ ActiveRecord::Schema.define(:version => 20120622163546) do
     t.string   "address_city"
     t.string   "address_state"
     t.string   "address_zip"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",        :null => false
+    t.datetime "updated_at",        :null => false
     t.integer  "account_id"
     t.boolean  "is_account_master"
   end
@@ -37,8 +37,8 @@ ActiveRecord::Schema.define(:version => 20120622163546) do
   create_table "estimates", :force => true do |t|
     t.integer  "number"
     t.date     "date"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
     t.integer  "client_id"
     t.boolean  "is_accepted"
   end
@@ -48,23 +48,23 @@ ActiveRecord::Schema.define(:version => 20120622163546) do
     t.text     "description"
     t.integer  "estimate_percentage"
     t.integer  "invoice_schedule_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",          :null => false
+    t.datetime "updated_at",          :null => false
     t.integer  "invoice_id"
   end
 
   create_table "invoice_schedules", :force => true do |t|
     t.integer  "estimate_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
   end
 
   create_table "invoices", :force => true do |t|
     t.integer  "number"
     t.date     "date"
     t.integer  "client_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   create_table "line_items", :force => true do |t|
@@ -74,8 +74,8 @@ ActiveRecord::Schema.define(:version => 20120622163546) do
     t.decimal  "unit_price"
     t.boolean  "is_enabled"
     t.integer  "estimate_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",                     :null => false
+    t.datetime "updated_at",                     :null => false
     t.integer  "hours_qty"
     t.decimal  "hours_rate"
     t.integer  "fixed_qty"
@@ -97,8 +97,8 @@ ActiveRecord::Schema.define(:version => 20120622163546) do
     t.integer  "fixed_qty"
     t.string   "price_type"
     t.string   "user_negotiating"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",       :null => false
+    t.datetime "updated_at",       :null => false
     t.boolean  "is_accepted"
   end
 
@@ -106,8 +106,8 @@ ActiveRecord::Schema.define(:version => 20120622163546) do
     t.string   "email"
     t.string   "password_hash"
     t.string   "password_salt"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
     t.integer  "client_id"
   end
 
