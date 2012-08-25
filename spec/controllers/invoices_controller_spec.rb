@@ -57,4 +57,19 @@ describe InvoicesController do
 			expect { post :destroy, id: @invoice.id }.to change(Invoice, :count).by(-1)
 		end
 	end
+	describe "#generateInvoiceFromMilestone" do
+		it "should generate invoice" do
+			@estimate = create(:estimate, client_id: @client.id)
+			line_item = create(:line_item, estimate_id: @estimate.id)
+			@invoice_schedule = build(:invoice_schedule, estimate_id: @estimate.id, id: 1)
+			2.times do
+				invoice_milestone = create(:invoice_milestone, estimate_percentage: 50, invoice_schedule_id: @invoice_schedule.id)
+			end
+			@invoice_schedule.save
+			@invoice_milestone = @invoice_schedule.invoice_milestones[0]
+			post :generateInvoiceFromMilestone, invoice_milestone_id: @invoice_milestone.id
+
+			assigns(:invoice).total_price.should == @estimate.total_price * (Float(@invoice_milestone.estimate_percentage)/100)
+		end
+	end
 end

@@ -27,3 +27,15 @@ Feature: Create and Edit Invoice Schedules
 		When I go to any blocked invoice schedules section
 		Then I should be redirected to the account dashboard
 
+	Scenario: Generate invoice
+		Given I am logged in as a vendor
+		And I have a client named "Google"
+		And I have an estimate created for them for "Web Design" for "3000"
+		And I have created an invoice schedule
+		When I go to the invoice schedule page
+		And I click "Generate Invoice" from the first milestone
+		Then I should see "Invoice was successfully generated."
+		And I should see "$1,500"
+
+
+

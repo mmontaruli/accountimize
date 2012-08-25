@@ -141,11 +141,19 @@ class InvoicesController < ApplicationController
       end
 
       def restrict_account_access
-        @invoice = Invoice.find(params[:id])
-        @invoice_client = Client.find_by_id(@invoice.client_id)
-        @invoice_account = Account.find_by_id(@invoice_client.account_id)
-        if @invoice_account != @account
-          redirect_to site_url
+        if params[:invoice_milestone_id]
+          @estimate = InvoiceMilestone.find(params[:invoice_milestone_id]).invoice_schedule.estimate
+          @estimate_account = @estimate.client.account
+          if @estimate_account != @account
+            redirect_to site_url
+          end
+        else
+          @invoice = Invoice.find(params[:id])
+          @invoice_client = Client.find_by_id(@invoice.client_id)
+          @invoice_account = Account.find_by_id(@invoice_client.account_id)
+          if @invoice_account != @account
+            redirect_to site_url
+          end
         end
       end
     end
