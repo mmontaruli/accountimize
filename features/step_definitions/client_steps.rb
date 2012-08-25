@@ -1,4 +1,3 @@
-require 'ruby-debug'
 Given /^I have clients "(.*?)" and "(.*?)"$/ do |client1, client2|
   first_client = create(:client, name: client1, account_id: @user.client.account_id)
   second_client = create(:client, name: client2, account_id: @user.client.account_id)

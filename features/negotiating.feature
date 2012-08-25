@@ -36,3 +36,11 @@ Feature: Negotiate estimates
 		When I click on the accept estimate button
 		And I save the changes
 		Then I should see "Estimate Accepted"
+
+	Scenario: Accepting a new estimate
+		Given I am logged in as a client
+		And I am customizing an estimate
+		And no line items have been accepted or negotiated
+		When I click on the accept estimate button
+		And I save the changes
+		Then I should see "Estimate Accepted"

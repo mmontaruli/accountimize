@@ -37,13 +37,19 @@ Then /^I should see this line item priced at "(.*?)"$/ do |new_price|
 end
 
 Given /^I am customizing an estimate$/ do
-  pending # express the regexp above with the code you wish you had
+  @estimate = create(:estimate, client_id: @user.client_id)
+  @line_item = create(:line_item, estimate_id: @estimate.id)
+  visit edit_estimate_url(@estimate, :subdomain => @user.client.account.subdomain)
 end
 
 Given /^all line items on this estimate have been accepted$/ do
-  pending # express the regexp above with the code you wish you had
+  @line_item.is_accepted = true
+  @line_item.save
 end
 
 When /^I click on the accept estimate button$/ do
-  pending # express the regexp above with the code you wish you had
+  check('estimate[is_accepted]')
+end
+
+Given /^no line items have been accepted or negotiated$/ do
 end

@@ -2,8 +2,7 @@ class Estimate < ActiveRecord::Base
   after_initialize :default_values
   #after_initialize :accept_lines
   #before_save :accept_lines
-  #after_save :accept_lines
-  #after_save :accept_estimate
+  after_save :accept_lines
   before_validation :default_values
   has_many :line_items, :dependent => :destroy
   has_many :negotiate_lines, :through => :line_items
@@ -30,10 +29,12 @@ class Estimate < ActiveRecord::Base
       self.number = self.client.account.estimates.default_number
     end
   end
+
   def accept_lines
     if self.is_accepted
       self.line_items.each do |line_item|
         line_item.is_accepted = true
+        line_item.save
       end
     end
     #this is causing issues in testing...
