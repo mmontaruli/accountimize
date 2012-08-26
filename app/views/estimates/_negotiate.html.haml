@@ -25,7 +25,7 @@
 				= @estimate.date
 
 
-	%table{:class => 'line_items estimate_show'}
+	%table{:class => 'line_items has_total estimate_show'}
 		%thead
 			%tr
 				%th
@@ -61,5 +61,5 @@
 				%div{:class => "notification eight columns"} Client has not yet approved estimate
 
 
-		= f.submit 'Save »' , :class => 'nice medium radius blue button'
-		= link_to 'Cancel »', estimate_path(@estimate), :class => 'nice medium radius white button'
+		= f.submit 'Save »' , :class => 'medium radius success button'
+		= link_to 'Cancel »', estimate_path(@estimate), :class => 'medium radius secondary button'

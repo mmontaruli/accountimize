@@ -61,6 +61,7 @@ class InvoicesController < ApplicationController
   # POST /invoices.json
   def create
     @invoice = Invoice.new(params[:invoice])
+    @clients = @account.clients.find(:all, :conditions => {:is_account_master => false})
 
     respond_to do |format|
       if @invoice.save
@@ -77,6 +78,7 @@ class InvoicesController < ApplicationController
   # PUT /invoices/1.json
   def update
     @invoice = Invoice.find(params[:id])
+    @clients = @account.clients.find(:all, :conditions => {:is_account_master => false})
 
     respond_to do |format|
       if @invoice.update_attributes(params[:invoice])
@@ -139,11 +141,19 @@ class InvoicesController < ApplicationController
       end
 
       def restrict_account_access
-        @invoice = Invoice.find(params[:id])
-        @invoice_client = Client.find_by_id(@invoice.client_id)
-        @invoice_account = Account.find_by_id(@invoice_client.account_id)
-        if @invoice_account != @account
-          redirect_to site_url
+        if params[:invoice_milestone_id]
+          @estimate = InvoiceMilestone.find(params[:invoice_milestone_id]).invoice_schedule.estimate
+          @estimate_account = @estimate.client.account
+          if @estimate_account != @account
+            redirect_to site_url
+          end
+        else
+          @invoice = Invoice.find(params[:id])
+          @invoice_client = Client.find_by_id(@invoice.client_id)
+          @invoice_account = Account.find_by_id(@invoice_client.account_id)
+          if @invoice_account != @account
+            redirect_to site_url
+          end
         end
       end
     end

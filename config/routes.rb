@@ -3,7 +3,8 @@ require 'subdomain'
 Accountimize::Application.routes.draw do
 
   resources :invoices do
-    member do
+    #member do
+    collection do
       get 'generateInvoiceFromMilestone'
     end
   end
@@ -39,6 +40,7 @@ Accountimize::Application.routes.draw do
 
   resources :estimates do
     resources :invoice_schedules, :shallow => true
+    #resource :invoice_schedule, :shallow => true
   end
 
   #get "site/index"

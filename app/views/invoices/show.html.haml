@@ -1,6 +1,6 @@
 -if signed_in_client.is_account_master
 	.row
-		%p{:class => "three columns offset-by-eight"}= link_to "Edit Invoice »", edit_invoice_path(@invoice), :class => 'nice small radius blue button'
+		%p{:class => "three columns offset-by-eight"}= link_to "Edit Invoice »", edit_invoice_path(@invoice), :class => 'small radius button'
 
 .row
 	%div{:class => "four columns client-address"}
@@ -8,7 +8,7 @@
 		%br
 		= render 'clients/client_address'
 
-	%div{:class => "three columns offset-by-three"}
+	%div{:class => "three columns offset-by-three end"}
 		%p
 			%strong Invoice Number:
 			= @invoice.number

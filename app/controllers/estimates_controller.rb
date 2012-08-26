@@ -65,7 +65,7 @@ class EstimatesController < ApplicationController
     #respond_to do |format|
     if @estimate.is_accepted
       respond_to do |format|
-        format.html { redirect_to estimate_path(@estimate), :flash => {notice: 'Estimate has been accepted and cannot be edited.', :status => 'warning'} }
+        format.html { redirect_to estimate_path(@estimate), :flash => {notice: 'Estimate has been accepted and cannot be edited.', :status => 'secondary'} }
       end
     end
     #end
@@ -76,6 +76,7 @@ class EstimatesController < ApplicationController
   # POST /estimates.json
   def create
     @estimate = Estimate.new(params[:estimate])
+    @clients = @account.clients.find(:all, :conditions => {:is_account_master => false})
 
     respond_to do |format|
       if @estimate.save
@@ -92,6 +93,7 @@ class EstimatesController < ApplicationController
   # PUT /estimates/1.json
   def update
     @estimate = Estimate.find(params[:id])
+    @clients = @account.clients.find(:all, :conditions => {:is_account_master => false})
 
     respond_to do |format|
       if @estimate.update_attributes(params[:estimate])

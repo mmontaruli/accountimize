@@ -25,7 +25,7 @@
 					- if signed_in_client.is_account_master
 						%td.estimate_edit
 							= link_to 'Edit', edit_estimate_path(estimate) unless estimate.is_accepted
-						%td.estimate_delete= link_to 'Delete', estimate_path(estimate), confirm: 'Are you sure?', method: :delete
+						%td.estimate_delete= link_to 'Delete', estimate_path(estimate), :data => { :confirm => 'Are you sure?' }, method: :delete
 
 - if signed_in_client.is_account_master
-	%p.row= link_to 'New estimate »', new_estimate_path, :class => 'nice medium radius blue button'
+	%p.row= link_to 'New estimate »', new_estimate_path, :class => 'medium radius button'

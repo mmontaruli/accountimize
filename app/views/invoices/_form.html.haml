@@ -1,4 +1,4 @@
-= form_for(@invoice, :html => {:class => 'nice'}) do |f|
+= form_for(@invoice, :html => {:class => ''}) do |f|
 	-if @invoice.errors.any?
 		#error_explanation
 			%h2
@@ -12,18 +12,19 @@
 	.row
 		.field{:class => 'three columns'}
 			= f.label :client_id
-			= f.collection_select(:client_id, @clients, :id, :name, {:include_blank => true}, data: {'url-base' => clients_path})
+			= f.collection_select(:client_id, @clients, :id, :name, {:include_blank => true}, data: {'url-base' => clients_path}, :class => 'client_select')
 			%p.address
 				= render 'clients/client_address' if @invoice.client_id
 
-		.field{:class => 'four columns offset-by-four'}
+		.field{:class => 'three columns offset-by-four end'}
 			= f.label :number
-			= f.text_field :number, :class => 'input-text small'
-			= f.label :date
-			= f.date_select :date
+			= f.text_field :number, :class => ''
+			.date-select
+				= f.label :date
+				= f.date_select :date
 
 	%div
-		%table.line_items{:cellspacing => 4}
+		%table{:cellspacing => 4, :class => 'line_items has_total'}
 			%thead
 				%tr
 					%th.col Item #
@@ -49,8 +50,8 @@
 
 
 	.actions
-		= f.submit 'Save »' , :class => 'nice medium radius blue button'
+		= f.submit 'Save »' , :class => 'medium radius success button'
 		-if params[:action] == 'edit'
-			= link_to 'Cancel »', invoice_path(@invoice), :class => 'nice medium radius white button'
+			= link_to 'Cancel »', invoice_path(@invoice), :class => 'medium radius secondary button'
 		-else
-			= link_to 'Cancel »', invoices_path, :class => 'nice medium radius white button'
+			= link_to 'Cancel »', invoices_path, :class => 'medium radius secondary button'

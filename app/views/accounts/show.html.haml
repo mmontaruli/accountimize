@@ -1,3 +1,5 @@
+%h4 Account Dashboard
+
 %p
 	%strong Name:
 	= @account.name
@@ -10,7 +12,7 @@
 	%p
 		= link_to 'Edit', edit_account_path(@account)
 		|
-		= link_to 'Delete Account', @account, confirm: 'Are you sure?', method: :delete
+		= link_to 'Delete Account', @account, :data => { :confirm => 'Are you sure?' }, method: :delete
 		|
 		= link_to 'Back', accounts_url(:subdomain => false)
 

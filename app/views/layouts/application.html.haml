@@ -5,9 +5,10 @@
 		= stylesheet_link_tag    "application"
 		= javascript_include_tag "application"
 		= csrf_meta_tags
-		
+		= favicon_link_tag
+
 	%body{:class => @section_name}
-		
+
 		#header
 			%ul.login_links
 				- if current_user
@@ -21,10 +22,10 @@
 				= link_to 'Accountimize', site_url(:subdomain => false)
 			- if @header_trial
 				%a.trial(href="#") Free 30-Day Trial
-		
+
 		#content
 			= render 'layouts/inner_navigation'
-			
+
 			- if notice
 				.row
 					.alert-box{:class => "ten columns #{flash[:status]}"}
@@ -32,7 +33,7 @@
 						%a{:href => "", :class => "close"} &times;
 
 			= yield
-  
+
 		#footer
 			%p
 				%span Software by
