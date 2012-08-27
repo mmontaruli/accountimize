@@ -40,20 +40,27 @@ describe InvoiceSchedulesController do
 	end
 	describe "#edit" do
 		it "should be successful" do
-			get :edit, id: @invoice_schedule
+			get :edit, estimate_id: @estimate.id, id: @invoice_schedule
 			response.should be_successful
 		end
 		it "should not allow access to client" do
 			session[:user_id] = @client_user.id
-			get :edit, id: @invoice_schedule
+			get :edit, estimate_id: @estimate.id, id: @invoice_schdeule
 			response.should redirect_to site_url
 		end
 	end
 	describe "#update" do
 		it "should update invoice schedule" do
-			@new_estimate = create(:estimate, client_id: @client.id)
-			post :update, id: @invoice_schedule.to_param, estimate_id: @new_estimate.id
-			response.should redirect_to invoice_schedule_url(@invoice_schedule)
+
+			post :update, :estimate_id => @estimate, :id => @invoice_schedule,
+            	:invoice_schedule => {
+              		:invoice_milestones_attributes => {
+                		"0" =>{:description => "new test", :estimate_percentage => 0},
+                		"1" =>{:description => "new test 2", :estimate_percentage => 0}
+              		}
+            	}
+
+			response.should redirect_to estimate_invoice_schedule_url(@estimate)
 		end
 	end
 end
