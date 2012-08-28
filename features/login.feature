@@ -5,8 +5,10 @@ Feature: Logging in and out
 
 	Scenario: Logging into an account
 		Given I have an account
+		And my name is "Fred Smith"
 		When I log in
 		Then I should see "Logged in"
+		And I should see "Hello Fred"
 
 	Scenario: Logging out of an account
 		Given I have an account
@@ -14,3 +16,9 @@ Feature: Logging in and out
 		And I would like to log out
 		When I click "Logout"
 		Then I should see "Logged out!"
+
+	Scenario: Changing settings
+		Given I have an account
+		And I am logged in
+		When I click "Settings"
+		Then I should see "Edit User"

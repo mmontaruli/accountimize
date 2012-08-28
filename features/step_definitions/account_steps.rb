@@ -24,6 +24,10 @@ end
 
 Given /^I have an account$/ do
   @user = create(:user)
+  if @first_name
+    @user.first_name = @first_name
+    @user.save
+  end
 end
 
 Given /^my name is "(.*?)"$/ do |full_name|

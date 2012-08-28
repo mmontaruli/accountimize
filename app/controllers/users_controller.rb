@@ -19,6 +19,23 @@ class UsersController < ApplicationController
     end
   end
 
+  def edit
+    @user = User.find(params[:id])
+    @client = @user.client
+  end
+
+  def update
+    @user = User.find(params[:id])
+    @client = @user.client
+    respond_to do |format|
+      if @user.update_attributes(params[:user])
+        format.html { redirect_to client_path(@client), :flash => {notice: 'User was successfully updated.', :status => 'success'} }
+      else
+        format.html { render action: "edit" }
+      end
+    end
+  end
+
   private
   def restrict_account_access
     if params[:client_id]

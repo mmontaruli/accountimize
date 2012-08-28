@@ -13,6 +13,15 @@ Feature: Adding and editing users
 		Then I should see "Signed up!"
 		And I should see "Fred Smith"
 
+	Scenario: Editing a user
+		Given I am logged in as a vendor
+		And I have a client named "Google"
+		And I have a contact named "Fred Smith"
+		When I go to the user edit page
+		And I change his first name to "Fredrick" and save
+		Then I should see "User was successfully updated."
+		And I should see "Fredrick Smith"
+
 	Scenario: Blocked access for client user
 		Given I am logged in as a client
 		When I go to any blocked user section

@@ -10,7 +10,9 @@
 	%h5 Contacts
 	%ul
 		- @users.each do |user|
-			%li= "#{user.first_name} #{user.last_name} - #{user.email}"
+			%li
+				= "#{user.first_name} #{user.last_name} - #{user.email} | "
+				= link_to 'Edit', edit_user_path(user)
 
 %p= link_to 'Add Contact', new_user_path(:client_id => @client)
 
