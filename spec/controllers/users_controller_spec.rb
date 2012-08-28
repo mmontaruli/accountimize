@@ -23,7 +23,7 @@ describe UsersController do
 	end
 	describe "#create" do
 		it "should create a user" do
-			post :create, "user" => {"email"=>"lorem@ipsum.com", "password"=>"lorem", "password_confirmation"=>"lorem", "client_id" => @client.id}
+			post :create, "user" => {"email"=>"lorem@ipsum.com", "password"=>"lorem", "password_confirmation"=>"lorem", "client_id" => @client.id, "first_name" => "Fred", "last_name" => "Smith"}
 			assigns(:user).should_not be_nil
       		assigns(:user).email.should == "lorem@ipsum.com"
 		end

@@ -17,9 +17,16 @@ When /^I sign up for a new account$/ do
   find("input[placeholder='Email Address']").set @new_email_address
   find("input[placeholder='Password']").set "ipsum"
   find("input[placeholder='Confirm Password']").set "ipsum"
+  find("input[placeholder='First Name']").set @first_name
+  find("input[placeholder='Last Name']").set @last_name
   click_button('Save')
 end
 
 Given /^I have an account$/ do
   @user = create(:user)
+end
+
+Given /^my name is "(.*?)"$/ do |full_name|
+  @first_name = full_name.split(' ')[0]
+  @last_name = full_name.split(' ')[1]
 end

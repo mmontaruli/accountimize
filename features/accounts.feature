@@ -7,5 +7,6 @@ Feature: Manage accounts
 		Given I do not have an account
 		And my email address is "matt@acme.com"
 		And my company name is "Acme"
+		And my name is "Fred Smith"
 		When I sign up for a new account
 		Then I should see "Account was successfully created."
