@@ -26,3 +26,8 @@ Feature: Adding and editing users
 		Given I am logged in as a client
 		When I go to any blocked user section
 		Then I should be redirected to the account dashboard
+
+	Scenario: Client can only edit their own user info
+		Given I am logged in as a client
+		When I go to edit my user info
+		Then I should see "Edit User"

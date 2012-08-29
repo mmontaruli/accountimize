@@ -44,6 +44,11 @@ class UsersController < ApplicationController
       if @user_account != @account
         redirect_to site_url
       end
+    elsif params[:id]
+      @user_account = User.find(params[:id]).client.account
+      if @user_account != @account
+        redirect_to site_url
+      end
     end
   end
   def restrict_client_access
@@ -51,6 +56,13 @@ class UsersController < ApplicationController
       @target_client = Client.find_by_id(:client_id)
       unless signed_in_client.is_account_master
         if @target_client != signed_in_client
+          redirect_to site_url
+        end
+      end
+    elsif params[:id]
+      @target_user = User.find(params[:id])
+      unless signed_in_client.is_account_master
+        if @target_user != current_user
           redirect_to site_url
         end
       end

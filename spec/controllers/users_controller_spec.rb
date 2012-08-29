@@ -26,6 +26,16 @@ describe UsersController do
 			get :edit, id: @user.id
 			response.should be_success
 		end
+		it "should allow client to access to client user" do
+			session[:user_id] = @client_user.id
+			get :edit, id: @client_user.id
+			response.should be_success
+		end
+		it "should not allow client to access other users" do
+			session[:user_id] = @client_user.id
+			get :edit, id: @user.id
+			response.should redirect_to site_url
+		end
 	end
 	describe "#create" do
 		it "should create a user" do

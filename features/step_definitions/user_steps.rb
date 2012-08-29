@@ -41,3 +41,7 @@ When /^I change his first name to "(.*?)" and save$/ do |new_first_name|
   find('input#user_first_name').set new_first_name
   click_button('Save')
 end
+
+When /^I go to edit my user info$/ do
+  visit edit_user_url(@user, :subdomain => @user.client.account.subdomain)
+end
