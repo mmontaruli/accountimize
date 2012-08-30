@@ -8,8 +8,8 @@ end
 
 When /^I fill in and save this new contacts name, email and temporary password$/ do
 	find('input#user_email').set @email_address
-  find('input#user_password').set 'harry'
-  find('input#user_password_confirmation').set 'harry'
+  find('input#user_password').set 'Harry123'
+  find('input#user_password_confirmation').set 'Harry123'
   find('input#user_first_name').set @first_name
   find('input#user_last_name').set @last_name
   click_button('Save')
