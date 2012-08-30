@@ -129,6 +129,12 @@ class EstimatesController < ApplicationController
           redirect_to estimates_path
         end
       end
+      if params[:client_id]
+        @target_account = Client.find(params[:client_id]).account
+        if @target_account != @account
+          redirect_to site_url
+        end
+      end
     end
 
     def restrict_account_access

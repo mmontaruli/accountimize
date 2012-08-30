@@ -27,6 +27,12 @@ describe EstimatesController do
 			get :new
 			response.should redirect_to site_url
 		end
+		it "should not allow me to view client data from another account" do
+			other_account = create(:account)
+			other_client = create(:client, account_id: other_account.id)
+			get :new, client_id: other_client.id
+			response.should redirect_to site_url
+		end
 	end
 	describe "#create" do
 		it "should create an estimate" do
