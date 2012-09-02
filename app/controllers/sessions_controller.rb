@@ -16,8 +16,6 @@ class SessionsController < ApplicationController
       end
     else
       redirect_to log_in_path, :flash => {:notice => "Invalid email or password", :status => "error"}
-      #flash.now.alert = "Invalid email or password"
-      #render "new"
     end
   end
 
