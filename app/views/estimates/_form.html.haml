@@ -9,54 +9,45 @@
 				- @estimate.errors.full_messages.each do |msg|
 					%li= msg
 
-	.row
-		.field{:class => 'three columns'}
-			= f.label :client_id
-			= f.collection_select(:client_id, @clients, :id, :name, {:include_blank => true}, data: {'url-base' => clients_path}, :class => 'client_select')
-			%p.address
-				= render 'clients/client_address' if @estimate.client_id
+	= render 'estimate_header', :f => f
 
-		.field{:class => 'three columns offset-by-four end'}
-			=f.label :number
-			=f.text_field :number, :class => ''
-			.date-select
-				=f.label :date
-				=f.date_select :date
+	%table{:class => 'line_items has_total'}
+		%thead
+			%tr
+				%th
+				%th.col Item #
+				%th{:class => "col lock"}
+					%span Lock
+				%th.col Description
+				%th.col Unit
+				%th.col Qty
+				%th.col Unit Price
+				%th.col Line Total
+				%th
+		%tbody
+			= f.fields_for :line_items do |builder|
+				= render 'line_item_fields', :f => builder
 
-	%div
-		%table{:cellspacing => 4, :class => 'line_items has_total'}
-			%thead
-				%tr
-					%th
-					%th.col Item #
-					%th{:class => "col lock"}
-						%span Lock
-					%th.col Description
-					%th.col Unit
-					%th.col Qty
-					%th.col Unit Price
-					%th.col Line Total
-					%th
-					%th
-			%tbody
-				= f.fields_for :line_items do |builder|
-					= render 'line_item_fields', :f => builder
+			- if signed_in_client.is_account_master
 				%tr.add_lines
 					%td.blank
 					%td{:colspan => 7, :class => "desc blank"}= link_to_add_fields "Add lines", f, :line_items, :class => 'small radius button'
-				%tr.total_line
 					%td.blank
-					%td{:colspan => 6, :class => "desc blank"}
-						%strong Total
-					%td{:class => "amount blank total_price"}
-						%strong= number_to_currency(@estimate.total_price)
-					%td.blank
+
+			%tr.total_line
+				%td.blank
+				%td{:colspan => 6, :class => "desc blank"}
+					%strong Total
+				%td{:class => "amount blank total_price"}
+					%strong= number_to_currency(@estimate.total_price)
+				%td.blank
 
 	.actions
 		%div{:class => "accept-estimate row"}
 			-if can_approve_estimate(f.object) && !signed_in_client.is_account_master
-				= f.check_box :is_accepted
-				= f.label :is_accepted, "Approve Estimate"
+				.checkbox-btn
+					= f.check_box :is_accepted
+					= f.label :is_accepted, "Approve Estimate"
 			-elsif !can_approve_estimate(f.object)
 				%div{:class => "notification eight columns"} There are outstanding negotiations that have not been approved yet
 			-elsif signed_in_client.is_account_master
