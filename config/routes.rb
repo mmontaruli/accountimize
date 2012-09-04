@@ -2,6 +2,9 @@ require 'subdomain'
 
 Accountimize::Application.routes.draw do
 
+  #get "password_resets/new"
+  resources :password_resets
+
   resources :invoices do
     #member do
     collection do

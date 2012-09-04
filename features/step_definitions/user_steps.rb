@@ -45,3 +45,32 @@ end
 When /^I go to edit my user info$/ do
   visit edit_user_url(@user, :subdomain => @user.client.account.subdomain)
 end
+
+Given /^I am on the log in page$/ do
+  visit log_in_url(:subdomain => @user.client.account.subdomain)
+end
+
+When /^I enter my email address$/ do
+  find('input#email').set @user.email
+  click_button('Reset Password')
+end
+
+
+Then /^when I change my password I should see "(.*?)"$/ do |confirmation_message|
+  @new_password = "Freddie123"
+  message = ActionMailer::Base.deliveries.last.body.to_s
+  start_url = message.index("http")
+  end_url = message.index("edit")+3
+  mailer_password_reset_url = message[start_url..end_url]
+  visit mailer_password_reset_url
+  find("input[placeholder='New password']").set @new_password
+  find("input[placeholder='Confirm new password']").set @new_password
+  click_button('Update Password')
+  page.should have_content(confirmation_message)
+end
+
+Then /^I should be able to log in with my new password$/ do
+  login(@user.client.account.subdomain, @user.email, @new_password)
+  page.should have_content("Logged in!")
+end
+

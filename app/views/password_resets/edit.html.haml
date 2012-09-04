@@ -1,0 +1,20 @@
+%h3 Reset Password
+
+= form_for @user, :url => password_reset_path(params[:id]) do |f|
+	- if @user.errors.any?
+		.error_messages
+			%h4 Form is invalid
+			%ul
+				- for message in @user.errors.full_messages
+					%li= message
+
+	%fieldset{:class =>"five columns"}
+		%legend Enter new password
+		.field
+			= f.password_field :password, placeholder: "New password"
+
+		.field
+			= f.password_field :password_confirmation, placeholder: "Confirm new password"
+
+		.actions
+			= f.submit "Update Password"
