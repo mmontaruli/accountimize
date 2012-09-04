@@ -39,7 +39,5 @@ Feature: Adding and editing users
 		When I click "Forgot password"
 		And I enter my email address
 		Then I should see "Email sent with password reset instructions"
-		#And I should be able to change and log in with my new password
-		#And I should see "Hello Fred"
 		And when I change my password I should see "Password has been reset!"
 		And I should be able to log in with my new password
