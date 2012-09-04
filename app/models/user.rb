@@ -1,5 +1,6 @@
 class User < ActiveRecord::Base
   belongs_to :client
+  has_many :messages, :dependent => :destroy
   attr_accessor :password
   before_save :encrypt_password
 

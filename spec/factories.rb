@@ -65,4 +65,10 @@ FactoryGirl.define do
     invoice_schedule
   end
 
+  factory :message do
+    subject "Subject"
+    body "Message body"
+    user
+  end
+
 end

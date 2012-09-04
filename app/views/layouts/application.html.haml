@@ -14,6 +14,7 @@
 				- if current_user
 					%li= link_to "Logout", log_out_path
 					%li= link_to "Settings", edit_user_path(current_user)
+					%li= link_to "Inbox", messages_path
 					%li= "Hello #{current_user.first_name}"
 				- else
 					%li= link_to 'Login', accounts_url(:subdomain => false)

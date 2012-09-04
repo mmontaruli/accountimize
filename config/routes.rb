@@ -2,6 +2,14 @@ require 'subdomain'
 
 Accountimize::Application.routes.draw do
 
+  # get "messages/index"
+
+  # get "messages/show"
+
+  # get "messages/destroy"
+
+  resources :messages
+
   #get "password_resets/new"
   resources :password_resets
 
