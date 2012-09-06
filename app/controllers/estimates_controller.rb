@@ -65,6 +65,9 @@ class EstimatesController < ApplicationController
 
     respond_to do |format|
       if @estimate.save
+        @estimate.client.users.each do |user|
+          Message.create(user_id: user.id, subject: "New Estimate ##{@estimate.number}", body: "You have a new estimate. Please visit #{estimate_url(@estimate, subdomain: @estimate.client.account.subdomain)} to view.")
+        end
         format.html { redirect_to estimate_path(@estimate), :flash => {notice: 'Estimate was successfully created.', :status => 'success'} }
         format.json { render json: @estimate, status: :created, location: @estimate }
       else

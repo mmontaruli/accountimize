@@ -18,6 +18,7 @@ Feature: Manage estimates
 		When I go to the New Estimate page
 		And I fill in and submit this estimate information
 		Then I should see "Estimate was successfully created."
+		And client should receive a new estimate notification
 
 	Scenario: New estimate should start with three line items
 		Given I am logged in as a vendor

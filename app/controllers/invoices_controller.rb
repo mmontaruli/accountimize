@@ -55,6 +55,9 @@ class InvoicesController < ApplicationController
 
     respond_to do |format|
       if @invoice.save
+        @invoice.client.users.each do |user|
+          Message.create(user_id: user.id, subject: "New Invoice ##{@invoice.number}", body: "You have a new invoice. Please visit #{invoice_url(@invoice, subdomain: @invoice.client.account.subdomain)} to view.")
+        end
         format.html { redirect_to invoice_path(@invoice), :flash => {:notice => 'Invoice was successfully created.', :status => 'success'} }
         format.json { render json: @invoice, status: :created, location: @invoice }
       else

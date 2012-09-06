@@ -26,6 +26,7 @@ end
 
 Given /^I have a client named "(.*?)"$/ do |client|
   @client = create(:client, name: client, account_id: @user.client.account_id)
+  @client_user = create(:user, client_id: @client.id)
 end
 
 Then /^I should be redirected to the account dashboard$/ do

@@ -35,10 +35,15 @@ describe EstimatesController do
 		end
 	end
 	describe "#create" do
-		it "should create an estimate" do
+		before do
 			post :create, "estimate" => {"number" => "1003", "client_id" => @user.client_id, "date" => Date.today}
+		end
+		it "should create an estimate" do
 			assigns(:estimate).should_not be_nil
 			assigns(:estimate).number.should == 1003
+		end
+		it "should send a new estimate notification to client" do
+			Message.last.subject.should == "New Estimate #1003"
 		end
 	end
 	describe "#edit" do

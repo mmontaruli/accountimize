@@ -66,3 +66,11 @@ Given /^I have created an estimate for this client$/ do
   line_item = create(:line_item, estimate_id: @estimate.id)
 end
 
+Then /^client should receive a new estimate notification$/ do
+  visit log_out_url(subdomain: @user.client.account.subdomain)
+  login(@client.account.subdomain, @client_user.email, @client_user.password)
+  visit messages_url(subdomain: @client.account.subdomain)
+  page.should have_content("New Estimate #")
+end
+
+
