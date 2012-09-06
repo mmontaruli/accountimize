@@ -21,6 +21,12 @@ describe MessagesController do
       get :show, id: @message
       response.should be_success
     end
+    it "should not allow access to other users" do
+      new_user = create(:user)
+      session[:user_id] = new_user.id
+      get :show, id: @message
+      response.should redirect_to site_url
+    end
   end
 
   describe "#destroy" do
