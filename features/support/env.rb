@@ -11,7 +11,7 @@ require 'cucumber/rails'
 # prefer to use XPath just remove this line and adjust any selectors in your
 # steps to use the XPath syntax.
 Capybara.default_selector = :css
-Capybara.javascript_driver = :webkit
+#Capybara.javascript_driver = :webkit
 
 # By default, any exception happening in your Rails application will bubble up
 # to Cucumber so that your scenario will fail. This is a different from how
@@ -60,3 +60,41 @@ Cucumber::Rails::Database.javascript_strategy = :truncation
 
 World FactoryGirl::Syntax::Methods
 
+
+
+# Switch Pow to For Cucumber Tests
+#Capybara.default_driver = :selenium # Subdomain testing will only work with pow and selenium
+Capybara.javascript_driver = :webkit
+pow_config = "#{Rails.root}/.powenv" # Dont change, this is the Config Files Location.
+pow_config_stash = "#{Rails.root}/.powenv_original" # This is what the config will be stashed as during testing.
+
+Before do
+
+  # Set the default host
+  Capybara.app_host = "http://www.resipsa.dev"
+
+  # Stash the existing config
+  File.rename(pow_config,pow_config_stash) if File.exists? pow_config
+
+  # Write the new pow config
+  f = File.new("#{Rails.root}/.powenv", "w")
+  f.write "export RAILS_ENV=test"
+  f.close
+
+  # Touch tmp/restart.txt to force a restart
+  FileUtils.touch "#{Rails.root}/tmp/restart.txt"
+
+end
+
+After do
+
+  # Delete the temp config
+  File.delete(pow_config)
+
+  # Restore the Original Config
+  File.rename(pow_config_stash,pow_config) if File.exists? pow_config_stash
+
+  # Touch tmp/restart.txt to force a restart
+  FileUtils.touch "#{Rails.root}/tmp/restart.txt"
+
+end

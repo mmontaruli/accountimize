@@ -21,6 +21,7 @@ Given /^I am logged in as a client$/ do
   @vendor = create(:client, is_account_master: true)
   @client = create(:client, account_id: @vendor.account_id)
   @user = create(:user, client_id: @client.id)
+  @vendor_user = create(:user, client_id: @vendor.id)
   login(@vendor.account.subdomain, @user.email, @user.password)
 end
 

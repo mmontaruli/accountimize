@@ -13,11 +13,13 @@ Feature: Negotiate estimates
 		Then I should see "Estimate was successfully updated."
 		And I should see the line item total "0.00"
 
+	@javascript
 	Scenario: Negotiating a line item
 		Given I am logged in as a client
 		And I am customizing an estimate for "Web Design" for "3000"
 		When I negotiate this by commenting "Should be cheaper" and countering "2500"
 		Then I should see "2,500.00" as a negotiation in the Edit Estimate page
+		And vendor should receive a new negotiation notification
 
 	Scenario: Accepting a negotiation
 		Given I am logged in as a vendor

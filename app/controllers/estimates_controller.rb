@@ -81,8 +81,19 @@ class EstimatesController < ApplicationController
     @estimate = Estimate.find(params[:id])
     @clients = @account.clients.find(:all, :conditions => {:is_account_master => false})
 
+    # method needs to be run before save
+    @negotiate_lines_added = negotiate_lines_added
+
     respond_to do |format|
       if @estimate.update_attributes(params[:estimate])
+
+      # send message to counter party if a new negotiate line was added
+      if @negotiate_lines_added
+        counter_party.users.each do |user|
+          Message.create(user_id: user.id, subject: "New negotiation on estimate ##{@estimate.number}", body: "One of your estimates was recently counter-offered. Please visit #{estimate_url(@estimate, subdomain: @estimate.client.account.subdomain)} to review.")
+        end
+      end
+
         format.html { redirect_to estimate_path(@estimate), :flash => {notice: 'Estimate was successfully updated.', :status => 'success'} }
         format.json { head :ok }
       else
@@ -126,6 +137,27 @@ class EstimatesController < ApplicationController
       if @estimate_account != @account
         redirect_to site_url
       end
+    end
+
+    # this will test if a new negotiate_line was added
+    def negotiate_lines_added
+      @estimate.line_items.each do |line_item|
+        unless line_item.negotiate_lines.empty?
+          return true if line_item.negotiate_lines.last.line_item_id_changed?
+        end
+        #  return true
+        #end
+      end
+    end
+
+    # need to find out who the counter party is
+    def counter_party
+      if @estimate.client == signed_in_client
+        other_party = @account.clients.find(:first, :conditions => {:is_account_master => true})
+      else
+        other_party = @estimate.client
+      end
+      other_party
     end
 
 end

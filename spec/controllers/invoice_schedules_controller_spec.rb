@@ -35,6 +35,7 @@ describe InvoiceSchedulesController do
                 		"0" =>{:estimate_percentage => 100, :description => "test"}
               		}
             	}
+
 			assigns(:invoice_schedule).should_not be_nil
 		end
 	end
