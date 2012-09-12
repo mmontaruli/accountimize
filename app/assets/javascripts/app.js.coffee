@@ -22,7 +22,7 @@ $ ->
 
 lineItemEffects = (table) ->
 	# rollover and active effects for edit view
-	editableLines = 'tr td input, tr td textarea'
+	editableLines = 'tr td input:enabled, tr td textarea'
 
 	table.on "mouseenter", editableLines, ->
 		$(this).parent().addClass('hover')

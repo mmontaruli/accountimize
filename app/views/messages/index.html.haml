@@ -1,0 +1,8 @@
+%h3 Inbox
+
+%ul
+	-@messages.each do |message|
+		%li
+			= link_to message.subject, message
+			|
+			= link_to 'Delete', message_path(message), :data => { :confirm => 'Are you sure?' }, method: :delete

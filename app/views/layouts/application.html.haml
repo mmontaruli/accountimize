@@ -13,7 +13,9 @@
 			%ul.login_links
 				- if current_user
 					%li= link_to "Logout", log_out_path
-					%li= "Logged in as #{current_user.email}"
+					%li= link_to "Settings", edit_user_path(current_user)
+					%li= link_to "Inbox", messages_path
+					%li= "Hello #{current_user.first_name}"
 				- else
 					%li= link_to 'Login', accounts_url(:subdomain => false)
 					%li= link_to 'Sign up', sign_up_url(:subdomain => false)

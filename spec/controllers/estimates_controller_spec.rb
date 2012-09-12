@@ -27,12 +27,20 @@ describe EstimatesController do
 			get :new
 			response.should redirect_to site_url
 		end
+		it "should not allow me to view client data from another account" do
+			other_account = create(:account)
+			other_client = create(:client, account_id: other_account.id)
+			get :new, client_id: other_client.id
+			response.should redirect_to site_url
+		end
 	end
 	describe "#create" do
 		it "should create an estimate" do
-			post :create, "estimate" => {"number" => "1003", "client_id" => @user.client_id, "date" => Date.today}
-			assigns(:estimate).should_not be_nil
-			assigns(:estimate).number.should == 1003
+			expect {post :create, estimate: attributes_for(:estimate, client_id: @user.client_id)}.to change(Estimate, :count).by(1)
+		end
+		it "should send a new estimate notification to client" do
+			post :create, estimate: attributes_for(:estimate, client_id: @user.client_id)
+			Message.last.subject.should include("New Estimate #")
 		end
 	end
 	describe "#edit" do
@@ -45,6 +53,20 @@ describe EstimatesController do
 		it "should update estimate" do
 			post :update, id: @estimate.to_param, number: 200
 			response.should redirect_to estimate_url(@estimate)
+		end
+		it "should send notification if a new negotiation is made" do
+			post :update, :id => @estimate, :estimate => {
+				:line_items_attributes => [
+					attributes_for(:line_item,
+						:negotiate_lines_attributes => [
+							attributes_for(:negotiate_line, user_negotiating: @user.email)
+						]
+					)
+				], :is_accepted => false
+			}
+
+            Message.last.subject.should include("New negotiation on estimate #")
+            Message.last.user_id.should == @client_user.id
 		end
 	end
 	describe "#destroy" do

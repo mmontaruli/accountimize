@@ -21,11 +21,33 @@ describe UsersController do
 			response.should redirect_to site_url
 		end
 	end
+	describe "#edit" do
+		it "should be successful" do
+			get :edit, id: @user.id
+			response.should be_success
+		end
+		it "should allow client to access to client user" do
+			session[:user_id] = @client_user.id
+			get :edit, id: @client_user.id
+			response.should be_success
+		end
+		it "should not allow client to access other users" do
+			session[:user_id] = @client_user.id
+			get :edit, id: @user.id
+			response.should redirect_to site_url
+		end
+	end
 	describe "#create" do
 		it "should create a user" do
-			post :create, "user" => {"email"=>"lorem@ipsum.com", "password"=>"lorem", "password_confirmation"=>"lorem", "client_id" => @client.id}
+			post :create, "user" => {"email"=>"lorem@ipsum.com", "password"=>"lorem", "password_confirmation"=>"lorem", "client_id" => @client.id, "first_name" => "Fred", "last_name" => "Smith"}
 			assigns(:user).should_not be_nil
       		assigns(:user).email.should == "lorem@ipsum.com"
+		end
+	end
+	describe "#update" do
+		it "should update user" do
+			post :update, id: @client_user.to_param, first_name: "Fredrick"
+			response.should redirect_to client_url(@client)
 		end
 	end
 end

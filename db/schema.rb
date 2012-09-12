@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120622163546) do
+ActiveRecord::Schema.define(:version => 20120904185456) do
 
   create_table "accounts", :force => true do |t|
     t.string   "name"
@@ -86,6 +86,14 @@ ActiveRecord::Schema.define(:version => 20120622163546) do
     t.integer  "invoice_id"
   end
 
+  create_table "messages", :force => true do |t|
+    t.string   "subject"
+    t.text     "body"
+    t.integer  "user_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
   create_table "negotiate_lines", :force => true do |t|
     t.text     "description"
     t.integer  "line_item_id"
@@ -106,9 +114,13 @@ ActiveRecord::Schema.define(:version => 20120622163546) do
     t.string   "email"
     t.string   "password_hash"
     t.string   "password_salt"
-    t.datetime "created_at",    :null => false
-    t.datetime "updated_at",    :null => false
+    t.datetime "created_at",             :null => false
+    t.datetime "updated_at",             :null => false
     t.integer  "client_id"
+    t.string   "first_name"
+    t.string   "last_name"
+    t.string   "password_reset_token"
+    t.datetime "password_reset_sent_at"
   end
 
 end

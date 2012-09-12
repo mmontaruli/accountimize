@@ -16,7 +16,7 @@ Given /^I have created an invoice schedule$/ do
 end
 
 When /^I go to the Edit Invoice Schedule page$/ do
-  visit edit_invoice_schedule_url(@invoice_schedule, :subdomain => @user.client.account.subdomain)
+  visit edit_estimate_invoice_schedule_url(@estimate, :subdomain => @user.client.account.subdomain)
 end
 
 When /^I change milestone "(.*?)" to "(.*?)" percent$/ do |invoice_milestone_number, estimate_percentage|
@@ -36,12 +36,12 @@ When /^I go to any blocked invoice schedules section$/ do
   @invoice_schedule.save
   @blocked_urls = [
     new_estimate_invoice_schedule_url(@estimate, :subdomain => @vendor.account.subdomain),
-    edit_invoice_schedule_url(@invoice_schedule, :subdomain => @vendor.account.subdomain)
+    edit_estimate_invoice_schedule_url(@estimate, :subdomain => @vendor.account.subdomain)
   ]
 end
 
 When /^I go to the invoice schedule page$/ do
-  visit invoice_schedule_url(@invoice_schedule, :subdomain => @user.client.account.subdomain)
+  visit estimate_invoice_schedule_url(@estimate, :subdomain => @user.client.account.subdomain)
 end
 
 When /^I click "(.*?)" from the first milestone$/ do |link_text|

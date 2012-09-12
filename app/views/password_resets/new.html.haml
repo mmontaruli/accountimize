@@ -1,0 +1,10 @@
+%h3 Reset Password
+
+= form_tag password_resets_path, :method => :post, :class => 'row' do
+	%fieldset{:class =>"five columns"}
+		%legend Enter email address
+		.field
+			= text_field_tag :email, params[:email], :placeholder => "Email Address"
+
+		.actions
+			= submit_tag "Reset Password »", :class => 'small radius success button'

@@ -1,7 +1,5 @@
 class Estimate < ActiveRecord::Base
   after_initialize :default_values
-  #after_initialize :accept_lines
-  #before_save :accept_lines
   after_save :accept_lines
   before_validation :default_values
   has_many :line_items, :dependent => :destroy
@@ -37,18 +35,6 @@ class Estimate < ActiveRecord::Base
         line_item.save
       end
     end
-    #this is causing issues in testing...
-    #try again in doing this in the LineItem model...
-    #maybe something like before_save LineItem.accept_lines
-    # self.line_items.each do |line_item|
-    #   line_item.negotiate_lines.each do |negotiate_line|
-    #     if negotiate_line.is_accepted
-    #       line_item.is_accepted = true
-    #       #notworking#line_item.quantity = negotiate_line.line_qty
-    #       #notworking#line_item.unit_price = negotiate_line.line_price
-    #     end
-    #   end
-    # end
   end
 
 end

@@ -52,3 +52,10 @@ When /^I go to any blocked invoice section$/ do
     edit_invoice_url(@invoice, :subdomain => @vendor.account.subdomain)
   ]
 end
+
+Then /^client should receive a new invoice notification$/ do
+  visit log_out_url(subdomain: @user.client.account.subdomain)
+  login(@client.account.subdomain, @client_user.email, @client_user.password)
+  visit messages_url(subdomain: @client.account.subdomain)
+  page.should have_content("New Invoice #")
+end

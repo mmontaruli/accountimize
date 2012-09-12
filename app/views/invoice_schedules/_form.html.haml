@@ -1,4 +1,4 @@
-= form_for([@estimate,@invoice_schedule], :html => {:class => ''}) do |f|
+= form_for([@estimate,@invoice_schedule], :url => estimate_invoice_schedule_path(@estimate), :html => {:class => ''}) do |f|
 	-if @invoice_schedule.errors.any?
 		#error_explanation
 			%h2
@@ -10,7 +10,7 @@
 					%li= msg
 
 	.field
-		= "For estimate#: #{@estimate_number}"
+		= "For estimate#: #{@estimate.number}"
 
 	.row
 		%p{:class => "nine columns notification"} Use the invoice schedule to automate the generation of invoices based on the agreed upon estimate total and a percent of the contract total you specify to be invoiced upon completion of a project milestone.
@@ -44,6 +44,6 @@
 	.actions
 		= f.submit 'Save »', :class => 'medium radius success button'
 		-if params[:action] == 'edit'
-			= link_to "Cancel »", invoice_schedule_path(@invoice_schedule), :class => 'medium radius secondary button'
+			= link_to "Cancel »", estimate_invoice_schedule_path(@estimate), :class => 'medium radius secondary button'
 		-else
 			= link_to "Cancel »", estimate_path(@estimate), :class => 'medium radius secondary button'

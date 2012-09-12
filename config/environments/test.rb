@@ -42,4 +42,7 @@ Accountimize::Application.configure do
 
   # Raise exception on mass assignment protection for Active Record models
   config.active_record.mass_assignment_sanitizer = :strict
+
+  # Set url for mailer testing env
+  config.action_mailer.default_url_options = { :host => "test.host" }
 end

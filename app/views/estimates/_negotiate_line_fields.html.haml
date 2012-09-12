@@ -17,7 +17,6 @@
 			= f.hidden_field :hours_rate, :class => 'hours_rate'
 		%td{:class => "line_t_price amount"}= number_with_precision(f.object.total_price, :precision => 2, :delimiter => ',')
 		%td.blank
-		%td.blank
 
 - else
 	%tr{:class => "negotiate_line submitted #{who_is_negotiating(f.object.user_negotiating)}"}
@@ -47,4 +46,3 @@
 				= f.label :is_accepted, "Accept"
 		-else
 			%td.blank
-		%td.blank

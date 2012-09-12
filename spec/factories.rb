@@ -19,8 +19,10 @@ FactoryGirl.define do
 
   factory :user do
   	sequence(:email) { |n| "foo#{n}@example.com" }
-  	password "foobar"
+  	password "Foobar123"
   	password_confirmation { |u| u.password }
+    first_name "Fred"
+    last_name "Smith"
   	client
   end
 
@@ -61,6 +63,12 @@ FactoryGirl.define do
     description "Description"
     estimate_percentage 100
     invoice_schedule
+  end
+
+  factory :message do
+    subject "Subject"
+    body "Message body"
+    user
   end
 
 end

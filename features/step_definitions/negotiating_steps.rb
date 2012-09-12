@@ -13,7 +13,13 @@ Given /^I am customizing an estimate for "(.*?)" for "(.*?)"$/ do |service_name,
 end
 
 When /^I negotiate this by commenting "(.*?)" and countering "(.*?)"$/ do |comment, price|
-  negotiate_line = create(:negotiate_line, line_item_id: @line_item.id, description: comment, line_price: price, user_negotiating: @user.email)
+  visit edit_estimate_url(@estimate, subdomain: @user.client.account.subdomain)
+  click_link "Actions"
+  click_link "Negotiate"
+  find("textarea[id^='estimate_line_items_attributes_0_negotiate_lines_attributes'][id$='description']").set(comment)
+  find("input[id^='estimate_line_items_attributes_0_negotiate_lines_attributes'][id$='line_qty']").set(1)
+  find("input[id^='estimate_line_items_attributes_0_negotiate_lines_attributes'][id$='line_price']").set(price)
+  click_button("Save")
 end
 
 Then /^I should see "(.*?)" as a negotiation in the Edit Estimate page$/ do |price|
@@ -52,4 +58,11 @@ When /^I click on the accept estimate button$/ do
 end
 
 Given /^no line items have been accepted or negotiated$/ do
+end
+
+Then /^vendor should receive a new negotiation notification$/ do
+  visit log_out_url(subdomain: @user.client.account.subdomain)
+  login(@vendor.account.subdomain, @vendor_user.email, @vendor_user.password)
+  visit messages_url(subdomain: @vendor.account.subdomain)
+  page.should have_content("New negotiation on estimate #")
 end

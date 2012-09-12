@@ -29,10 +29,15 @@ describe InvoicesController do
 		end
 	end
 	describe "#create" do
-		it "should create an invoice" do
+		before do
 			post :create, "invoice" => {"number" => "2004", "client_id" => @user.client_id, "date" => Date.today}
+		end
+		it "should create an invoice" do
 			assigns(:invoice).should_not be_nil
 			assigns(:invoice).number.should == 2004
+		end
+		it "should send a new invoice notification to client" do
+			Message.last.subject.should == "New Invoice #2004"
 		end
 	end
 	describe "#edit" do

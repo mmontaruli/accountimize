@@ -1,0 +1,31 @@
+= form_for(@user, :html => {:class => 'row'}) do |f|
+	- if @user.errors.any?
+		.error_messages
+			%h4 Form is invalid
+			%ul
+				- for message in @user.errors.full_messages
+					%li= message
+
+	%fieldset{:class => "six columns"}
+		%legend All fields are required
+		-if params[:action] == 'new'
+			= f.hidden_field :client_id, :value => @client.id
+
+		.field
+			= f.text_field :first_name, :placeholder => "First Name", :class => "five columns"
+			= f.text_field :last_name, :placeholder => "Last Name", :class => "six columns"
+		.field
+			= f.text_field :email, :placeholder => "Email Address", :class => ""
+
+		.field
+			= f.password_field :password, :placeholder => "Password", :class => ""
+
+		.field
+			= f.password_field :password_confirmation, :placeholder => "Confirm Password", :class => ""
+
+		.actions
+			= f.submit 'Save »', :class => 'small radius success button'
+			-if params[:action] == 'edit'
+				= link_to 'Cancel »', client_path(@client), :class => 'small radius secondary button'
+			-else
+				= link_to 'Cancel »', site_url, :class => 'small radius secondary button'

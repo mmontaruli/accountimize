@@ -18,6 +18,7 @@ Feature: Manage invoices
 		When I go to the New Invoice page
 		And I fill in and submit this invoicing information
 		Then I should see "Invoice was successfully created."
+		And client should receive a new invoice notification
 
 	Scenario: New invoice should start with three line items
 		Given I am logged in as a vendor
