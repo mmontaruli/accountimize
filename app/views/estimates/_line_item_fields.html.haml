@@ -38,23 +38,15 @@
 	%td{:class => "line_t_price amount"}= number_with_precision(f.object.total_price, :precision => 2, :delimiter => ',')
 	%td{:class => "line_links desc blank"}
 		-unless f.object.is_accepted
-			.action-button
-				%a.action-drop-down{:href => "#"} Actions
-				%ul.line-actions
-					%li.add_negotiation_line
-						-unless f.object.is_accepted || f.object.is_locked || disable_negotiate_button(f.object) || f.object.negotiate_lines.empty? && signed_in_client.is_account_master
-							= link_to_add_negotiate_fields "Negotiate", f, :negotiate_lines, :class => ''
-							%div{:class => "disabled hide"}
-						-else
-							.disabled Negotiate
-					%li.accept_line
-						-if f.object.negotiate_lines.empty? && !signed_in_client.is_account_master
-							= f.check_box :is_accepted
-							= f.label :is_accepted, "Accept"
-							%div{:class => "disabled hide"}
-						-else
-							= f.hidden_field :is_accepted, :class => 'line_is_accepted'
-							.disabled Accept
+
+			-if f.object.negotiate_lines.empty? && !signed_in_client.is_account_master
+				.thumbs-up
+					= f.check_box :is_accepted
+					= f.label :is_accepted, "Accept"
+				-unless f.object.is_locked
+					= link_to_add_negotiate_fields "Negotiate", f, :negotiate_lines, :class => 'thumbs-down'
+				%div{:class => "disabled hide"}
+
 		-else
 			.accepted Accepted
 
@@ -63,4 +55,4 @@
 
 - unless f.object.is_accepted
 	= f.fields_for :negotiate_lines do |builder|
-		= render 'negotiate_line_fields', :f => builder
+		= render 'negotiate_line_fields', :f => builder, :line_item => f

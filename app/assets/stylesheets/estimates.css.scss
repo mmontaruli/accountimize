@@ -36,90 +36,45 @@ body.estimates #content {
 			}
 			td.line_name {width:293px;/*width:315px;*/}
 			td.line_links {
-				.action-button {
-					display:inline-block;
-					margin-top:2px;
-					float:left;
-					a.action-drop-down {
-						color:$darkest-gray;
-						background-color:$action-btn-bg;
-						cursor:pointer;
-						height:24px;
-						display:inline-block;
-						width:90px;
-						padding:6px 0 0 15px;
-						font-size:13px;
-						background-image:url($action-nav-arrow) no-repeat 90% 50%;
-						@include gradient($action-nav-arrow, no-repeat, 90%, 50%, $action-btn-bg, $action-btn-bg-2, 0%, 100%);
-						border-radius:5px;
-						box-sizing:content-box;
-						-moz-box-sizing:content-box;
-						-webkit-box-sizing:content-box;
-						-o-box-sizing:content-box;
-
-					}
-					ul.line-actions {
-						background:$off-white;
-						border: 1px solid $dark-gray;
-						border-top:none;
-						width:95px;
-						margin-left:3px;
-						position:absolute;
-						display:none;
-						list-style:none;
-						li {
-							a {
-								margin:5px 0;
-								padding:5px;
-								display:block;
-								color:$darkest-gray;
-								font-size:$action-menu-text;
-							}
-							a:hover {
-								background-color:$action-menu-hover;
-								color:black;
-							}
-							input[type=checkbox] {
-								display:none;
-							}
-							input[type=checkbox] + label {
-								display:block;
-								margin:5px 0;
-								padding:5px;
-								color:$darkest-gray;
-								font-size:$action-menu-text;
-							}
-							input[type=checkbox] + label:hover {
-								background-color:$action-menu-hover;
-								color:black;
-							}
-							input[type=checkbox]:checked + label {
-								background-color:$accept-bg-2;
-								color:$accept-text-2;
-							}
-							.disabled {
-								margin:5px 0;
-								padding:5px;
-								color:$darker-gray;
-								font-size:$action-menu-text;
-							}
-						}
-					}
-					a.action-drop-down:hover {
-						background-color:$action-btn-bg;
-						background-image:url($action-nav-arrow) no-repeat 90% 50%;
-						@include gradient($action-nav-arrow, no-repeat, 90%, 50%, $action-btn-bg-hv, $action-btn-bg-2, 0%, 100%);
-					}
-					a.action-drop-down.click {
-						background-color:$action-btn-bg;
-						background-image:url($action-nav-arrow) no-repeat 90% 50%;
-						@include gradient($action-nav-arrow, no-repeat, 90%, 50%, $action-btn-bg-clk, $action-btn-bg-clk-2, 0%, 100%);
-					}
-				}
 				.add_negotiation_line {display:inline;}
 				.accepted {
 					font-weight:bold;
 					color:$accept-text-1;
+				}
+			}
+			td.accept, td.line_links {
+				.thumbs-up {
+					display:none;
+					width:auto;
+					height:auto;
+					input[type=checkbox] {
+						display:none;
+					}
+					input[type=checkbox] + label {
+						display:inline-block;
+						margin:0;
+						@include bgimage (url("/assets/thumbs-up.png") no-repeat, 25px, 20px);
+					}
+					input[type=checkbox]:checked + label {
+						@include bgimage (url("/assets/thumbs-up-active.png") no-repeat, 25px, 20px);
+					}
+				}
+				a.thumbs-down {
+					@include bgimage (url("/assets/thumbs-down.png") no-repeat, 25px, 20px);
+					display:none;
+				}
+			}
+			td.line_u_price, td.line_t_price {
+				width:95px;
+			}
+		}
+		tr:hover {
+			td.accept, td.line_links {
+				.thumbs-up {
+					display:inline-block;
+				}
+				a.thumbs-down {
+					display:inline-block;
 				}
 			}
 		}
@@ -189,7 +144,7 @@ body.estimates #content {
 			td.description {color:$negotiate-them-tx;}
 			td.line_t_price {background-color:$negotiate-them-ttl;}
 		}
-		tr.negotiate_line.them.accepted {
+		tr.negotiate_line.them.accepted, tr.negotiate_line.them.accepted_true {
 			td {
 				background:$accept-bg-2;
 				color:$darkest-gray;

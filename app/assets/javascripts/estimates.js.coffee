@@ -5,9 +5,7 @@ $ ->
 	lineCk = 'tr td.line_ck input[type="checkbox"]'
 	toggle = 'tr td.line_price_type select'
 	lineVal = 'tr input.line_value'
-	acceptNegotiateButton = 'tr td.blank.accept input[type=checkbox]'
-	acceptLineMenuItem = 'tr td.line_links .action-button li.accept_line input[type=checkbox]'
-	actionMenu = 'tr td.line_links .action-button a.action-drop-down'
+	accept = 'tr td .thumbs-up input[type=checkbox]'
 
 
 	negotiateCheckAndSelect lineCk
@@ -22,21 +20,10 @@ $ ->
 	$tableLineItems.on "blur", lineVal, ->
 		updateFixedAndHourlyValues $(this)
 
-	$tableLineItems.on "click", acceptNegotiateButton, ->
-		acceptNegotiateLine $(this)
+	$tableLineItems.on "click", accept, ->
+		acceptLine $(this)
 		updateLineTotals $(this).parents("tr").prevAll("tr.line_item").eq(0), $estimateTotal
 
-	$tableLineItems.on "click", acceptLineMenuItem, ->
-		acceptLineItem $(this)
-
-	$tableLineItems.on "click", actionMenu, ->
-		actionButton = $(this)
-		actionButton.addClass("click")
-		actionButton.next().show()
-		$body.on "click", ->
-			actionButton.next().hide()
-			actionButton.removeClass("click")
-		false
 
 negotiateCheckAndSelect = (lineCk) ->
 	negotiateCks = 'table.line_items ' + lineCk
@@ -99,21 +86,25 @@ updateFixedAndHourlyValues = (elem) ->
 
 	changeVal.val(changeType.line.val())
 
-acceptNegotiateLine = (accept) ->
-	# Changes color of negotiate_line and hides negotiate button if accepted
-	# and changes line_item values according to accepted negotiate line
-	negotiate_line = accept.parents "tr.negotiate_line"
-	line_item = negotiate_line.prevAll("tr.line_item").eq(0)
-	action_button = line_item.find("td.line_links .action-button")
-	negotiate_button = line_item.find("td.line_links .add_negotiation_line a")
+acceptLine = (accept) ->
+	line_item = accept.parents "tr.line_item"
+	thumbs_down = line_item.find("td.line_links a.thumbs-down")
+	estimate_line = line_item
 
-	negotiate =
-		price_type:
-			select: negotiate_line.find("td.line_price_type select")
-			accept: negotiate_line.find("td.line_price_type .accept")
-		qty: negotiate_line.find("td.line_qty input.line_qty")
-		price: negotiate_line.find("td.line_u_price input.line_unit_price")
-		other_lines: negotiate_line.prevUntil("tr.line_item", "tr.negotiate_line")
+	if line_item.length == 0
+		line_item_has_negotiate_lines = true
+		negotiate_line = accept.parents "tr.negotiate_line"
+		estimate_line = negotiate_line
+		line_item = negotiate_line.prevAll("tr.line_item").eq(0)
+		thumbs_down = negotiate_line.find(".thumbs-down")
+
+		negotiate =
+			price_type:
+				select: negotiate_line.find("td.line_price_type select")
+				accept: negotiate_line.find("td.line_price_type .accept")
+			qty: negotiate_line.find("td.line_qty input.line_qty")
+			price: negotiate_line.find("td.line_u_price input.line_unit_price")
+			other_lines: negotiate_line.prevUntil("tr.line_item", "tr.negotiate_line")
 
 	line =
 		price_type:
@@ -128,72 +119,13 @@ acceptNegotiateLine = (accept) ->
 		is_accepted: line_item.find("td.line_links input.line_is_accepted")
 		is_enabled: line_item.find('td.line_ck input[type="checkbox"]')
 
-
 	if accept.is ':checked'
-
-		# highlight negotiate line in green
-		negotiate_line.addClass "accepted"
-
-		# hide action button
-		action_button.hide()
-
-		# change price_type dropdown to text value
-		line.price_type.select.hide()
-		line.price_type.accept.show().html(negotiate.price_type.select.val())
-		negotiate.price_type.select.hide()
-		negotiate.price_type.accept.show().html(negotiate.price_type.select.val())
-
-		# change line_item values to negotiate values
-		line.qty.htm.html(negotiate.qty.val())
-		line.qty.valu.val(negotiate.qty.val())
-		line.price.htm.html(negotiate.price.val())
-		line.price.valu.val(negotiate.price.val())
-
-		# slide up other negotiate lines on accept
-		negotiate.other_lines.slideUp();
-
-		# enables accepted line item if it was previously unchecked
-		line.is_enabled.attr('checked','checked')
-		line_item.removeClass('removed')
-	else
-
-		#un-highlight negotiate line
-		negotiate_line.removeClass "accepted"
-
-		# show action button
-		action_button.show()
-
-		# change price_type text value back to dropdown
-		line.price_type.accept.hide()
-		line.price_type.select.show()
-		negotiate.price_type.accept.hide()
-		negotiate.price_type.select.show()
-
-		# change line_item values back to original values
-		fixedHourlyToggle(line_item, line.price_type.select)
-
-		# slide down other negotiate lines on accept uncheck
-		negotiate.other_lines.slideDown()
-
-acceptLineItem = (accept) ->
-	line_item = accept.parents "tr.line_item"
-	negotiate_button = line_item.find("td.line_links .add_negotiation_line a")
-
-	line =
-		price_type:
-			select: line_item.find("td.line_price_type select")
-			accept: line_item.find("td.line_price_type .accept")
-		is_enabled: line_item.find('td.line_ck input[type="checkbox"]')
-
-	if accept.is ':checked'
-
 		# removes any incorrect classes and then highlights line in green
-		line_item.removeClass "accepted_false"
-		line_item.addClass "accepted_true"
+		estimate_line.removeClass "accepted_false"
+		estimate_line.addClass "accepted_true"
 
-		# disable negotiate menu item
-		negotiate_button.hide()
-		negotiate_button.next().html("Negotiate").show()
+		# hide thumbs down
+		thumbs_down.hide()
 
 		# replace price_type dropdown with text value
 		line.price_type.select.hide()
@@ -202,17 +134,40 @@ acceptLineItem = (accept) ->
 		# enable line_item if not enabled already
 		line.is_enabled.attr('checked','checked')
 		line_item.removeClass('removed')
+
+		if line_item_has_negotiate_lines
+			# change negotiate dropdown to value
+			negotiate.price_type.select.hide()
+			negotiate.price_type.accept.show().html(negotiate.price_type.select.val())
+
+			# change line_item values to negotiate values
+			line.qty.htm.html(negotiate.qty.val())
+			line.qty.valu.val(negotiate.qty.val())
+			line.price.htm.html(negotiate.price.val())
+			line.price.valu.val(negotiate.price.val())
+
+			# slide up other negotiate lines on accept
+			negotiate.other_lines.slideUp();
+
 	else
-
 		# removes any incorrect classes and sets class to not accepted
-		line_item.removeClass "accepted_true"
-		line_item.addClass "accepted_false"
+		estimate_line.removeClass "accepted_true"
+		estimate_line.addClass "accepted_false"
 
-		# enables negotiate button
-		negotiate_button.next().hide()
-		negotiate_button.show()
+		# show thumbs down
+		thumbs_down.css('display', '')
 
 		# changes price_type text value back to dropdown
 		line.price_type.accept.hide()
 		line.price_type.select.show()
 
+		if line_item_has_negotiate_lines
+			# change negotiate value to dropdown
+			negotiate.price_type.accept.hide()
+			negotiate.price_type.select.show()
+
+			# change line_item values back to original values
+			fixedHourlyToggle(line_item, line.price_type.select)
+
+			# slide down other negotiate lines on accept uncheck
+			negotiate.other_lines.slideDown()

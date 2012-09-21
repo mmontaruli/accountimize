@@ -14,7 +14,6 @@ end
 
 When /^I negotiate this by commenting "(.*?)" and countering "(.*?)"$/ do |comment, price|
   visit edit_estimate_url(@estimate, subdomain: @user.client.account.subdomain)
-  click_link "Actions"
   click_link "Negotiate"
   find("textarea[id^='estimate_line_items_attributes_0_negotiate_lines_attributes'][id$='description']").set(comment)
   find("input[id^='estimate_line_items_attributes_0_negotiate_lines_attributes'][id$='line_qty']").set(1)

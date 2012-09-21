@@ -13,8 +13,13 @@ function add_negotiate_fields(link, association, content) {
   var new_id = new Date().getTime();
   var regexp = new RegExp("new_" + association, "g")
   var estimateLine = $(link).closest("tr.line_item");
+  if (estimateLine.length === 0) {
+    estimateLine = $(link).parents(".negotiate_line").prev()
+  }
   estimateLine.nextAll("tr.line_item, tr.add_lines, tr.total_line").eq(0).prevAll("tr.negotiate_line").eq(0).find("td.blank.accept input[type=checkbox] + label").hide();
-  $(link).parents(".action-button").hide();
+  //$(link).parents(".action-button").hide();
+  $(link).hide()
+  $(link).prev(".thumbs-up").hide()
   if (estimateLine.nextAll("tr").eq(0).hasClass('line_item') || estimateLine.nextAll("tr").eq(0).hasClass('add_lines') || estimateLine.nextAll("tr").eq(0).hasClass('total_line')) {
     estimateLine.after(content.replace(regexp, new_id));
   } else if (estimateLine.nextAll("tr").eq(0).hasClass('negotiate_line')) {
