@@ -14,6 +14,28 @@ Feature: Negotiate estimates
 		And I should see the line item total "0.00"
 
 	@javascript
+	Scenario: New (non-selected) line item still totals
+		Given I am logged in as a vendor
+		And I have a client named "Google"
+		And The client would like a quote for "Web Design"
+		And My services cost "3000"
+		When I go to the New Estimate page
+		And I fill in this estimate information
+		Then I should see "3,000.00" as the line total
+		And I should see "$3,000.00" as the estimate total
+
+	@javascript
+	Scenario: Editing (non-selected) line item doesn't total
+		Given I am logged in as a vendor
+		And I have a client named "Google"
+		And I have an estimate created for them for "Web Design" for "3000"
+		When I go to the Edit Estimate page
+		And I change this line item price to "3500"
+		And I uncheck this line item
+		Then I should see "0.00" as the line total
+		And I should see "$0.00" as the estimate total
+
+	@javascript
 	Scenario: Negotiating a line item
 		Given I am logged in as a client
 		And I am customizing an estimate for "Web Design" for "3000"

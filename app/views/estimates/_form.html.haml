@@ -11,7 +11,7 @@
 
 	= render 'estimate_header', :f => f
 
-	%table{:class => 'line_items has_total'}
+	%table{:class => "line_items has_total estimate-#{params[:action]}"}
 		%thead
 			%tr
 				%th

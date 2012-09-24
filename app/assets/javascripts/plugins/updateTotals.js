@@ -13,7 +13,7 @@ updateLineTotals = function(lineRow, total) {
 	}
 
 	newLineTotal = 0;
-	if ($('body').hasClass('estimates')) {
+	if ($('body').hasClass('estimates') && $('table.line_items').hasClass('estimate-edit')) {
 		if ($('td.line_ck input[type="checkbox"]', estimateLineItem).is(":checked") || lineRow.hasClass("negotiate_line")) {
 			newLineTotal = lineQty * lineUnitPrice;
 		}
