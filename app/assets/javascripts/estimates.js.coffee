@@ -20,7 +20,6 @@ $ ->
 	$tableLineItems.on "change", toggle, ->
 		fixedHourlyToggle $(this).parents("tr"), $(this)
 		firstScreenSecondScreenToggle $(this).parents("tr")
-		#updateLineTotals $(this).parents("tr"), $estimateTotal
 		updateLineTotals $(this).parents("tr"), $(this).parents('table').find('tr.total_line td.total_price strong')
 
 	$tableLineItems.on "blur", lineVal, ->
@@ -49,9 +48,10 @@ $ ->
 		$estimateFirstStep.removeClass("hidden")
 		false
 
-	# $("body.estimates form").submit (event)->
-	# 	event.preventDefault()
-	# 	removeFirstSection($(this))
+	# 3 remaining bugs (not listed in github issues):
+	# 1. Need to add select class to 2nd step line on 1st step select
+	# 2. 1st step total doesn't update on 2nd step change
+	# 3. Toggling in second step doesn't update values in 1st step
 
 negotiateCheckAndSelect = (lineCk) ->
 	negotiateCks = 'table.line_items ' + lineCk
@@ -137,14 +137,6 @@ fixedHourlyToggle = (lineRow, toggle) ->
 	if lineRow.hasClass('edit_false') or lineRow.hasClass('submitted')
 		$('td.line_qty .line_qty_val', lineRow).html(lineQty.val())
 		$('td.line_u_price .line_unit_price_val', lineRow).html(lineUnitPrice.val())
-
-# removeFirstSection = (form) ->
-# 	firstSection = form.find ".estimate-first-step"
-# 	#console.log firstSection
-# 	#firstSection.innerHTML = ''
-# 	firstSection.html('')
-# 	#console.log firstSection
-# 	form[0].submit()
 
 updateFixedAndHourlyValues = (elem) ->
 	# to update fixed and hourly values on line_value blur

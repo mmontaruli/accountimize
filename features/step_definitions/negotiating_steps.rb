@@ -3,7 +3,6 @@ When /^I uncheck this line item$/ do
 end
 
 Then /^I should see the line item total "(.*?)"$/ do |line_total|
-  #save_and_open_page
   find_total = find('td.line_t_price').text
   find_total.should == line_total
 end
@@ -26,18 +25,12 @@ Given /^I am reviewing an estimate for "(.*?)" for "(.*?)" for the first time$/ 
 end
 
 When /^I have no negotiations to make$/ do
-  #save_and_open_page
 end
 
 When /^I negotiate this by commenting "(.*?)" and countering "(.*?)"$/ do |comment, price|
-  #visit edit_estimate_url(@estimate, subdomain: @user.client.account.subdomain)
   click_link "Negotiate"
-  #save_and_open_page
   find("tr.negotiate_line td.description textarea").set(comment)
-  #find("textarea[id^='estimate_line_items_attributes_0_negotiate_lines_attributes'][id$='description']").set(comment)
   find("tr.negotiate_line td.line_qty input[type=text]").set(1)
-  #find("input[id^='estimate_line_items_attributes_0_negotiate_lines_attributes'][id$='line_qty']").set(1)
-  #find("input[id^='estimate_line_items_attributes_0_negotiate_lines_attributes'][id$='line_price']").set(price)
   find("tr.negotiate_line td.line_u_price input[type=text]").set(price)
   click_button("Save")
 end
@@ -54,7 +47,6 @@ When /^I fill in this estimate information$/ do
 end
 
 Then /^I should see "(.*?)" as the line total$/ do |line_total|
-  #save_and_open_page
   find("td.line_t_price").should have_content(line_total)
 end
 
@@ -64,7 +56,6 @@ end
 
 Then /^I should see "(.*?)" as a negotiation in the Edit Estimate page$/ do |price|
   visit edit_estimate_url(@estimate, :subdomain => @user.client.account.subdomain)
-  #save_and_open_page
   page.should have_content(price)
 end
 
@@ -102,10 +93,7 @@ Given /^no line items have been accepted or negotiated$/ do
 end
 
 When /^I click on the line item to select it$/ do
-  #visit edit_estimate_url(@estimate, subdomain: @user.client.account.subdomain)
   find('tr.line_item').click
-  #find('.estimate-second-step table tr.line_item td.line_ck input[type=checkbox]').set("checked")
-  #save_and_open_page
 end
 
 Then /^vendor should receive a new negotiation notification$/ do
