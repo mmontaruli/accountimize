@@ -1,7 +1,10 @@
 $ ->
 	$body = $('body.estimates')
 	$tableLineItems = $('table.line_items', $body)
-	$estimateTotal = $('table.line_items tr.total_line td.total_price strong', $body)
+	$estimateTotal = $('table.line_items.second_step tr.total_line td.total_price strong', $body)
+	$estimateFirstStep = $('.estimate-first-step', $body)
+	$estimateSecondStep = $('.estimate-second-step', $body)
+	selectLines = 'tr.line_item.select'
 	lineCk = 'tr td.line_ck input[type="checkbox"]'
 	toggle = 'tr td.line_price_type select'
 	lineVal = 'tr input.line_value'
@@ -11,11 +14,14 @@ $ ->
 	negotiateCheckAndSelect lineCk
 
 	$tableLineItems.on "click", lineCk, ->
+		secondScreenLineItemCheckAndSelect $(this).parents("tr")
 		updateLineTotals $(this).parents("tr"), $estimateTotal
 
 	$tableLineItems.on "change", toggle, ->
 		fixedHourlyToggle $(this).parents("tr"), $(this)
-		updateLineTotals $(this).parents("tr"), $estimateTotal
+		firstScreenSecondScreenToggle $(this).parents("tr")
+		#updateLineTotals $(this).parents("tr"), $estimateTotal
+		updateLineTotals $(this).parents("tr"), $(this).parents('table').find('tr.total_line td.total_price strong')
 
 	$tableLineItems.on "blur", lineVal, ->
 		updateFixedAndHourlyValues $(this)
@@ -24,6 +30,28 @@ $ ->
 		acceptLine $(this)
 		updateLineTotals $(this).parents("tr").prevAll("tr.line_item").eq(0), $estimateTotal
 
+	$tableLineItems.on "click", selectLines, ->
+		firstScreenLineItemClickAndSelect $(this)
+
+	$body.on "click", '.estimate-first-step a.next', ->
+		$estimateFirstStep.addClass("hidden")
+		$estimateSecondStep.removeClass("hidden")
+		$estimateSecondStep.find("table tr").each ->
+			updateLineTotals $(this), $(this).parents('table').find('tr.total_line td.total_price strong')
+		$(".actions").removeClass("hidden")
+		false
+
+	$body.on "click", '.actions a.back', ->
+		$estimateSecondStep.addClass("hidden")
+		$('.actions').addClass("hidden")
+		$estimateFirstStep.find("table tr").each ->
+			updateLineTotals $(this), $(this).parents('table').find('tr.total_line td.total_price strong')
+		$estimateFirstStep.removeClass("hidden")
+		false
+
+	# $("body.estimates form").submit (event)->
+	# 	event.preventDefault()
+	# 	removeFirstSection($(this))
 
 negotiateCheckAndSelect = (lineCk) ->
 	negotiateCks = 'table.line_items ' + lineCk
@@ -37,6 +65,57 @@ negotiateCheckAndSelect = (lineCk) ->
 			$(this).parents("tr.line_item.edit_false").removeClass 'removed'
 		else
 			$(this).parents("tr.line_item.edit_false").addClass 'removed'
+
+firstScreenLineItemClickAndSelect = (line_item) ->
+	is_enabled = line_item.find 'input.is_enabled'
+	line_item_num = line_item.attr("class").match(/line-id-[0-9]*/)[0]
+	second_step_line = $('table.line_items.second_step').find('tr.'+line_item_num)
+	first_step_estimate_total = line_item.parents('table').find('tr.total_line td.total_price strong')
+
+	if is_enabled.val() == "t"
+		is_enabled.val("f")
+		second_step_line.find('td.line_ck input[type="checkbox"]').prop("checked", false)
+		line_item.removeClass "selected"
+	else
+		is_enabled.val("t")
+		second_step_line.find('td.line_ck input[type="checkbox"]').prop("checked", true)
+		line_item.addClass "selected"
+
+	updateLineTotals line_item, first_step_estimate_total
+
+secondScreenLineItemCheckAndSelect = (line_item) ->
+	is_enabled = line_item.find 'td.line_ck input[type="checkbox"]'
+	line_item_num = line_item.attr("class").match(/line-id-[0-9]*/)[0]
+	first_step_line = $('.select table.line_items').find('tr.'+line_item_num)
+
+	if is_enabled.is ':checked'
+		first_step_line.find('input.is_enabled').val("t")
+		first_step_line.addClass 'selected'
+	else
+		first_step_line.find('input.is_enabled').val("f")
+		first_step_line.removeClass 'selected'
+
+firstScreenSecondScreenToggle = (line_item) ->
+	# update both first and second screen toggle values together
+
+	toggleVal = line_item.find("td.line_price_type select").val()
+	otherLineItem(line_item).find("td.line_price_type select").val(toggleVal)
+
+lineItemNum = (line_item) ->
+	# to get the line item id
+	line_item.attr("class").match(/line-id-[0-9]*/)[0]
+
+otherTable = (line_item) ->
+	# get the opposite table that this line item doesn't belong to
+	if line_item.hasClass "select"
+		other_table = $("table.line_items.second_step")
+	else
+		other_table = $(".select table.line_items")
+	other_table
+
+otherLineItem = (line_item) ->
+	# to get the complementary line_item in the other table
+	otherTable(line_item).find('tr.'+lineItemNum(line_item))
 
 fixedHourlyToggle = (lineRow, toggle) ->
 	# to update line_item values to hourly or fixed (on toggle change)
@@ -58,6 +137,14 @@ fixedHourlyToggle = (lineRow, toggle) ->
 	if lineRow.hasClass('edit_false') or lineRow.hasClass('submitted')
 		$('td.line_qty .line_qty_val', lineRow).html(lineQty.val())
 		$('td.line_u_price .line_unit_price_val', lineRow).html(lineUnitPrice.val())
+
+# removeFirstSection = (form) ->
+# 	firstSection = form.find ".estimate-first-step"
+# 	#console.log firstSection
+# 	#firstSection.innerHTML = ''
+# 	firstSection.html('')
+# 	#console.log firstSection
+# 	form[0].submit()
 
 updateFixedAndHourlyValues = (elem) ->
 	# to update fixed and hourly values on line_value blur

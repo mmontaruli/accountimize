@@ -36,9 +36,30 @@ Feature: Negotiate estimates
 		And I should see "$0.00" as the estimate total
 
 	@javascript
-	Scenario: Negotiating a line item
+	Scenario: Selecting a line item in a new estimate
 		Given I am logged in as a client
-		And I am customizing an estimate for "Web Design" for "3000"
+		And I am reviewing an estimate for "Web Design" for "3000" for the first time
+		When I click on the line item to select it
+		And I click "Next"
+		And I have no negotiations to make
+		And I click the "Save" button
+		Then I should see "3,000" as the line total
+		And I should see "$3,000.00" as the estimate total
+
+	@javascript
+	Scenario: Negotiating a line item on a new estimate
+		Given I am logged in as a client
+		And I am reviewing an estimate for "Web Design" for "3000" for the first time
+		When I click on the line item to select it
+		And I click "Next"
+		And I negotiate this by commenting "Should be cheaper" and countering "2500"
+		Then I should see "2,500.00" as a negotiation in the Edit Estimate page
+		And vendor should receive a new negotiation notification
+
+	@javascript
+	Scenario: Negotiating a line item on an existing estimate
+		Given I am logged in as a client
+		And I am reviewing a previously reviewed estimate for "Web Design" for "3000"
 		When I negotiate this by commenting "Should be cheaper" and countering "2500"
 		Then I should see "2,500.00" as a negotiation in the Edit Estimate page
 		And vendor should receive a new negotiation notification

@@ -1,0 +1,25 @@
+%div{:class => 'estimate-first-step select'}
+	.row
+		.div{:class => 'top notification ten columns'} Please review your estimate below and select the line items you'd like by clicking on them.
+
+	%table{:class => "line_items has_total estimate-#{params[:action]} list"}
+		%thead
+			%tr
+				%th.col Item #
+				%th.col Description
+				%th.col Unit
+				%th.col Qty
+				%th.col Unit Price
+				%th.col Line Total
+		%tbody
+			= f.fields_for :line_items do |builder|
+				= render 'select_line_item_fields', :f => builder
+
+			%tr.total_line
+				%td{:colspan => 5, :class => "desc blank"}
+					%strong Total
+				%td{:class => "amount blank total_price"}
+					%strong= number_to_currency(@estimate.total_price)
+
+	= link_to 'Cancel »', estimate_path(@estimate), :class => 'medium radius secondary button'
+	= link_to 'Next »', "#", :class => 'medium radius success button next'

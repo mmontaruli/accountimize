@@ -11,38 +11,12 @@
 
 	= render 'estimate_header', :f => f
 
-	%table{:class => "line_items has_total estimate-#{params[:action]}"}
-		%thead
-			%tr
-				%th
-				%th.col Item #
-				%th{:class => "col lock"}
-					%span Lock
-				%th.col Description
-				%th.col Unit
-				%th.col Qty
-				%th.col Unit Price
-				%th.col Line Total
-				%th
-		%tbody
-			= f.fields_for :line_items do |builder|
-				= render 'line_item_fields', :f => builder
+	- if !signed_in_client.is_account_master && !f.object.already_reviewed
+		= render 'select_estimate', :f => f
 
-			- if signed_in_client.is_account_master
-				%tr.add_lines
-					%td.blank
-					%td{:colspan => 7, :class => "desc blank"}= link_to_add_fields "Add lines", f, :line_items, :class => 'small radius button'
-					%td.blank
+	= render 'negotiate_estimate', :f => f
 
-			%tr.total_line
-				%td.blank
-				%td{:colspan => 6, :class => "desc blank"}
-					%strong Total
-				%td{:class => "amount blank total_price"}
-					%strong= number_to_currency(@estimate.total_price)
-				%td.blank
-
-	.actions
+	%div{:class => "actions #{hide_status(f)}"}
 		%div{:class => "accept-estimate row"}
 			-if can_approve_estimate(f.object) && !signed_in_client.is_account_master
 				.checkbox-btn
@@ -54,8 +28,12 @@
 				%div{:class => "notification eight columns"} Client has not yet approved estimate
 
 
-		= f.submit 'Save »' , :class => 'medium radius success button'
 		-if params[:action] == 'edit'
 			= link_to 'Cancel »', estimate_path(@estimate), :class => 'medium radius secondary button'
 		-else
 			= link_to 'Cancel »', estimates_path, :class => 'medium radius secondary button'
+
+		- if !signed_in_client.is_account_master && !f.object.already_reviewed
+			= link_to 'Back »', "#", :class => 'medium radius secondary button back'
+
+		= f.submit 'Save »' , :class => 'medium radius success button save'

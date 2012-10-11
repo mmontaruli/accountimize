@@ -12,9 +12,10 @@ updateLineTotals = function(lineRow, total) {
 		lineUnitPrice = 0;
 	}
 
+
 	newLineTotal = 0;
 	if ($('body').hasClass('estimates') && $('table.line_items').hasClass('estimate-edit')) {
-		if ($('td.line_ck input[type="checkbox"]', estimateLineItem).is(":checked") || lineRow.hasClass("negotiate_line")) {
+		if ($('td.line_ck input[type="checkbox"]', estimateLineItem).is(":checked") || lineRow.hasClass("negotiate_line") || $('input.is_enabled', estimateLineItem).val() == 't') {
 			newLineTotal = lineQty * lineUnitPrice;
 		}
 	} else {
@@ -35,9 +36,10 @@ updateLineTotals = function(lineRow, total) {
 }
 
 updateInvoiceTotals = function(total) {
-	var negative, newInvoiceTotal, number;
+	var negative, newInvoiceTotal, number, table;
 	newInvoiceTotal = 0;
-	$("tr.line_item td.line_t_price:visible, .line_total:visible").each(function(){
+	table = total.parents('table')
+	$("tr.line_item td.line_t_price:visible, .line_total:visible", table).each(function(){
 		if ($(this).html() !== '') {
 			negative = false;
 			if ($(this).html().slice(0,1) == "-") {

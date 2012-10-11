@@ -1,0 +1,35 @@
+%div{:class => "estimate-second-step negotiate #{hide_status(f)}"}
+	- if params[:action] == 'edit'
+		.row
+			.div{:class => 'top notification ten columns'} Please review your estimate below. If you are okay with the pricing of a line item, click the thumbs-up button next to the line. If you'd like to make a counter-offer, click the thumbs-down button (where available) and enter your counter-offer and comments.
+
+	%table{:class => "line_items second_step has_total estimate-#{params[:action]}"}
+		%thead
+			%tr
+				%th
+				%th.col Item #
+				%th{:class => "col lock"}
+					%span Lock
+				%th.col Description
+				%th.col Unit
+				%th.col Qty
+				%th.col Unit Price
+				%th.col Line Total
+				%th
+		%tbody
+			= f.fields_for :line_items do |builder|
+				= render 'line_item_fields', :f => builder
+
+			- if signed_in_client.is_account_master
+				%tr.add_lines
+					%td.blank
+					%td{:colspan => 7, :class => "desc blank"}= link_to_add_fields "Add lines", f, :line_items, :class => 'small radius button'
+					%td.blank
+
+			%tr.total_line
+				%td.blank
+				%td{:colspan => 6, :class => "desc blank"}
+					%strong Total
+				%td{:class => "amount blank total_price"}
+					%strong= number_to_currency(@estimate.total_price)
+				%td.blank

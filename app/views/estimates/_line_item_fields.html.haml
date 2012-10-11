@@ -1,4 +1,4 @@
-%tr{:class => "line_item edit_#{!disable_form(f.object)} accepted_#{f.object.is_accepted}"}
+%tr{:class => "line_item edit_#{!disable_form(f.object)} accepted_#{f.object.is_accepted} line-id-#{f.object.id}"}
 	%td{:class => "line_ck blank"}
 		-unless f.object.is_accepted or params[:action] == 'new'
 			= f.check_box :is_enabled

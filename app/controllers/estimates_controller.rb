@@ -87,12 +87,17 @@ class EstimatesController < ApplicationController
     respond_to do |format|
       if @estimate.update_attributes(params[:estimate])
 
-      # send message to counter party if a new negotiate line was added
-      if @negotiate_lines_added
-        counter_party.users.each do |user|
-          Message.create(user_id: user.id, subject: "New negotiation on estimate ##{@estimate.number}", body: "One of your estimates was recently counter-offered. Please visit #{estimate_url(@estimate, subdomain: @estimate.client.account.subdomain)} to review.")
+        # send message to counter party if a new negotiate line was added
+        if @negotiate_lines_added
+          counter_party.users.each do |user|
+            Message.create(user_id: user.id, subject: "New negotiation on estimate ##{@estimate.number}", body: "One of your estimates was recently counter-offered. Please visit #{estimate_url(@estimate, subdomain: @estimate.client.account.subdomain)} to review.")
+          end
         end
-      end
+
+        if !@estimate.already_reviewed && !signed_in_client.is_account_master
+          @estimate.already_reviewed = true
+          @estimate.save
+        end
 
         format.html { redirect_to estimate_path(@estimate), :flash => {notice: 'Estimate was successfully updated.', :status => 'success'} }
         format.json { head :ok }

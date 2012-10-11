@@ -14,7 +14,7 @@
 				=f.date_select :date
 
 - else
-	.row
+	%div{:class => 'estimate-header row'}
 		%div{:class => 'four columns client-address'}
 			= @client.name
 			%br
@@ -28,7 +28,3 @@
 			%p
 				%strong Date:
 				= @estimate.date
-
-- if params[:action] == 'edit'
-	.row
-		.div{:class => 'top notification ten columns'} Please review your estimate below. If you are okay with the pricing of a line item, click the thumbs-up button next to the line. If you'd like to make a counter-offer, click the thumbs-down button (where available) and enter your counter-offer and comments.

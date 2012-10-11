@@ -151,6 +151,40 @@ body.estimates #content {
 			}
 		}
 	}
+	.select {
+		table.line_items.list {
+			tr {
+				td {
+					background-color:#fafafa;
+					color:#aaa;
+				}
+			}
+			tr.selected {
+				td {
+					background-color:#eee;
+					border:1px solid #999;
+					color:#333;
+				}
+			}
+			tr.hover {
+				td {
+					border:1px solid #999;
+					background-color:#f1f1f1;
+					color:#333;
+				}
+			}
+			tr.total_line {
+				td {
+					color:#333;
+				}
+			}
+			tr.total_line.hover {
+				td {
+					border:none;
+				}
+			}
+		}
+	}
 	.actions {
 		.accept-estimate {margin: 0 0 10px 20px;}
 	}
