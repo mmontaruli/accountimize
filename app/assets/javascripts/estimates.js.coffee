@@ -43,15 +43,10 @@ $ ->
 	$body.on "click", '.actions a.back', ->
 		$estimateSecondStep.addClass("hidden")
 		$('.actions').addClass("hidden")
+		$estimateFirstStep.removeClass("hidden")
 		$estimateFirstStep.find("table tr").each ->
 			updateLineTotals $(this), $(this).parents('table').find('tr.total_line td.total_price strong')
-		$estimateFirstStep.removeClass("hidden")
 		false
-
-	# 3 remaining bugs (not listed in github issues):
-	# 1. Need to add select class to 2nd step line on 1st step select
-	# 2. 1st step total doesn't update on 2nd step change
-	# 3. Toggling in second step doesn't update values in 1st step
 
 negotiateCheckAndSelect = (lineCk) ->
 	negotiateCks = 'table.line_items ' + lineCk
@@ -68,38 +63,37 @@ negotiateCheckAndSelect = (lineCk) ->
 
 firstScreenLineItemClickAndSelect = (line_item) ->
 	is_enabled = line_item.find 'input.is_enabled'
-	line_item_num = line_item.attr("class").match(/line-id-[0-9]*/)[0]
-	second_step_line = $('table.line_items.second_step').find('tr.'+line_item_num)
 	first_step_estimate_total = line_item.parents('table').find('tr.total_line td.total_price strong')
 
 	if is_enabled.val() == "t"
 		is_enabled.val("f")
-		second_step_line.find('td.line_ck input[type="checkbox"]').prop("checked", false)
+		otherLineItem(line_item).find('td.line_ck input[type="checkbox"]').prop("checked", false)
+		otherLineItem(line_item).addClass "removed"
 		line_item.removeClass "selected"
 	else
 		is_enabled.val("t")
-		second_step_line.find('td.line_ck input[type="checkbox"]').prop("checked", true)
+		otherLineItem(line_item).find('td.line_ck input[type="checkbox"]').prop("checked", true)
+		otherLineItem(line_item).removeClass "removed"
 		line_item.addClass "selected"
 
 	updateLineTotals line_item, first_step_estimate_total
 
 secondScreenLineItemCheckAndSelect = (line_item) ->
 	is_enabled = line_item.find 'td.line_ck input[type="checkbox"]'
-	line_item_num = line_item.attr("class").match(/line-id-[0-9]*/)[0]
-	first_step_line = $('.select table.line_items').find('tr.'+line_item_num)
 
 	if is_enabled.is ':checked'
-		first_step_line.find('input.is_enabled').val("t")
-		first_step_line.addClass 'selected'
+		otherLineItem(line_item).find('input.is_enabled').val("t")
+		otherLineItem(line_item).addClass 'selected'
 	else
-		first_step_line.find('input.is_enabled').val("f")
-		first_step_line.removeClass 'selected'
+		otherLineItem(line_item).find('input.is_enabled').val("f")
+		otherLineItem(line_item).removeClass 'selected'
 
 firstScreenSecondScreenToggle = (line_item) ->
 	# update both first and second screen toggle values together
 
 	toggleVal = line_item.find("td.line_price_type select").val()
 	otherLineItem(line_item).find("td.line_price_type select").val(toggleVal)
+	fixedHourlyToggle otherLineItem(line_item), otherLineItem(line_item).find('td.line_price_type select')
 
 lineItemNum = (line_item) ->
 	# to get the line item id
