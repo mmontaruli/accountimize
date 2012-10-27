@@ -1,15 +1,20 @@
 $ ->
+	#----- Variable Declarations -----#
+
 	$body = $('body.estimates')
 	$tableLineItems = $('table.line_items', $body)
 	$estimateTotal = $('table.line_items.second_step tr.total_line td.total_price strong', $body)
 	$estimateFirstStep = $('.estimate-first-step', $body)
 	$estimateSecondStep = $('.estimate-second-step', $body)
+	$estimateThirdStep = $('.estimate-third-step', $body)
 	selectLines = 'tr.line_item.select'
 	lineCk = 'tr td.line_ck input[type="checkbox"]'
 	toggle = 'tr td.line_price_type select'
 	lineVal = 'tr input.line_value'
 	accept = 'tr td .thumbs-up input[type=checkbox]'
 
+
+	#----- Function Inits -----#
 
 	negotiateCheckAndSelect lineCk
 
@@ -37,16 +42,27 @@ $ ->
 		$estimateSecondStep.removeClass("hidden")
 		$estimateSecondStep.find("table tr").each ->
 			updateLineTotals $(this), $(this).parents('table').find('tr.total_line td.total_price strong')
-		$(".actions").removeClass("hidden")
 		false
 
-	$body.on "click", '.actions a.back', ->
+	$body.on "click", '.estimate-second-step a.back', ->
 		$estimateSecondStep.addClass("hidden")
-		$('.actions').addClass("hidden")
 		$estimateFirstStep.removeClass("hidden")
 		$estimateFirstStep.find("table tr").each ->
 			updateLineTotals $(this), $(this).parents('table').find('tr.total_line td.total_price strong')
 		false
+
+	$body.on "click", '.estimate-second-step a.next', ->
+		confirmationPageSort $('.estimate-second-step table')
+		$estimateSecondStep.addClass("hidden")
+		$estimateThirdStep.removeClass("hidden")
+		false
+
+	$body.on "click", '.estimate-third-step a.back', ->
+		$estimateThirdStep.addClass("hidden")
+		$estimateSecondStep.removeClass("hidden")
+		false
+
+#----- Functions -----#
 
 negotiateCheckAndSelect = (lineCk) ->
 	negotiateCks = 'table.line_items ' + lineCk
@@ -78,6 +94,7 @@ firstScreenLineItemClickAndSelect = (line_item) ->
 
 	updateLineTotals line_item, first_step_estimate_total
 
+
 secondScreenLineItemCheckAndSelect = (line_item) ->
 	is_enabled = line_item.find 'td.line_ck input[type="checkbox"]'
 
@@ -88,6 +105,7 @@ secondScreenLineItemCheckAndSelect = (line_item) ->
 		otherLineItem(line_item).find('input.is_enabled').val("f")
 		otherLineItem(line_item).removeClass 'selected'
 
+
 firstScreenSecondScreenToggle = (line_item) ->
 	# update both first and second screen toggle values together
 
@@ -95,21 +113,27 @@ firstScreenSecondScreenToggle = (line_item) ->
 	otherLineItem(line_item).find("td.line_price_type select").val(toggleVal)
 	fixedHourlyToggle otherLineItem(line_item), otherLineItem(line_item).find('td.line_price_type select')
 
+
 lineItemNum = (line_item) ->
 	# to get the line item id
 	line_item.attr("class").match(/line-id-[0-9]*/)[0]
+
 
 otherTable = (line_item) ->
 	# get the opposite table that this line item doesn't belong to
 	if line_item.hasClass "select"
 		other_table = $("table.line_items.second_step")
-	else
+	else if line_item.hasClass "negotiate"
 		other_table = $(".select table.line_items")
+	else if line_item.hasClass "confirm"
+		other_table = $("table.line_items.second_step")
 	other_table
+
 
 otherLineItem = (line_item) ->
 	# to get the complementary line_item in the other table
 	otherTable(line_item).find('tr.'+lineItemNum(line_item))
+
 
 fixedHourlyToggle = (lineRow, toggle) ->
 	# to update line_item values to hourly or fixed (on toggle change)
@@ -131,6 +155,7 @@ fixedHourlyToggle = (lineRow, toggle) ->
 	if lineRow.hasClass('edit_false') or lineRow.hasClass('submitted')
 		$('td.line_qty .line_qty_val', lineRow).html(lineQty.val())
 		$('td.line_u_price .line_unit_price_val', lineRow).html(lineUnitPrice.val())
+
 
 updateFixedAndHourlyValues = (elem) ->
 	# to update fixed and hourly values on line_value blur
@@ -158,6 +183,7 @@ updateFixedAndHourlyValues = (elem) ->
 		changeVal = changeType.hourly
 
 	changeVal.val(changeType.line.val())
+
 
 acceptLine = (accept) ->
 	line_item = accept.parents "tr.line_item"
@@ -244,3 +270,82 @@ acceptLine = (accept) ->
 
 			# slide down other negotiate lines on accept uncheck
 			negotiate.other_lines.slideDown()
+
+
+confirmationPageSort = (estimate) ->
+	# separate line items on confirmation page by their enabled status
+
+	selectedTable = $('.confirm table.selected')
+	deselectedTable = $('.confirm table.deselected')
+	selectedTable.find("tbody").html("")
+	deselectedTable.find("tbody").html("")
+	estimate.find("tbody tr").each ->
+		rowHTML = ""
+		isSelected = $(this).find('td.line_ck input[type="checkbox"]').is(':checked')
+
+		unless $(this).hasClass("negotiate_line") or $(this).hasClass("add_lines")
+			if hasNegotiateLines($(this))
+				$(lineItemAndNegotiateLines($(this))).each ->
+					rowHTML = rowHTML + @outerHTML
+
+			else
+				rowHTML = @outerHTML
+
+		if isSelected or $(this).hasClass("total_line") or $(this).hasClass("accepted_true")
+			selectedTable.append(rowHTML)
+		else
+			deselectedTable.append(rowHTML)
+
+	# Get rid of certain columns for confirmation page
+	$.each [selectedTable, deselectedTable], (tableIndex, table)->
+		$.each ['td.line_ck', 'td.lock', 'td.line_links', 'tr.negotiate_line td.blank', 'tr.total_line td:first-child', 'tr.total_line td:last-child'], (colIndex, col)->
+			removeColumnsFromConfirm table, col
+		table.find('tr.negotiate_line').prepend('<td class="blank"></td>')
+		table.find('tr.total_line td.desc').attr('colspan', '5')
+		table.find('tr.line_item').removeClass('edit_true negotiate').addClass('edit_false confirm')
+		table.find('tr.negotiate_line.unsubmitted').each ->
+			negotiateLine = $(this)
+			$.each ['td.desc textarea', 'td.line_price_type select', 'td.line_qty input.line_qty', 'td.line_u_price input.line_unit_price'], (colIndex, col)->
+				cascadeNegotiationToConfirm negotiateLine, col
+		table.find('td input, td select, td textarea').attr('disabled', 'disabled')
+		table.find('tr.negotiate_line').addClass("submitted us")
+
+	# $(".confirm tr.negotiate_line.unsubmitted").each ->
+	# 	negotiateLine = $(this)
+	# 	$.each ['td.desc textarea', 'td.line_price_type select', 'td.line_qty input.line_qty', 'td.line_u_price input.line_unit_price'], (colIndex, col)->
+	# 		cascadeNegotiationToConfirm negotiateLine, col
+
+
+hasNegotiateLines = (lineItem) ->
+	# determine if a line item has negotiate lines
+
+	lineItem.nextAll("tr").eq(0).hasClass('negotiate_line')
+
+
+lineItemAndNegotiateLines = (lineItem) ->
+	# return a jquery object of a line item and its children negotiate lines
+
+	lineRowArray = [lineItem[0]]
+	nextRow = lineItem.nextAll("tr").eq(0)
+	while nextRow.hasClass("negotiate_line")
+		lineRowArray.push(nextRow[0])
+		nextRow = nextRow.nextAll("tr").eq(0)
+	lineRowArray
+
+removeColumnsFromConfirm = (table, elem) ->
+	table.find(elem).remove()
+
+parentLineItem = (negotiateLine) ->
+	# get parent line item of a negotiate line
+
+	$(negotiateLine.prevAll("tr.line_item")[0])
+
+otherUnsubmittedNegotiateLine = (negotiateLine) ->
+	# get the other unsubmitted negotiate line
+
+	$(otherLineItem(parentLineItem(negotiateLine)).nextAll("tr.negotiate_line.unsubmitted")[0])
+
+cascadeNegotiationToConfirm = (negotiateLine, elem) ->
+	# cascade unsubmitted values of negotiate lines to confirm screen
+
+	negotiateLine.find(elem).val(otherUnsubmittedNegotiateLine(negotiateLine).find(elem).val())

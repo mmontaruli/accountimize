@@ -33,3 +33,10 @@
 				%td{:class => "amount blank total_price"}
 					%strong= number_to_currency(@estimate.total_price)
 				%td.blank
+
+	- if params[:action] == 'edit'
+		= link_to 'Cancel »', estimates_path, :class => 'medium radius secondary button'
+		- if !signed_in_client.is_account_master && !f.object.already_reviewed
+			= link_to 'Back »', "#", :class => 'medium radius secondary button back'
+
+		= link_to 'Next »', "#", :class => 'medium radius success button next'

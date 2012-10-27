@@ -1,0 +1,9 @@
+%tr{:class => "negotiate_line submitted #{who_is_negotiating(f.object.user_negotiating)}"}
+	%td.blank
+	%td{:class => "description desc"}
+		.name= "#{f.object.user_negotiating} says:"
+		.text= f.object.description
+	%td.line_price_type= f.object.price_type
+	%td.line_qty= f.object.line_qty
+	%td{:class => "line_u_price amount"}= number_with_precision(f.object.line_price, :precision => 2)
+	%td{:class => "line_t_price amount"}= number_with_precision(f.object.total_price, :precision => 2, :delimiter => ',')

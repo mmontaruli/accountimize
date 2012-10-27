@@ -1,0 +1,11 @@
+%tr{:class => "line_item confirm edit_false accepted_#{f.object.is_accepted} line-id-#{f.object.id}"}
+	%td.line_num= f.object.number
+	%td{:class => "line_name desc"}= f.object.name
+	%td.line_price_type= f.object.price_type
+	%td.line_qty= f.object.quantity
+	%td{:class => "line_u_price amount"}= number_with_precision(f.object.unit_price, :precision => 2)
+	%td{:class => "line_t_price amount"}= number_with_precision(f.object.total_price, :precision => 2, :delimiter => ',')
+
+- unless f.object.is_accepted
+	= f.fields_for :negotiate_lines do |builder|
+		= render 'confirm_negotiate_line_fields', :f => builder, :line_item => f

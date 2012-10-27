@@ -25,6 +25,7 @@ Given /^I am reviewing an estimate for "(.*?)" for "(.*?)" for the first time$/ 
 end
 
 When /^I have no negotiations to make$/ do
+  find('.estimate-first-step a.next').click
 end
 
 When /^I negotiate this by commenting "(.*?)" and countering "(.*?)"$/ do |comment, price|
@@ -32,6 +33,8 @@ When /^I negotiate this by commenting "(.*?)" and countering "(.*?)"$/ do |comme
   find("tr.negotiate_line td.description textarea").set(comment)
   find("tr.negotiate_line td.line_qty input[type=text]").set(1)
   find("tr.negotiate_line td.line_u_price input[type=text]").set(price)
+  #click_button("Save")
+  find(".estimate-second-step a.next").click
   click_button("Save")
 end
 
@@ -94,6 +97,15 @@ end
 
 When /^I click on the line item to select it$/ do
   find('tr.line_item').click
+end
+
+When /^I confirm these changes and save$/ do
+  find('.estimate-second-step a.next').click
+  click_button("Save")
+end
+
+When /^I click "(.*?)" to go to the second step$/ do |link_text|
+  find('.estimate-first-step a.next').click
 end
 
 Then /^vendor should receive a new negotiation notification$/ do

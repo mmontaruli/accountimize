@@ -16,24 +16,28 @@
 
 	= render 'negotiate_estimate', :f => f
 
-	%div{:class => "actions #{hide_status(f)}"}
-		%div{:class => "accept-estimate row"}
-			-if can_approve_estimate(f.object) && !signed_in_client.is_account_master
-				.checkbox-btn
-					= f.check_box :is_accepted
-					= f.label :is_accepted, "Approve Estimate"
-			-elsif !can_approve_estimate(f.object)
-				%div{:class => "notification eight columns"} There are outstanding negotiations that have not been approved yet
-			-elsif signed_in_client.is_account_master
-				%div{:class => "notification eight columns"} Client has not yet approved estimate
+	- if params[:action] == 'edit'
+		= render 'confirm_estimate', :f => f
+
+	- if params[:action] == 'new'
+		%div{:class => "actions"}
+			%div{:class => "accept-estimate row"}
+				-if can_approve_estimate(f.object) && !signed_in_client.is_account_master
+					.checkbox-btn
+						= f.check_box :is_accepted
+						= f.label :is_accepted, "Approve Estimate"
+				-elsif !can_approve_estimate(f.object)
+					%div{:class => "notification eight columns"} There are outstanding negotiations that have not been approved yet
+				-elsif signed_in_client.is_account_master
+					%div{:class => "notification eight columns"} Client has not yet approved estimate
 
 
-		-if params[:action] == 'edit'
-			= link_to 'Cancel »', estimate_path(@estimate), :class => 'medium radius secondary button'
-		-else
-			= link_to 'Cancel »', estimates_path, :class => 'medium radius secondary button'
+			-if params[:action] == 'edit'
+				= link_to 'Cancel »', estimate_path(@estimate), :class => 'medium radius secondary button'
+			-else
+				= link_to 'Cancel »', estimates_path, :class => 'medium radius secondary button'
 
-		- if !signed_in_client.is_account_master && !f.object.already_reviewed
-			= link_to 'Back »', "#", :class => 'medium radius secondary button back'
+			- if !signed_in_client.is_account_master && !f.object.already_reviewed
+				= link_to 'Back »', "#", :class => 'medium radius secondary button back'
 
-		= f.submit 'Save »' , :class => 'medium radius success button save'
+			= f.submit 'Save »' , :class => 'medium radius success button save'
