@@ -24,8 +24,10 @@
 			= f.password_field :password_confirmation, :placeholder => "Confirm Password", :class => ""
 
 		.actions
-			= f.submit 'Save »', :class => 'small radius success button'
 			-if params[:action] == 'edit'
-				= link_to 'Cancel »', client_path(@client), :class => 'small radius secondary button'
+				= link_to 'Cancel', client_path(@client), :class => 'small radius alert button'
 			-else
-				= link_to 'Cancel »', site_url, :class => 'small radius secondary button'
+				= link_to 'Cancel', site_url, :class => 'small radius alert button'
+
+			= f.submit "Save &raquo;".html_safe, :class => 'small radius success button'
+

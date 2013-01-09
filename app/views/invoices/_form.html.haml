@@ -50,8 +50,9 @@
 
 
 	.actions
-		= f.submit 'Save »' , :class => 'medium radius success button'
 		-if params[:action] == 'edit'
-			= link_to 'Cancel »', invoice_path(@invoice), :class => 'medium radius secondary button'
+			= link_to 'Cancel', invoice_path(@invoice), :class => 'medium radius alert button'
 		-else
-			= link_to 'Cancel »', invoices_path, :class => 'medium radius secondary button'
+			= link_to 'Cancel', invoices_path, :class => 'medium radius alert button'
+
+		= f.submit "Save &raquo;".html_safe , :class => 'medium radius success button'

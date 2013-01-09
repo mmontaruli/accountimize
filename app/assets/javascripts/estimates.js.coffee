@@ -19,13 +19,13 @@ $ ->
 	negotiateCheckAndSelect lineCk
 
 	$tableLineItems.on "click", lineCk, ->
-		secondScreenLineItemCheckAndSelect $(this).parents("tr")
+		secondScreenLineItemCheckAndSelect $(this).parents("tr") unless $('.estimate-first-step').length == 0
 		updateLineTotals $(this).parents("tr"), $estimateTotal
 
 	$tableLineItems.on "change", toggle, ->
-		fixedHourlyToggle $(this).parents("tr"), $(this)
-		firstScreenSecondScreenToggle $(this).parents("tr")
-		updateLineTotals $(this).parents("tr"), $(this).parents('table').find('tr.total_line td.total_price strong')
+		fixedHourlyToggle $(this).parents("tr.line_collection>td.collection_cell>table.collection_table tr"), $(this)
+		firstScreenSecondScreenToggle $(this).parents("tr") unless $('.estimate-first-step').length == 0
+		updateLineTotals $(this).parents("tr.line_collection>td.collection_cell>table.collection_table tr"), $(this).parents('table').find('tr.total_line td.total_price strong')
 
 	$tableLineItems.on "blur", lineVal, ->
 		updateFixedAndHourlyValues $(this)
@@ -279,7 +279,7 @@ confirmationPageSort = (estimate) ->
 	deselectedTable = $('.confirm table.deselected')
 	selectedTable.find("tbody").html("")
 	deselectedTable.find("tbody").html("")
-	estimate.find("tbody tr").each ->
+	estimate.find("tbody tr.line").each ->
 		rowHTML = ""
 		isSelected = $(this).find('td.line_ck input[type="checkbox"]').is(':checked')
 

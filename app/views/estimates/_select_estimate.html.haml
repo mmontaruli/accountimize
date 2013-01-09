@@ -5,12 +5,12 @@
 	%table{:class => "line_items has_total estimate-#{params[:action]} list"}
 		%thead
 			%tr
-				%th.col Item #
-				%th.col Description
-				%th.col Unit
-				%th.col Qty
-				%th.col Unit Price
-				%th.col Line Total
+				%th{:class => "col line_num"} Item #
+				%th{:class => "col line_name"} Description
+				%th{:class => "col line_price_type"} Unit
+				%th{:class => "col line_qty"} Qty
+				%th{:class => "col line_u_price"} Unit Price
+				%th{:class => "col line_t_price"} Line Total
 		%tbody
 			= f.fields_for :line_items do |builder|
 				= render 'select_line_item_fields', :f => builder
@@ -21,5 +21,5 @@
 				%td{:class => "amount blank total_price"}
 					%strong= number_to_currency(@estimate.total_price)
 
-	= link_to 'Cancel »', estimate_path(@estimate), :class => 'medium radius secondary button'
-	= link_to 'Next »', "#", :class => 'medium radius success button next'
+	= link_to 'Cancel', estimate_path(@estimate), :class => 'medium radius alert button'
+	= link_to "Next &raquo;".html_safe, "#", :class => 'medium radius success button next'

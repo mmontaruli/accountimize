@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120930170020) do
+ActiveRecord::Schema.define(:version => 20121207204548) do
 
   create_table "accounts", :force => true do |t|
     t.string   "name"
@@ -85,6 +85,7 @@ ActiveRecord::Schema.define(:version => 20120930170020) do
     t.boolean  "is_accepted", :default => false
     t.boolean  "is_locked"
     t.integer  "invoice_id"
+    t.integer  "position",    :default => 0
   end
 
   create_table "messages", :force => true do |t|

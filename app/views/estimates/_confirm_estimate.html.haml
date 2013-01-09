@@ -30,11 +30,11 @@
 
 
 		-if params[:action] == 'edit'
-			= link_to 'Cancel »', estimate_path(@estimate), :class => 'medium radius secondary button'
+			= link_to 'Cancel', estimate_path(@estimate), :class => 'medium radius alert button'
 		-else
-			= link_to 'Cancel »', estimates_path, :class => 'medium radius secondary button'
+			= link_to 'Cancel', estimates_path, :class => 'medium radius alert button'
 
 		- if !signed_in_client.is_account_master && !f.object.already_reviewed
-			= link_to 'Back »', "#", :class => 'medium radius secondary button back'
+			= link_to "&laquo; Back".html_safe, "#", :class => 'medium radius normal button back'
 
-		= f.submit 'Save »' , :class => 'medium radius success button save'
+		= f.submit "Save &raquo;".html_safe , :class => 'medium radius success button save'

@@ -18,7 +18,7 @@ $ ->
 		getNewClient $client_select
 
 	$tableHasTotal.on "blur", lineItemInput, ->
-		updateLineTotals $(this).parents("tr"), $tableTotal
+		updateLineTotals $(this).parents("tr.line"), $tableTotal
 
 lineItemEffects = (table) ->
 	# rollover and active effects for edit view

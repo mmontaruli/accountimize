@@ -6,16 +6,16 @@
 	%table{:class => "line_items second_step has_total estimate-#{params[:action]}"}
 		%thead
 			%tr
-				%th
-				%th.col Item #
+				%th.line_ck
+				%th{:class => "col line_num"} Item #
 				%th{:class => "col lock"}
 					%span Lock
-				%th.col Description
-				%th.col Unit
-				%th.col Qty
-				%th.col Unit Price
-				%th.col Line Total
-				%th
+				%th{:class => "col line_name"} Description
+				%th{:class => "col line_price_type"} Unit
+				%th{:class => "col line_qty"} Qty
+				%th{:class => "col line_u_price"} Unit Price
+				%th{:class => "col line_t_price"} Line Total
+				%th.line_links
 		%tbody
 			= f.fields_for :line_items do |builder|
 				= render 'line_item_fields', :f => builder
@@ -35,8 +35,8 @@
 				%td.blank
 
 	- if params[:action] == 'edit'
-		= link_to 'Cancel »', estimates_path, :class => 'medium radius secondary button'
+		= link_to 'Cancel', estimates_path, :class => 'medium radius alert button'
 		- if !signed_in_client.is_account_master && !f.object.already_reviewed
-			= link_to 'Back »', "#", :class => 'medium radius secondary button back'
+			= link_to "&laquo; Back".html_safe, "#", :class => 'medium radius normal button back'
 
-		= link_to 'Next »', "#", :class => 'medium radius success button next'
+		= link_to "Next &raquo;".html_safe, "#", :class => 'medium radius success button next'

@@ -18,11 +18,27 @@ body.estimates #content {
 	h4.estimate-accepted {color:$accept-text-1;}
 	table.line_items {
 		tr {
+			td.collection_cell {
+				background:transparent;
+				border:none;
+				margin:0;
+				padding:0;
+				table.collection_table {
+					background:transparent;
+					margin:0;
+					border:none;
+					width:894px;
+					table-layout:fixed;
+					border-collapse:collapse;
+					margin: 2px 0;
+				}
+			}
 			td.line_ck {
 				input{font-size:45px; width:14px; height:14px;}
 			}
 			td.lock {
 				padding:0;
+				width:37px;
 				input[type=checkbox] {
 					display:none;
 				}
@@ -35,6 +51,8 @@ body.estimates #content {
 				}
 			}
 			td.line_name {width:293px;/*width:315px;*/}
+			td.line_price_type {width:89px;}
+			td.line_ck {width:40px;}
 			td.line_links {
 				.add_negotiation_line {display:inline;}
 				.accepted {
@@ -43,6 +61,7 @@ body.estimates #content {
 				}
 			}
 			td.accept, td.line_links {
+				width:60px;
 				.thumbs-up {
 					display:none;
 					width:auto;
@@ -68,7 +87,7 @@ body.estimates #content {
 				width:95px;
 			}
 		}
-		tr:hover {
+		tr.line_collection tr:hover {
 			td.accept, td.line_links {
 				.thumbs-up {
 					display:inline-block;
@@ -153,7 +172,21 @@ body.estimates #content {
 	}
 	.select {
 		table.line_items.list {
+			border-collapse: collapse;
+			border-spacing: 0px;
+			thead {
+				tr {
+					th.line_num {width:83px;}
+					th.line_name {width:373px;}
+					th.line_price_type {width:auto;}
+					th.line_qty {width:114px;}
+					th.line_qty {width:83px;}
+					th.line_u_price {width:120px;}
+					th.line_t_price {width:120px;}
+				}
+			}
 			tr {
+				background-color:#fafafa;
 				td {
 					background-color:#fafafa;
 					color:#aaa;
@@ -167,6 +200,7 @@ body.estimates #content {
 				}
 			}
 			tr.hover {
+				background-color:#f1f1f1;
 				td {
 					border:1px solid #999;
 					background-color:#f1f1f1;
@@ -183,6 +217,24 @@ body.estimates #content {
 					border:none;
 				}
 			}
+			tr.line_collection {
+				background:transparent;
+				td.collection_cell {
+					background-color:transparent;
+				}
+			}
+			tr.line_collection.hover {
+				td.collection_cell {
+					border:none;
+					background-color:transparent;
+				}
+			}
+		}
+	}
+	.confirm {
+		table.line_items {
+			border-collapse: collapse;
+			border-spacing: 0px;
 		}
 	}
 	.actions {
@@ -190,5 +242,31 @@ body.estimates #content {
 	}
 	table.doc {
 		tr td.line_name {width:405px;}
+	}
+	.negotiate {
+		table.line_items {
+			width: 894px;
+			table-layout: fixed;
+			border-collapse:collapse;
+		}
+	}
+	.estimate-second-step table.line_items {
+		thead {
+			tr {
+				th.col.lock {
+					width:33px;
+				}
+
+				th.line_ck{width:40px;}
+				th.line_num {width:65px;}
+				th.line_name {width:293px;}
+				th.line_price_type{width:89px;}
+				th.line_qty{width:62px;}
+				th.line_u_price{width:94px;}
+				th.line_t_price{width:95px;}
+				th.line_links{width:60px;}
+
+			}
+		}
 	}
 }

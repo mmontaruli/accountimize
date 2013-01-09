@@ -45,3 +45,14 @@ Feature: Manage estimates
 		Given I am logged in as a client
 		When I go to any blocked estimate section
 		Then I should be redirected to the account dashboard
+
+	@javascript
+	Scenario: Drag and drop line items for vendor user
+		Given I am logged in as a vendor
+		And I have a client named "Google"
+		And I have an estimate created for them for "Web Design" for "3000"
+		And it has another line item for "Marketing" for "4000"
+		When I go to the Edit Estimate page
+		And I drag the "Marketing" line item to the top of the estimate
+		And I save the changes
+  		Then the line item "Marketing" should be at the top of the estimate
