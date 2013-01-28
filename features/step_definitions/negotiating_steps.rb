@@ -7,6 +7,13 @@ Then /^I should see the line item total "(.*?)"$/ do |line_total|
   find_total.should == line_total
 end
 
+Given /^"(.*?)" line item is selected$/ do |line_item_name|
+  line_item = @estimate.line_items.find_by_name(line_item_name)
+  line_item.is_enabled
+  line_item.save
+  visit edit_estimate_url(@estimate, :subdomain => @user.client.account.subdomain)
+end
+
 Given /^I am customizing an estimate for "(.*?)" for "(.*?)"$/ do |service_name, service_cost|
   @estimate = create(:estimate, client_id: @client.id)
   @line_item = create(:line_item, estimate_id: @estimate.id, name: service_name, unit_price: service_cost)

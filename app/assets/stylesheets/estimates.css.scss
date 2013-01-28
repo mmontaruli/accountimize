@@ -268,5 +268,16 @@ body.estimates #content {
 
 			}
 		}
+		&>tbody {
+			tr.line_collection {
+				background-color: transparent;
+				tr.line_item, tr.negotiate_line {
+					background-color: transparent;
+					td.blank {
+						background-color: transparent !important;
+					}
+				}
+			}
+		}
 	}
 }

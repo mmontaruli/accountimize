@@ -3,14 +3,15 @@ Feature: Negotiate estimates
 	As a vendor or client
 	I want to be able to negotiate and accept an estimate
 
+	@javascript
 	Scenario: De-selecting line items
 		Given I am logged in as a vendor
 		And I have a client named "Google"
 		And I have an estimate created for them for "Web Design" for "3000"
-		When I go to the Edit Estimate page
-		And I uncheck this line item
-		And I confirm these changes and save
-		Then I should see "Estimate was successfully updated."
+		And "Web Design" line item is selected
+		When I drag the "Web Design" line item to the deselected area
+		And I save the changes
+		Then the "Web Design" line item should appear deselected on the estimate view page
 		And I should see the line item total "0.00"
 
 	@javascript
@@ -31,7 +32,7 @@ Feature: Negotiate estimates
 		And I have an estimate created for them for "Web Design" for "3000"
 		When I go to the Edit Estimate page
 		And I change this line item price to "3500"
-		And I uncheck this line item
+		And I drag the "Web Design" line item to the deselected area
 		Then I should see "0.00" as the line total
 		And I should see "$0.00" as the estimate total
 

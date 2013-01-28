@@ -4,7 +4,8 @@
 			%tr{:class => "line_item negotiate edit_#{!disable_form(f.object)} accepted_#{f.object.is_accepted} line-id-#{f.object.id} line"}
 				%td{:class => "line_ck blank"}
 					-unless f.object.is_accepted or params[:action] == 'new'
-						= f.check_box :is_enabled
+						= f.hidden_field :is_enabled, :class => 'line_item_is_enabled'
+					= f.hidden_field :position, :class => 'line_item_position'
 				%td.line_num= f.text_field :number, :disabled => disable_form(f.object)
 				%td.lock
 					-if !disable_form(f.object)

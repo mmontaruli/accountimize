@@ -51,6 +51,8 @@ class EstimatesController < ApplicationController
     @estimate = Estimate.find(params[:id])
     @clients = @account.clients.find(:all, :conditions => {:is_account_master => false})
     @client = Client.find_by_id(@estimate.client_id)
+    @selected_line_items = @estimate.line_items.find(:all, :conditions => {:is_enabled => true})
+    @deselected_line_items = @estimate.line_items.find(:all, :conditions => {:is_enabled => [false, nil]})
     if @estimate.is_accepted
       respond_to do |format|
         format.html { redirect_to estimate_path(@estimate), :flash => {notice: 'Estimate has been accepted and cannot be edited.', :status => 'secondary'} }

@@ -16,8 +16,12 @@
 				%th{:class => "col line_u_price"} Unit Price
 				%th{:class => "col line_t_price"} Line Total
 				%th.line_links
-		%tbody
-			= f.fields_for :line_items do |builder|
+		%tbody{:class => "selected connected"}
+			%tr{:class => "no-sort drop-point"}
+				%td{:colspan => 9} Selected below...
+			%tr{:class => "no-sort sort-point hidden"}
+				%td{:colspan => 9}
+			= f.fields_for :line_items, @selected_line_items do |builder|
 				= render 'line_item_fields', :f => builder
 
 			- if signed_in_client.is_account_master
@@ -33,6 +37,14 @@
 				%td{:class => "amount blank total_price"}
 					%strong= number_to_currency(@estimate.total_price)
 				%td.blank
+
+		- if params[:action] == 'edit'
+			%tbody{:class => "deselected connected"}
+				%tr{:class => "no-sort drop-point"}
+					%td{:colspan => 9} Deselected below...
+				= f.fields_for :line_items, @deselected_line_items do |builder|
+					= render 'line_item_fields', :f => builder
+
 
 	- if params[:action] == 'edit'
 		= link_to 'Cancel', estimates_path, :class => 'medium radius alert button'

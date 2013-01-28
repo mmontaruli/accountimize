@@ -19,8 +19,8 @@ $ ->
 	negotiateCheckAndSelect lineCk
 
 	$tableLineItems.on "click", lineCk, ->
-		secondScreenLineItemCheckAndSelect $(this).parents("tr") unless $('.estimate-first-step').length == 0
-		updateLineTotals $(this).parents("tr"), $estimateTotal
+		secondScreenLineItemCheckAndSelect $(this).parents("tr") unless $('.estimate-first-step').length == 0 # TODO is this function needed anymore?
+		updateLineTotals $(this).parents("tr"), $estimateTotal # TODO is this function needed anymore?
 
 	$tableLineItems.on "change", toggle, ->
 		fixedHourlyToggle $(this).parents("tr.line_collection>td.collection_cell>table.collection_table tr"), $(this)
@@ -35,7 +35,10 @@ $ ->
 		updateLineTotals $(this).parents("tr").prevAll("tr.line_item").eq(0), $estimateTotal
 
 	$tableLineItems.on "click", selectLines, ->
-		firstScreenLineItemClickAndSelect $(this)
+		# TODO new select functions go here
+		firstScreenLineItemClickAndSelect $(this) # TODO is this function still needed?
+		enableOrDisableLineItem(otherLineItem($(this)), secondStepLineIsEnabledInputVal(firstStepLineIsEnabled($(this))))
+		cutAndPasteLineItem $(this)
 
 	$body.on "click", '.estimate-first-step a.next', ->
 		$estimateFirstStep.addClass("hidden")
@@ -61,6 +64,25 @@ $ ->
 		$estimateThirdStep.addClass("hidden")
 		$estimateSecondStep.removeClass("hidden")
 		false
+
+	$(".estimate-second-step table.line_items tbody.selected, .estimate-second-step table.line_items tbody.deselected").sortable
+		# helper: fixHelperModified(), # TODO helper function not working yet...
+		# items: "tr.line_collection:not(.no-sort)",
+		items: "tr.line_collection, tr.sort-point",
+		connectWith: ".connected",
+		cancel: ".no-sort",
+		stop: (e, ui)->
+			allowFormSelect()
+			updateIndex(e, ui)
+			enableOrDisableLineItem(ui.item, secondStepLineIsEnabledInputVal(secondStepLineIsEnabled(ui.item)))
+			updateLineTotals ui.item.find("tr.line_item"), $estimateTotal
+			secondScreenDragToSelectInFirstScreen(ui.item, secondStepLineIsEnabledInputVal(secondStepLineIsEnabled(ui.item)))
+			secondStepLineItemStyleChangeOnSelect(ui.item) # TODO temporary function, remove once css has been optimized
+	.disableSelection()
+
+	allowFormSelect()
+
+
 
 #----- Functions -----#
 
@@ -132,6 +154,7 @@ otherTable = (line_item) ->
 
 otherLineItem = (line_item) ->
 	# to get the complementary line_item in the other table
+	# TODO this function should eventually be changed to find otherLineItem Line Collection
 	otherTable(line_item).find('tr.'+lineItemNum(line_item))
 
 
@@ -186,6 +209,7 @@ updateFixedAndHourlyValues = (elem) ->
 
 
 acceptLine = (accept) ->
+	# TODO this is the worst function I've ever written--perhaps that anyone's ever written--make this shorter
 	line_item = accept.parents "tr.line_item"
 	thumbs_down = line_item.find("td.line_links a.thumbs-down")
 	estimate_line = line_item
@@ -279,22 +303,20 @@ confirmationPageSort = (estimate) ->
 	deselectedTable = $('.confirm table.deselected')
 	selectedTable.find("tbody").html("")
 	deselectedTable.find("tbody").html("")
-	estimate.find("tbody tr.line").each ->
-		rowHTML = ""
-		isSelected = $(this).find('td.line_ck input[type="checkbox"]').is(':checked')
 
-		unless $(this).hasClass("negotiate_line") or $(this).hasClass("add_lines")
-			if hasNegotiateLines($(this))
-				$(lineItemAndNegotiateLines($(this))).each ->
-					rowHTML = rowHTML + @outerHTML
+	secondStepSelectedTable = $('.negotiate table.second_step tbody.selected')
+	secondStepDeselectedTable = $('.negotiate table.second_step tbody.deselected')
 
-			else
-				rowHTML = @outerHTML
+	$.each [secondStepSelectedTable, secondStepDeselectedTable], (tableIndex, table)->
+		confirmTable = deselectedTable
+		confirmTable = selectedTable if table == secondStepSelectedTable
+		table.find("tr.line_collection").each ->
+			rowHTML = ""
+			rowHTML = rowHTML + @outerHTML
+			confirmTable.append(rowHTML)
 
-		if isSelected or $(this).hasClass("total_line") or $(this).hasClass("accepted_true")
-			selectedTable.append(rowHTML)
-		else
-			deselectedTable.append(rowHTML)
+	estimateTotal = $('.negotiate table.second_step tr.total_line')[0]
+	selectedTable.append(estimateTotal.outerHTML)
 
 	# Get rid of certain columns for confirmation page
 	$.each [selectedTable, deselectedTable], (tableIndex, table)->
@@ -309,12 +331,6 @@ confirmationPageSort = (estimate) ->
 				cascadeNegotiationToConfirm negotiateLine, col
 		table.find('td input, td select, td textarea').attr('disabled', 'disabled')
 		table.find('tr.negotiate_line').addClass("submitted us")
-
-	# $(".confirm tr.negotiate_line.unsubmitted").each ->
-	# 	negotiateLine = $(this)
-	# 	$.each ['td.desc textarea', 'td.line_price_type select', 'td.line_qty input.line_qty', 'td.line_u_price input.line_unit_price'], (colIndex, col)->
-	# 		cascadeNegotiationToConfirm negotiateLine, col
-
 
 hasNegotiateLines = (lineItem) ->
 	# determine if a line item has negotiate lines
@@ -349,3 +365,62 @@ cascadeNegotiationToConfirm = (negotiateLine, elem) ->
 	# cascade unsubmitted values of negotiate lines to confirm screen
 
 	negotiateLine.find(elem).val(otherUnsubmittedNegotiateLine(negotiateLine).find(elem).val())
+
+firstStepLineIsEnabled = (elem) ->
+	# determine the enabled status of a first-step line item
+	status = false
+	status = true if elem.find("td.line_num input.is_enabled").val() == "t"
+	status
+
+lineDestinationTable = (elem) ->
+	# determine the second-step destination table of a first-step line item
+
+	destinationTable = $("table.second_step tbody.deselected")
+	destinationTable = $("table.second_step tbody.selected") if firstStepLineIsEnabled(elem)
+	destinationTable
+
+cutAndPasteLineItem = (elem) ->
+	# to move corresponding second step line item from current table to new appropriate table (selected or deselected)
+
+	# TODO once otherLineItem function is changed to find line_collection, the below can be changed back to secondStepLineItem = otherLineItem(elem)[0]
+	secondStepLineItem = otherLineItem(elem).parents("tr.line_collection")[0]
+	rowHTML = secondStepLineItem.outerHTML
+
+	lineDestinationTable(elem).find("tr.drop-point").after(rowHTML)
+	secondStepLineItem.outerHTML = ""
+
+secondStepLineIsEnabled = (elem) ->
+
+	status = false
+	status = true if elem.parents("tbody").hasClass("selected")
+	status
+
+secondStepLineIsEnabledInputVal = (statusCheck) ->
+	status = "f"
+	status = "t" if statusCheck
+	status
+
+secondStepLineItemStyleChangeOnSelect = (elem) ->
+	# TODO temporary function to add/remove "removed" class
+
+	lineItem = elem.find("tr.line_item")
+
+	if secondStepLineIsEnabled(elem)
+		lineItem.removeClass("removed")
+	else
+		lineItem.addClass("removed")
+
+enableOrDisableLineItem = (elem, status) ->
+	# enables or disables line item depending on status
+
+	elem.find("td.line_ck input.line_item_is_enabled").val(status)
+
+secondScreenDragToSelectInFirstScreen = (elem, status) ->
+	# This probably replaces secondScreenLineItemCheckAndSelect
+	# Dragging to select/deselect line item in second screen will do the same on the first screen
+
+	firstScreenLine = otherLineItem(elem.find(".line_item"))
+
+	firstScreenLine.removeClass("selected")
+	firstScreenLine.find('input.is_enabled').val(status)
+	firstScreenLine.addClass("selected") if status == "t"

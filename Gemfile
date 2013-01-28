@@ -1,15 +1,8 @@
 source 'http://rubygems.org'
 
-#gem 'rails', '3.2.6'
 gem 'rails', '3.2.8'
 
-# Bundle edge Rails instead:
-# gem 'rails',     :git => 'git://github.com/rails/rails.git'
-
 gem 'sqlite3'
-gem "bcrypt-ruby", :require => "bcrypt"
-
-gem 'debugger'
 
 # Gems used only for assets and not required
 # in production environments by default.
@@ -17,18 +10,18 @@ group :assets do
   gem 'sass-rails',   '~> 3.2.3'
   gem 'coffee-rails', '~> 3.2.2'
   gem 'uglifier', '>= 1.0.3'
-  #gem 'haml'
   gem 'haml', "~>3.1.6"
-  #gem 'haml', "~> 3.2.0.beta.1"
-  #gem 'haml', ">= 3.2.0.beta.1"
   gem 'compass-rails', '~> 1.0.3'
   gem "zurb-foundation", '~> 3.0.1'
 end
 
 gem 'jquery-rails'
+gem 'jquery-ui-rails'
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
+gem "bcrypt-ruby", :require => "bcrypt"
+
 
 # Use unicorn as the web server
 # gem 'unicorn'
@@ -38,13 +31,23 @@ gem 'jquery-rails'
 
 # To use debugger
 # gem 'ruby-debug19', :require => 'ruby-debug'
+gem 'debugger'
+
+group :development do
+  gem 'rb-inotify', :require => false
+  gem 'rb-fsevent', :require => false
+  gem 'rb-fchange', :require => false
+  gem 'rb-readline'
+  gem 'guard'
+  gem 'guard-livereload'
+  # gem 'rack-livereload'
+end
 
 group :test, :development do
   gem "rspec-rails", "~> 2.0"
 end
 
 group :test do
-  # Pretty printed test output
   gem 'turn', :require => false
   gem 'minitest'
   gem 'cucumber-rails', :require => false
