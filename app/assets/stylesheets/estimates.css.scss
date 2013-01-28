@@ -113,7 +113,7 @@ body.estimates #content {
 				-webkit-text-fill-color:$darker-gray;
 			}
 		}
-		tr.is_enabled_false {
+		tr.is_enabled_false, tr.is_enabled_ {
 			td {
 				background: $disable-line-bg;
 				color: $disable-line-tx;
@@ -245,6 +245,19 @@ body.estimates #content {
 			border-collapse: collapse;
 			border-spacing: 0px;
 		}
+		table.line_items.deselected {
+			tbody {
+				tr.line_collection {
+					td {
+						color:$darker-gray;
+						input {
+							color:$darker-gray;
+							-webkit-text-fill-color:$darker-gray;
+						}
+					}
+				}
+			}
+		}
 	}
 	.actions {
 		.accept-estimate {margin: 0 0 10px 20px;}
@@ -284,6 +297,17 @@ body.estimates #content {
 					background-color: transparent;
 					td.blank {
 						background-color: transparent !important;
+					}
+				}
+			}
+		}
+		tbody.deselected {
+			tr.line_collection {
+				td {
+					color:$darker-gray;
+					input {
+						color:$darker-gray;
+						-webkit-text-fill-color:$darker-gray;
 					}
 				}
 			}

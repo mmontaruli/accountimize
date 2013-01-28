@@ -19,7 +19,7 @@
 		%td.blank
 
 - else
-	%tr{:class => "negotiate_line submitted #{who_is_negotiating(f.object.user_negotiating)}"}
+	%tr{:class => "negotiate_line submitted #{who_is_negotiating(f.object.user_negotiating)} negotiate-id-#{f.object.id}"}
 		%td.blank
 		%td.blank
 		%td.blank

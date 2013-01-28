@@ -77,7 +77,7 @@ $ ->
 			enableOrDisableLineItem(ui.item, secondStepLineIsEnabledInputVal(secondStepLineIsEnabled(ui.item)))
 			updateLineTotals ui.item.find("tr.line_item"), $estimateTotal
 			secondScreenDragToSelectInFirstScreen(ui.item, secondStepLineIsEnabledInputVal(secondStepLineIsEnabled(ui.item)))
-			secondStepLineItemStyleChangeOnSelect(ui.item) # TODO temporary function, remove once css has been optimized
+			# secondStepLineItemStyleChangeOnSelect(ui.item) # TODO temporary function, remove once css has been optimized
 	.disableSelection()
 
 	allowFormSelect()
@@ -139,6 +139,10 @@ firstScreenSecondScreenToggle = (line_item) ->
 lineItemNum = (line_item) ->
 	# to get the line item id
 	line_item.attr("class").match(/line-id-[0-9]*/)[0]
+
+negotiateItemNum = (negotiate_item) ->
+	# to get the negotiate item id
+	negotiate_item.attr("class").match(/negotiate-id-[0-9]*/)[0]
 
 
 otherTable = (line_item) ->
@@ -325,6 +329,12 @@ confirmationPageSort = (estimate) ->
 		table.find('tr.negotiate_line').prepend('<td class="blank"></td>')
 		table.find('tr.total_line td.desc').attr('colspan', '5')
 		table.find('tr.line_item').removeClass('edit_true negotiate').addClass('edit_false confirm')
+		table.find('tr.line_item').each ->
+			# to cascade price type in negotiate screen to confirm screen
+			$(this).find(".line_price_type select").val($('.negotiate table.line_items').find("." + lineItemNum($(this)) + " .line_price_type select").val())
+		table.find('tr.negotiate_line.submitted').each ->
+			# to cascade price type of submitted negotiate lines from negotiate to confirm screen
+			$(this).find(".line_price_type select").val($('.negotiate table.line_items').find("." + negotiateItemNum($(this)) + " .line_price_type select").val())
 		table.find('tr.negotiate_line.unsubmitted').each ->
 			negotiateLine = $(this)
 			$.each ['td.desc textarea', 'td.line_price_type select', 'td.line_qty input.line_qty', 'td.line_u_price input.line_unit_price'], (colIndex, col)->
@@ -382,12 +392,22 @@ lineDestinationTable = (elem) ->
 cutAndPasteLineItem = (elem) ->
 	# to move corresponding second step line item from current table to new appropriate table (selected or deselected)
 
+	# variables to get toggle value
+	toggleVal = elem.find(".line_price_type select").val()
+	lineItemID = lineItemNum(elem)
+
 	# TODO once otherLineItem function is changed to find line_collection, the below can be changed back to secondStepLineItem = otherLineItem(elem)[0]
 	secondStepLineItem = otherLineItem(elem).parents("tr.line_collection")[0]
 	rowHTML = secondStepLineItem.outerHTML
 
 	lineDestinationTable(elem).find("tr.drop-point").after(rowHTML)
 	secondStepLineItem.outerHTML = ""
+
+	# to cascade toggle value from first step to second step
+	$("table.second_step ." + lineItemID).find(".line_price_type select").val(toggleVal)
+
+	# to allow toggle select in second step
+	allowFormSelect()
 
 secondStepLineIsEnabled = (elem) ->
 
@@ -400,15 +420,15 @@ secondStepLineIsEnabledInputVal = (statusCheck) ->
 	status = "t" if statusCheck
 	status
 
-secondStepLineItemStyleChangeOnSelect = (elem) ->
-	# TODO temporary function to add/remove "removed" class
+# secondStepLineItemStyleChangeOnSelect = (elem) ->
+# 	# TODO temporary function to add/remove "removed" class
 
-	lineItem = elem.find("tr.line_item")
+# 	lineItem = elem.find("tr.line_item")
 
-	if secondStepLineIsEnabled(elem)
-		lineItem.removeClass("removed")
-	else
-		lineItem.addClass("removed")
+# 	if secondStepLineIsEnabled(elem)
+# 		lineItem.removeClass("removed")
+# 	else
+# 		lineItem.addClass("removed")
 
 enableOrDisableLineItem = (elem, status) ->
 	# enables or disables line item depending on status
