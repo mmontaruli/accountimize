@@ -6,6 +6,7 @@
 					-unless f.object.is_accepted or params[:action] == 'new'
 						= f.hidden_field :is_enabled, :class => 'line_item_is_enabled'
 					= f.hidden_field :position, :class => 'line_item_position'
+					.grip
 				%td.line_num= f.text_field :number, :disabled => disable_form(f.object)
 				%td.lock
 					-if !disable_form(f.object)

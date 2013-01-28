@@ -34,7 +34,16 @@ body.estimates #content {
 				}
 			}
 			td.line_ck {
+				padding-right:0;
 				input{font-size:45px; width:14px; height:14px;}
+				.grip {
+					background-color:#eee;
+					background: #eee url("/assets/line-item-grip-3.png") no-repeat 0% 0%;
+					width:16px;
+					height:35px;
+					float:right;
+					border: 1px solid white;
+				}
 			}
 			td.lock {
 				padding:0;
