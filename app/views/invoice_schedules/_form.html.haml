@@ -42,8 +42,10 @@
 		= f.hidden_field :estimate_id, :value => @estimate.id
 
 	.actions
-		= f.submit 'Save »', :class => 'medium radius success button'
 		-if params[:action] == 'edit'
-			= link_to "Cancel »", estimate_invoice_schedule_path(@estimate), :class => 'medium radius secondary button'
+			= link_to "Cancel", estimate_invoice_schedule_path(@estimate), :class => 'medium radius alert button'
 		-else
-			= link_to "Cancel »", estimate_path(@estimate), :class => 'medium radius secondary button'
+			= link_to "Cancel", estimate_path(@estimate), :class => 'medium radius alert button'
+
+		= f.submit "Save &raquo;".html_safe, :class => 'medium radius success button'
+

@@ -33,6 +33,12 @@ describe EstimatesController do
 			get :new, client_id: other_client.id
 			response.should redirect_to site_url
 		end
+		it "should build three unselected line items" do
+			get :new
+			assigns(:estimate).line_items.should be_present
+			assigns(:estimate).line_items.length.should == 3
+			assigns(:estimate).line_items[0].is_enabled.should be_false
+		end
 	end
 	describe "#create" do
 		it "should create an estimate" do
@@ -47,6 +53,11 @@ describe EstimatesController do
 		it "should be successful" do
 			get :edit, :id => @estimate
 			response.should be_success
+		end
+		it "should not be marked as reviewed if client is viewing for first time" do
+			session[:user_id] = @client_user.id
+			get :edit, :id => @estimate
+			@estimate.already_reviewed.should be_false
 		end
 	end
 	describe "#update" do
@@ -67,6 +78,12 @@ describe EstimatesController do
 
             Message.last.subject.should include("New negotiation on estimate #")
             Message.last.user_id.should == @client_user.id
+		end
+		it "should mark estimate as already_reviewed once client saves for the first time" do
+			session[:user_id] = @client_user.id
+			post :update, id: @estimate.to_param
+
+			assigns(:estimate).already_reviewed.should be_true
 		end
 	end
 	describe "#destroy" do

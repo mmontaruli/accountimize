@@ -1,66 +1,63 @@
-%tr{:class => "line_item edit_#{!disable_form(f.object)} accepted_#{f.object.is_accepted}"}
-	%td{:class => "line_ck blank"}
-		-unless f.object.is_accepted
-			= f.check_box :is_enabled
-	%td.line_num= f.text_field :number, :disabled => disable_form(f.object)
-	%td.lock
-		-if !disable_form(f.object)
-			= f.check_box :is_locked
-			= f.label :is_locked, "Locked"
-		-elsif f.object.is_locked
-			.locked &nbsp;
-	%td{:class => "line_name desc"}= f.text_field :name, :disabled => disable_form(f.object)
-	%td.line_price_type
-		-unless f.object.is_accepted || f.object.is_locked && !signed_in_client.is_account_master
-			= f.select(:price_type, [['Fixed', 'fixed'], ['Hourly', 'hourly']])
-			.accept
-		-else
-			= f.object.price_type
+%tr.line_collection
+	%td.collection_cell{:colspan => 9}
+		%table.collection_table
+			%tr{:class => "line_item negotiate edit_#{!disable_form(f.object)} accepted_#{f.object.is_accepted} line-id-#{f.object.id} line"}
+				%td{:class => "line_ck blank"}
+					-unless f.object.is_accepted or params[:action] == 'new'
+						= f.hidden_field :is_enabled, :class => 'line_item_is_enabled'
+					= f.hidden_field :position, :class => 'line_item_position'
+					.grip
+				%td.line_num= f.text_field :number, :disabled => disable_form(f.object)
+				%td.lock
+					-if !disable_form(f.object)
+						= f.check_box :is_locked
+						= f.label :is_locked, "Locked"
+					-elsif f.object.is_locked
+						.locked &nbsp;
+				%td{:class => "line_name desc"}= f.text_field :name, :disabled => disable_form(f.object)
+				%td.line_price_type
+					-unless f.object.is_accepted || f.object.is_locked && !signed_in_client.is_account_master
+						= f.select(:price_type, [['Fixed', 'fixed'], ['Hourly', 'hourly']])
+						.accept
+					-else
+						= f.object.price_type
 
-	%td.line_qty
-		-if disable_form(f.object)
-			.line_qty_val= f.object.quantity
-			= f.hidden_field :quantity, :class => 'line_qty'
-		-else
-			= f.text_field :quantity, :class => 'line_qty line_value'
+				%td.line_qty
+					-if disable_form(f.object)
+						.line_qty_val= f.object.quantity
+						= f.hidden_field :quantity, :class => 'line_qty'
+					-else
+						= f.text_field :quantity, :class => 'line_qty line_value'
 
-		= f.hidden_field :fixed_qty, :class => 'fixed_qty'
-		= f.hidden_field :hours_qty, :class => 'hours_qty'
-	%td{:class => "line_u_price amount"}
-		-if disable_form(f.object)
-			.line_unit_price_val= number_with_precision(f.object.unit_price, :precision => 2)
-			= f.hidden_field :unit_price, :class => 'line_unit_price', :value => number_with_precision(f.object.unit_price, :precision => 2)
-		-else
-			= f.text_field :unit_price, :value => number_with_precision(f.object.unit_price, :precision => 2), :class => 'line_unit_price line_value'
+					= f.hidden_field :fixed_qty, :class => 'fixed_qty'
+					= f.hidden_field :hours_qty, :class => 'hours_qty'
+				%td{:class => "line_u_price amount"}
+					-if disable_form(f.object)
+						.line_unit_price_val= number_with_precision(f.object.unit_price, :precision => 2)
+						= f.hidden_field :unit_price, :class => 'line_unit_price', :value => number_with_precision(f.object.unit_price, :precision => 2)
+					-else
+						= f.text_field :unit_price, :value => number_with_precision(f.object.unit_price, :precision => 2), :class => 'line_unit_price line_value'
 
-		= f.hidden_field :fixed_rate, :class => 'fixed_rate'
-		= f.hidden_field :hours_rate, :class => 'hours_rate'
-	%td{:class => "line_t_price amount"}= number_with_precision(f.object.total_price, :precision => 2, :delimiter => ',')
-	%td{:class => "line_links desc blank"}
-		-unless f.object.is_accepted
-			.action-button
-				%a.action-drop-down{:href => "#"} Actions
-				%ul.line-actions
-					%li.add_negotiation_line
-						-unless f.object.is_accepted || f.object.is_locked || disable_negotiate_button(f.object) || f.object.negotiate_lines.empty? && signed_in_client.is_account_master
-							= link_to_add_negotiate_fields "Negotiate", f, :negotiate_lines, :class => ''
-							%div{:class => "disabled hide"}
-						-else
-							.disabled Negotiate
-					%li.accept_line
+					= f.hidden_field :fixed_rate, :class => 'fixed_rate'
+					= f.hidden_field :hours_rate, :class => 'hours_rate'
+				%td{:class => "line_t_price amount"}= number_with_precision(f.object.total_price, :precision => 2, :delimiter => ',')
+				%td{:class => "line_links desc blank"}
+					-unless f.object.is_accepted
+
 						-if f.object.negotiate_lines.empty? && !signed_in_client.is_account_master
-							= f.check_box :is_accepted
-							= f.label :is_accepted, "Accept"
+							.thumbs-up
+								= f.check_box :is_accepted
+								= f.label :is_accepted, "Accept"
+							-unless f.object.is_locked
+								= link_to_add_negotiate_fields "Negotiate", f, :negotiate_lines, :class => 'thumbs-down'
 							%div{:class => "disabled hide"}
-						-else
-							= f.hidden_field :is_accepted, :class => 'line_is_accepted'
-							.disabled Accept
-		-else
-			.accepted Accepted
 
-		-if !disable_form(f.object)
-			.delete_link= link_to_remove_fields "Delete", f
+					-else
+						.accepted Accepted
 
-- unless f.object.is_accepted
-	= f.fields_for :negotiate_lines do |builder|
-		= render 'negotiate_line_fields', :f => builder
+					-if !disable_form(f.object)
+						.delete_link= link_to_remove_fields "Delete", f
+
+			- unless f.object.is_accepted
+				= f.fields_for :negotiate_lines do |builder|
+					= render 'negotiate_line_fields', :f => builder, :line_item => f

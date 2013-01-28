@@ -1,5 +1,5 @@
 - unless f.object.id
-	%tr.negotiate_line
+	%tr{:class => "negotiate_line unsubmitted line"}
 		%td.blank
 		%td.blank
 		%td.blank
@@ -19,7 +19,7 @@
 		%td.blank
 
 - else
-	%tr{:class => "negotiate_line submitted #{who_is_negotiating(f.object.user_negotiating)}"}
+	%tr{:class => "negotiate_line submitted #{who_is_negotiating(f.object.user_negotiating)} negotiate-id-#{f.object.id}"}
 		%td.blank
 		%td.blank
 		%td.blank
@@ -41,8 +41,10 @@
 			= f.hidden_field :hours_rate, :class => 'hours_rate'
 		%td{:class => "line_t_price amount"}= number_with_precision(f.object.total_price, :precision => 2, :delimiter => ',')
 		- if can_accept(f.object)
-			%td{:class => "accept desc blank checkbox-btn"}
-				= f.check_box :is_accepted
-				= f.label :is_accepted, "Accept"
+			%td{:class => "accept desc blank"}
+				.thumbs-up
+					= f.check_box :is_accepted
+					= f.label :is_accepted, "Accept"
+				= link_to_add_negotiate_fields "Negotiate", line_item, :negotiate_lines, :class => 'thumbs-down'
 		-else
 			%td.blank

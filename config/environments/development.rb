@@ -38,4 +38,21 @@ Accountimize::Application.configure do
   # Set url for development env
   #config.action_mailer.default_url_options = { :host => "localhost:3000" }
   config.action_mailer.default_url_options = { :host => "accountimize.dev" }
+
+  # # For LiveReload
+  # config.middleware.insert_after(ActionDispatch::Static, Rack::LiveReload)
+
+  #   # ...or, change some options...
+
+  # config.middleware.insert_before(
+  #   Rack::Lock, Rack::LiveReload,
+  #   # :min_delay => 500,
+  #   # :max_delay => 10000,
+  #   # :port => 56789,
+  #   :host => 'accountimize.dev',
+  #   # :ignore => [ %r{dont/modify\.html$} ]
+  # )
+
+  # # /LiveReload
+
 end

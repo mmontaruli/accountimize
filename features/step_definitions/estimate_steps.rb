@@ -37,6 +37,10 @@ Given /^I have an estimate created for them for "(.*?)" for "(.*?)"$/ do |servic
   line_item = create(:line_item, estimate_id: @estimate.id, name: service_name, unit_price: service_cost)
 end
 
+Given /^it has another line item for "(.*?)" for "(.*?)"$/ do |service_name, service_cost|
+  line_item = create(:line_item, estimate_id: @estimate.id, name: service_name, unit_price: service_cost)
+end
+
 When /^I go to the Edit Estimate page$/ do
   visit edit_estimate_url(@estimate, :subdomain => @user.client.account.subdomain)
 end
@@ -73,4 +77,84 @@ Then /^client should receive a new estimate notification$/ do
   page.should have_content("New Estimate #")
 end
 
+Given /^the vendor has sent me an estimate$/ do
+  @estimate = create(:estimate, client_id: @user.client.id)
+end
+
+Given /^the estimate has a line item for "(.*?)" for "(.*?)"$/ do |service_name, service_cost|
+  line_item = create(:line_item, estimate_id: @estimate.id, name: service_name, unit_price: service_cost, is_enabled: false)
+end
+
+Given /^the estimate has a selected line item for "(.*?)" for "(.*?)"$/ do |service_name, service_cost|
+  line_item = create(:line_item, estimate_id: @estimate.id, name: service_name, unit_price: service_cost, is_enabled: true)
+end
+
+Given /^the estimate has a deselected line item for "(.*?)" for "(.*?)"$/ do |service_name, service_cost|
+  line_item = create(:line_item, estimate_id: @estimate.id, name: service_name, unit_price: service_cost, is_enabled: false)
+end
+
+Given /^I am reviewing the estimate for the first time$/ do
+  @estimate.already_reviewed = false
+  @estimate.save
+  visit edit_estimate_url(@estimate, :subdomain => @user.client.account.subdomain)
+end
+
+Given /^I am reviewing an estimate for the second time$/ do
+  @estimate.already_reviewed = true
+  @estimate.save
+  visit edit_estimate_url(@estimate, :subdomain => @user.client.account.subdomain)
+end
+
+When /^I click on the "(.*?)" line item to select it$/ do |service_name|
+  find('tr.line_item', :text => service_name).click
+end
+
+Then /^I should see "(.*?)" in the deselected table$/ do |service_name|
+  line_item = @estimate.line_items.find_by_name(service_name)
+  page.find("table.second_step tbody.deselected tr.line-id-#{line_item.id} td.line_name input").value.should eq service_name
+end
+
+Then /^the estimate should total "(.*?)"$/ do |estimate_total|
+  page.find("table.second_step tbody.selected tr.total_line td.total_price strong").should have_content(estimate_total)
+end
+
+Then /^I should see "(.*?)" in the selected table$/ do |service_name|
+  line_item = @estimate.line_items.find_by_name(service_name)
+  page.find("table.second_step tbody.selected tr.line-id-#{line_item.id} td.line_name input").value.should eq service_name
+end
+
+When /^I drag the "(.*?)" line item to the top of the estimate$/ do |line_item_name|
+  drop_place = page.find(:css, 'table.second_step tbody tr:first')
+  line_item = @estimate.line_items.find_by_name(line_item_name)
+  page.find("table.second_step tr.line-id-#{line_item.id}").drag_to(drop_place)
+end
+
+When /^I drag the "(.*?)" line item to the deselected area$/ do |line_item_name|
+  drop_place = page.find(:css, 'table.second_step tbody.deselected tr:first')
+  line_item = @estimate.line_items.find_by_name(line_item_name)
+  page.find("table.second_step tr.line-id-#{line_item.id}").drag_to(drop_place)
+end
+
+When /^I drag the "(.*?)" line item to the selected area$/ do |line_item_name|
+  drop_place = page.find(:css, 'table.second_step tbody.selected tr:first')
+  line_item = @estimate.line_items.find_by_name(line_item_name)
+  page.find("table.second_step tr.line-id-#{line_item.id}").drag_to(drop_place)
+end
+
+Then /^the "(.*?)" line item should appear deselected on the estimate view page$/ do |line_item_name|
+  visit estimate_url(@estimate, :subdomain => @user.client.account.subdomain)
+  line_item = @estimate.line_items.find_by_name(line_item_name)
+  line_item.is_enabled.should == false
+end
+
+Then /^the "(.*?)" line item should appear selected on the estimate view page$/ do |line_item_name|
+  visit estimate_url(@estimate, :subdomain => @user.client.account.subdomain)
+  line_item = @estimate.line_items.find_by_name(line_item_name)
+  line_item.is_enabled.should == true
+end
+
+Then /^the line item "(.*?)" should be at the top of the estimate$/ do |line_item_name|
+  visit edit_estimate_url(@estimate, :subdomain => @user.client.account.subdomain)
+  page.find("table.second_step tbody tr:first td.line_name input").value.should eq line_item_name
+end
 

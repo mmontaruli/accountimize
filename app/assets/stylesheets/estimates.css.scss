@@ -18,11 +18,36 @@ body.estimates #content {
 	h4.estimate-accepted {color:$accept-text-1;}
 	table.line_items {
 		tr {
+			td.collection_cell {
+				background:transparent;
+				border:none;
+				margin:0;
+				padding:0;
+				table.collection_table {
+					background:transparent;
+					margin:0;
+					border:none;
+					width:894px;
+					table-layout:fixed;
+					border-collapse:collapse;
+					margin: 2px 0;
+				}
+			}
 			td.line_ck {
+				padding-right:0;
 				input{font-size:45px; width:14px; height:14px;}
+				.grip {
+					background-color:#eee;
+					background: #eee url("/assets/line-item-grip-3.png") no-repeat 0% 0%;
+					width:16px;
+					height:35px;
+					float:right;
+					border: 1px solid white;
+				}
 			}
 			td.lock {
 				padding:0;
+				width:37px;
 				input[type=checkbox] {
 					display:none;
 				}
@@ -35,91 +60,49 @@ body.estimates #content {
 				}
 			}
 			td.line_name {width:293px;/*width:315px;*/}
+			td.line_price_type {width:89px;}
+			td.line_ck {width:40px;}
 			td.line_links {
-				.action-button {
-					display:inline-block;
-					margin-top:2px;
-					float:left;
-					a.action-drop-down {
-						color:$darkest-gray;
-						background-color:$action-btn-bg;
-						cursor:pointer;
-						height:24px;
-						display:inline-block;
-						width:90px;
-						padding:6px 0 0 15px;
-						font-size:13px;
-						background-image:url($action-nav-arrow) no-repeat 90% 50%;
-						@include gradient($action-nav-arrow, no-repeat, 90%, 50%, $action-btn-bg, $action-btn-bg-2, 0%, 100%);
-						border-radius:5px;
-						box-sizing:content-box;
-						-moz-box-sizing:content-box;
-						-webkit-box-sizing:content-box;
-						-o-box-sizing:content-box;
-
-					}
-					ul.line-actions {
-						background:$off-white;
-						border: 1px solid $dark-gray;
-						border-top:none;
-						width:95px;
-						margin-left:3px;
-						position:absolute;
-						display:none;
-						list-style:none;
-						li {
-							a {
-								margin:5px 0;
-								padding:5px;
-								display:block;
-								color:$darkest-gray;
-								font-size:$action-menu-text;
-							}
-							a:hover {
-								background-color:$action-menu-hover;
-								color:black;
-							}
-							input[type=checkbox] {
-								display:none;
-							}
-							input[type=checkbox] + label {
-								display:block;
-								margin:5px 0;
-								padding:5px;
-								color:$darkest-gray;
-								font-size:$action-menu-text;
-							}
-							input[type=checkbox] + label:hover {
-								background-color:$action-menu-hover;
-								color:black;
-							}
-							input[type=checkbox]:checked + label {
-								background-color:$accept-bg-2;
-								color:$accept-text-2;
-							}
-							.disabled {
-								margin:5px 0;
-								padding:5px;
-								color:$darker-gray;
-								font-size:$action-menu-text;
-							}
-						}
-					}
-					a.action-drop-down:hover {
-						background-color:$action-btn-bg;
-						background-image:url($action-nav-arrow) no-repeat 90% 50%;
-						@include gradient($action-nav-arrow, no-repeat, 90%, 50%, $action-btn-bg-hv, $action-btn-bg-2, 0%, 100%);
-					}
-					a.action-drop-down.click {
-						background-color:$action-btn-bg;
-						background-image:url($action-nav-arrow) no-repeat 90% 50%;
-						@include gradient($action-nav-arrow, no-repeat, 90%, 50%, $action-btn-bg-clk, $action-btn-bg-clk-2, 0%, 100%);
-					}
-				}
 				.add_negotiation_line {display:inline;}
 				.accepted {
 					font-weight:bold;
 					color:$accept-text-1;
+				}
+			}
+			td.accept, td.line_links {
+				width:60px;
+				.thumbs-up {
+					display:none;
+					width:auto;
+					height:auto;
+					input[type=checkbox] {
+						display:none;
+					}
+					input[type=checkbox] + label {
+						display:inline-block;
+						margin:0;
+						@include bgimage (url("/assets/thumbs-up.png") no-repeat, 25px, 20px);
+					}
+					input[type=checkbox]:checked + label {
+						@include bgimage (url("/assets/thumbs-up-active.png") no-repeat, 25px, 20px);
+					}
+				}
+				a.thumbs-down {
+					@include bgimage (url("/assets/thumbs-down.png") no-repeat, 25px, 20px);
+					display:none;
+				}
+			}
+			td.line_u_price, td.line_t_price {
+				width:95px;
+			}
+		}
+		tr.line_collection tr:hover {
+			td.accept, td.line_links {
+				.thumbs-up {
+					display:inline-block;
+				}
+				a.thumbs-down {
+					display:inline-block;
 				}
 			}
 		}
@@ -130,7 +113,7 @@ body.estimates #content {
 				-webkit-text-fill-color:$darker-gray;
 			}
 		}
-		tr.is_enabled_false {
+		tr.is_enabled_false, tr.is_enabled_ {
 			td {
 				background: $disable-line-bg;
 				color: $disable-line-tx;
@@ -189,10 +172,90 @@ body.estimates #content {
 			td.description {color:$negotiate-them-tx;}
 			td.line_t_price {background-color:$negotiate-them-ttl;}
 		}
-		tr.negotiate_line.them.accepted {
+		tr.negotiate_line.them.accepted, tr.negotiate_line.them.accepted_true {
 			td {
 				background:$accept-bg-2;
 				color:$darkest-gray;
+			}
+		}
+	}
+	.select {
+		table.line_items.list {
+			border-collapse: collapse;
+			border-spacing: 0px;
+			thead {
+				tr {
+					th.line_num {width:83px;}
+					th.line_name {width:373px;}
+					th.line_price_type {width:auto;}
+					th.line_qty {width:114px;}
+					th.line_qty {width:83px;}
+					th.line_u_price {width:120px;}
+					th.line_t_price {width:120px;}
+				}
+			}
+			tr {
+				background-color:#fafafa;
+				td {
+					background-color:#fafafa;
+					color:#aaa;
+				}
+			}
+			tr.selected {
+				td {
+					background-color:#eee;
+					border:1px solid #999;
+					color:#333;
+				}
+			}
+			tr.hover {
+				background-color:#f1f1f1;
+				td {
+					border:1px solid #999;
+					background-color:#f1f1f1;
+					color:#333;
+				}
+			}
+			tr.total_line {
+				td {
+					color:#333;
+				}
+			}
+			tr.total_line.hover {
+				td {
+					border:none;
+				}
+			}
+			tr.line_collection {
+				background:transparent;
+				td.collection_cell {
+					background-color:transparent;
+				}
+			}
+			tr.line_collection.hover {
+				td.collection_cell {
+					border:none;
+					background-color:transparent;
+				}
+			}
+		}
+	}
+	.confirm {
+		table.line_items {
+			border-collapse: collapse;
+			border-spacing: 0px;
+		}
+		table.line_items.deselected {
+			tbody {
+				tr.line_collection {
+					td {
+						color:$darker-gray;
+						input {
+							color:$darker-gray;
+							-webkit-text-fill-color:$darker-gray;
+						}
+					}
+				}
 			}
 		}
 	}
@@ -201,5 +264,53 @@ body.estimates #content {
 	}
 	table.doc {
 		tr td.line_name {width:405px;}
+	}
+	.negotiate {
+		table.line_items {
+			width: 894px;
+			table-layout: fixed;
+			border-collapse:collapse;
+		}
+	}
+	.estimate-second-step table.line_items {
+		thead {
+			tr {
+				th.col.lock {
+					width:33px;
+				}
+
+				th.line_ck{width:40px;}
+				th.line_num {width:65px;}
+				th.line_name {width:293px;}
+				th.line_price_type{width:89px;}
+				th.line_qty{width:62px;}
+				th.line_u_price{width:94px;}
+				th.line_t_price{width:95px;}
+				th.line_links{width:60px;}
+
+			}
+		}
+		&>tbody {
+			tr.line_collection {
+				background-color: transparent;
+				tr.line_item, tr.negotiate_line {
+					background-color: transparent;
+					td.blank {
+						background-color: transparent !important;
+					}
+				}
+			}
+		}
+		tbody.deselected {
+			tr.line_collection {
+				td {
+					color:$darker-gray;
+					input {
+						color:$darker-gray;
+						-webkit-text-fill-color:$darker-gray;
+					}
+				}
+			}
+		}
 	}
 }

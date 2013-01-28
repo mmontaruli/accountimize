@@ -1,0 +1,39 @@
+%div{:class => "estimate-third-step confirm hidden"}
+	- if params[:action] == 'edit'
+		.row
+			.div{:class => 'top notification ten columns'} Please confirm the changes below and press save to send your changes.
+
+	%table{:class => "line_items selected"}
+		%thead
+			%tr
+				%th.col Item #
+				%th.col Description
+				%th.col Unit
+				%th.col Qty
+				%th.col Unit Price
+				%th.col Line Total
+		%tbody
+
+	%table{:class => "line_items deselected"}
+		%tbody
+
+	%div{:class => "actions"}
+		%div{:class => "accept-estimate row"}
+			-if can_approve_estimate(f.object) && !signed_in_client.is_account_master
+				.checkbox-btn
+					= f.check_box :is_accepted
+					= f.label :is_accepted, "Approve Estimate"
+			-elsif !can_approve_estimate(f.object)
+				%div{:class => "notification eight columns"} There are outstanding negotiations that have not been approved yet
+			-elsif signed_in_client.is_account_master
+				%div{:class => "notification eight columns"} Client has not yet approved estimate
+
+
+		-if params[:action] == 'edit'
+			= link_to 'Cancel', estimate_path(@estimate), :class => 'medium radius alert button'
+		-else
+			= link_to 'Cancel', estimates_path, :class => 'medium radius alert button'
+
+		= link_to "&laquo; Back".html_safe, "#", :class => 'medium radius normal button back'
+
+		= f.submit "Save &raquo;".html_safe , :class => 'medium radius success button save'

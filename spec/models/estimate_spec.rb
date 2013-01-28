@@ -13,4 +13,14 @@ describe Estimate do
 			line_item.is_accepted.should == true
 		end
 	end
+	context "estimate with two line items is created" do
+		before do
+			@estimate = create(:estimate)
+			@line_item_1 = create(:line_item, estimate_id: @estimate.id, position: 2)
+			@line_item_2 = create(:line_item, estimate_id: @estimate.id, position: 1)
+		end
+		it "should order the line items according to position" do
+			@estimate.line_items.should == [@line_item_2, @line_item_1]
+		end
+	end
 end

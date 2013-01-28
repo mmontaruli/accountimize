@@ -1,0 +1,30 @@
+%tr.line_collection
+	%td.collection_cell{:colspan => 9}
+		%table.collection_table
+
+
+			%tr{:class => "line_item select line-id-#{f.object.id} edit_false"}
+				%td.line_num
+					= f.object.number
+					= f.hidden_field :is_enabled, :class => 'is_enabled'
+				%td{:class => "line_name desc"}= f.object.name
+				%td.line_price_type
+					-unless f.object.is_locked
+						= f.select(:price_type, [['Fixed', 'fixed'], ['Hourly', 'hourly']])
+						.accept
+					-else
+						= f.object.price_type
+
+				%td.line_qty
+					.line_qty_val= f.object.quantity
+					= f.hidden_field :quantity, :class => 'line_qty'
+					= f.hidden_field :fixed_qty, :class => 'fixed_qty'
+					= f.hidden_field :hours_qty, :class => 'hours_qty'
+
+				%td{:class => "line_u_price amount"}
+					.line_unit_price_val= number_with_precision(f.object.unit_price, :precision => 2)
+					= f.hidden_field :unit_price, :class => 'line_unit_price', :value => number_with_precision(f.object.unit_price, :precision => 2)
+					= f.hidden_field :fixed_rate, :class => 'fixed_rate'
+					= f.hidden_field :hours_rate, :class => 'hours_rate'
+
+				%td{:class => "line_t_price amount"}= number_with_precision(f.object.total_price, :precision => 2, :delimiter => ',')

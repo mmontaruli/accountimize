@@ -7,19 +7,61 @@ Then /^I should see the line item total "(.*?)"$/ do |line_total|
   find_total.should == line_total
 end
 
+Given /^"(.*?)" line item is selected$/ do |line_item_name|
+  line_item = @estimate.line_items.find_by_name(line_item_name)
+  line_item.is_enabled
+  line_item.save
+  visit edit_estimate_url(@estimate, :subdomain => @user.client.account.subdomain)
+end
+
 Given /^I am customizing an estimate for "(.*?)" for "(.*?)"$/ do |service_name, service_cost|
   @estimate = create(:estimate, client_id: @client.id)
   @line_item = create(:line_item, estimate_id: @estimate.id, name: service_name, unit_price: service_cost)
 end
 
-When /^I negotiate this by commenting "(.*?)" and countering "(.*?)"$/ do |comment, price|
+Given /^I am reviewing a previously reviewed estimate for "(.*?)" for "(.*?)"$/ do |service_name, service_cost|
+  @estimate = create(:estimate, client_id: @client.id, already_reviewed: true)
+  @line_item = create(:line_item, estimate_id: @estimate.id, name: service_name, unit_price: service_cost)
   visit edit_estimate_url(@estimate, subdomain: @user.client.account.subdomain)
-  click_link "Actions"
+end
+
+Given /^I am reviewing an estimate for "(.*?)" for "(.*?)" for the first time$/ do |service_name, service_cost|
+  @estimate = create(:estimate, client_id: @client.id, already_reviewed: false)
+  @line_item = create(:line_item, estimate_id: @estimate.id, name: service_name, unit_price: service_cost, is_enabled: false)
+  visit edit_estimate_url(@estimate, subdomain: @user.client.account.subdomain)
+end
+
+When /^I have no negotiations to make$/ do
+  find('.estimate-first-step a.next').click
+end
+
+When /^I negotiate this by commenting "(.*?)" and countering "(.*?)"$/ do |comment, price|
   click_link "Negotiate"
-  find("textarea[id^='estimate_line_items_attributes_0_negotiate_lines_attributes'][id$='description']").set(comment)
-  find("input[id^='estimate_line_items_attributes_0_negotiate_lines_attributes'][id$='line_qty']").set(1)
-  find("input[id^='estimate_line_items_attributes_0_negotiate_lines_attributes'][id$='line_price']").set(price)
+  find("tr.negotiate_line td.description textarea").set(comment)
+  find("tr.negotiate_line td.line_qty input[type=text]").set(1)
+  find("tr.negotiate_line td.line_u_price input[type=text]").set(price)
+  #click_button("Save")
+  find(".estimate-second-step a.next").click
   click_button("Save")
+end
+
+When /^I change this line item price to "(.*?)"$/ do |line_price|
+  find("input#estimate_line_items_attributes_0_unit_price").set(line_price)
+end
+
+When /^I fill in this estimate information$/ do
+  select("Google", :from => "estimate_client_id")
+  find('input#estimate_line_items_attributes_0_name').set @service_name
+  find('input#estimate_line_items_attributes_0_quantity').set 1
+  find('input#estimate_line_items_attributes_0_unit_price').set @service_cost
+end
+
+Then /^I should see "(.*?)" as the line total$/ do |line_total|
+  find("td.line_t_price").should have_content(line_total)
+end
+
+Then /^I should see "(.*?)" as the estimate total$/ do |estimate_total|
+  find("td.total_price strong").should have_content(estimate_total)
 end
 
 Then /^I should see "(.*?)" as a negotiation in the Edit Estimate page$/ do |price|
@@ -58,6 +100,19 @@ When /^I click on the accept estimate button$/ do
 end
 
 Given /^no line items have been accepted or negotiated$/ do
+end
+
+When /^I click on the line item to select it$/ do
+  find('tr.line_item').click
+end
+
+When /^I confirm these changes and save$/ do
+  find('.estimate-second-step a.next').click
+  click_button("Save")
+end
+
+When /^I click "(.*?)" to go to the second step$/ do |link_text|
+  find('.estimate-first-step a.next').click
 end
 
 Then /^vendor should receive a new negotiation notification$/ do

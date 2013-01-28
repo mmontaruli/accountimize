@@ -10,6 +10,11 @@ When /^I click "(.*?)"$/ do |link|
   click_link(link)
 end
 
+When /^I click the "(.*?)" button$/ do |button|
+  click_button(button)
+  #save_and_open_page
+end
+
 Given /^I am logged in as a vendor$/ do
   @user = create(:user)
   @user.client.is_account_master = true

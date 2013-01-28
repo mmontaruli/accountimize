@@ -2,7 +2,7 @@ class Estimate < ActiveRecord::Base
   after_initialize :default_values
   after_save :accept_lines
   before_validation :default_values
-  has_many :line_items, :dependent => :destroy
+  has_many :line_items, :dependent => :destroy, :order => "position"
   has_many :negotiate_lines, :through => :line_items
   has_one :invoice_schedule, :dependent => :destroy
   belongs_to :client

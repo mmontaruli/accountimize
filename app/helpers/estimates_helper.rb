@@ -9,12 +9,12 @@ module EstimatesHelper
     end
     neg_client
   end
-  
+
   def disable_negotiate_button(line_item)
     last_negotiate_line = line_item.negotiate_lines.find(:last)
     status = true if last_negotiate_line and who_is_negotiating(last_negotiate_line.user_negotiating) == "us"
   end
-  
+
   def disable_form(line_item)
     disable_status = false
     if !signed_in_client.is_account_master
@@ -26,7 +26,7 @@ module EstimatesHelper
     end
     disable_status
   end
-  
+
   def can_accept(negotiate_line)
     line_item = LineItem.find(negotiate_line.line_item_id)
     last_negotiate_line = line_item.negotiate_lines.find(:last)
@@ -45,5 +45,13 @@ module EstimatesHelper
     end
     status
   end
-  
+
+  def hide_status(f)
+    if !signed_in_client.is_account_master && !f.object.already_reviewed
+      "hidden"
+    else
+      nil
+    end
+  end
+
 end

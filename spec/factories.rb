@@ -45,6 +45,7 @@ FactoryGirl.define do
     unit_price 100
     is_enabled true
     estimate
+    position 0
     #invoice
   end
 

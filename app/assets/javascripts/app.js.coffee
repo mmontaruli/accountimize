@@ -18,11 +18,11 @@ $ ->
 		getNewClient $client_select
 
 	$tableHasTotal.on "blur", lineItemInput, ->
-		updateLineTotals $(this).parents("tr"), $tableTotal
+		updateLineTotals $(this).parents("tr.line"), $tableTotal
 
 lineItemEffects = (table) ->
 	# rollover and active effects for edit view
-	editableLines = 'tr td input:enabled, tr td textarea'
+	editableLines = 'tr td input:enabled, tr td textarea:enabled'
 
 	table.on "mouseenter", editableLines, ->
 		$(this).parent().addClass('hover')
