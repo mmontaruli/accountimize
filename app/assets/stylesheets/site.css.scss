@@ -214,18 +214,18 @@ body {
 		p {font-size:$small;}
 	}
 	#footer {
+		margin-top: 25px;
 		p {
-			float:right;
 			font-size:$footer-font-size;
 			span {
 				margin-top: 6px;
 				display: block;
 				float: left;
+				margin-right: 5px;
+				margin-left: 65px;
 			}
 			a.logo {
 				@include bgimage (url('/assets/26twelve-logo.jpg') no-repeat, 33px, 84px);
-				float: right;
-				margin-left: 5px;
 			}
 		}
 	}

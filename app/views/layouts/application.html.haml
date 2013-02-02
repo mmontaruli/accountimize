@@ -37,6 +37,9 @@
 			= yield
 
 		#footer
-			%p
-				%span Software by
-				%a.logo(href="#") 26Twelve Studio
+			.row
+				%p{:class => "three columns push-nine"}
+					%span Software by
+					= link_to "26Twelve Studio", "http://www.26twelvestudio.com/", :target => "_blank", :class => "logo"
+				%p{:class => "three columns pull-nine"}
+					= "Copyright &#169; #{Time.now.year} 26Twelve Studio, Inc.".html_safe
