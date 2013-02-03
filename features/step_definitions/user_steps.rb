@@ -16,8 +16,9 @@ When /^I fill in and save this new contacts name, email and temporary password$/
 end
 
 When /^I go to any blocked user section$/ do
-	@blocked_urls = [
-		new_user_url(:client_id => @client.id, :subdomain => @user.client.account.subdomain)
+	@another_client = create(:client, account_id: @vendor.account_id)
+  @blocked_urls = [
+		new_user_url(:client_id => @another_client.id, :subdomain => @user.client.account.subdomain)
 	]
 end
 
