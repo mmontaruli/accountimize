@@ -9,14 +9,17 @@ describe UsersController do
   		session[:user_id] = @user.id
   		@client = create(:client, account_id: @user.client.account_id)
   		@client_user = create(:user, client_id: @client.id)
+  		@another_client = create(:client, account_id: @user.client.account_id)
+  		@another_client_user = create(:user, client_id: @another_client.id)
 	end
 	describe "#new" do
 		it "should be successful" do
 			get :new, client_id: @client.id
 			response.should be_success
 		end
-		it "should not allow access to client" do
-			session[:user_id] = @client_user.id
+		it "should not allow access to a different client" do
+			#session[:user_id] = @client_user.id
+			session[:user_id] = @another_client_user.id
 			get :new, client_id: @client.id
 			response.should redirect_to site_url
 		end

@@ -52,7 +52,7 @@ class UsersController < ApplicationController
   end
   def restrict_client_access
     if params[:client_id]
-      @target_client = Client.find_by_id(:client_id)
+      @target_client = Client.find_by_id(params[:client_id])
       unless signed_in_client.is_account_master
         if @target_client != signed_in_client
           redirect_to site_url
