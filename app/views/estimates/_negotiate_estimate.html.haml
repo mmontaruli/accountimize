@@ -46,7 +46,7 @@
 					= render 'line_item_fields', :f => builder
 
 
-	- if params[:action] == 'edit'
+	- if params[:action] == 'edit' || params[:action] == 'update'
 		= link_to 'Cancel', estimates_path, :class => 'medium radius alert button'
 		- if !signed_in_client.is_account_master && !f.object.already_reviewed
 			= link_to "&laquo; Back".html_safe, "#", :class => 'medium radius normal button back'

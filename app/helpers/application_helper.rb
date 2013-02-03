@@ -19,4 +19,12 @@ module ApplicationHelper
     end
     link_to_function(name, "add_negotiate_fields(this, '#{association}', '#{escape_javascript(fields)}')", classes)
   end
+
+  def login_link(subdomain)
+    if !subdomain.present? || subdomain == "www"
+      return link_to "Login", find_subdomain_url(:subdomain => false)
+    else
+      return link_to "Login", log_in_path
+    end
+  end
 end

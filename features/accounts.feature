@@ -9,7 +9,8 @@ Feature: Manage accounts
 		And my company name is "Acme"
 		And my name is "Fred Smith"
 		When I sign up for a new account
-		Then I should see "Account was successfully created."
+		#Then I should see "Account was successfully created."
+		Then I should see "Log in"
 
 	Scenario: Entering a insecure password
 		Given I do not have an account

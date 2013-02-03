@@ -21,7 +21,7 @@ describe AccountsController do
       		assigns(:account).name.should == "Lorem Ipsum"
     	end
     	it "should redirect to account dashboard" do
-    		response.should redirect_to accounts_path
+    		response.should redirect_to log_in_url(:subdomain => assigns(:account).subdomain)
     	end
   	end
 end

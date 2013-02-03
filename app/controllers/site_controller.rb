@@ -4,4 +4,8 @@ class SiteController < ApplicationController
     @header_trial = true
   end
 
+  def find_subdomain
+
+  end
+
 end
