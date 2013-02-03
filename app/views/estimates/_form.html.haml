@@ -19,7 +19,7 @@
 	- if params[:action] == 'edit'
 		= render 'confirm_estimate', :f => f
 
-	- if params[:action] == 'new'
+	- if params[:action] == 'new' || params[:action] == 'create'
 		%div{:class => "actions"}
 			%div{:class => "accept-estimate row"}
 				-if can_approve_estimate(f.object) && !signed_in_client.is_account_master
