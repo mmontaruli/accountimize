@@ -17,7 +17,7 @@
 					%li= link_to "Inbox", messages_path
 					%li= "Hello #{current_user.first_name}"
 				- else
-					%li= link_to 'Login', accounts_url(:subdomain => false)
+					%li= login_link(request.subdomain)
 					%li= link_to 'Sign up', sign_up_url(:subdomain => false)
 
 			%h1#logo

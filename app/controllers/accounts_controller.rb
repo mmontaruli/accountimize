@@ -1,16 +1,18 @@
 class AccountsController < ApplicationController
 
-  skip_before_filter :authorize, :only => [:index, :new, :create]
-  before_filter :restrict_access, :except => [:index, :new, :create, :show]
+  # skip_before_filter :authorize, :only => [:index, :new, :create]
+  skip_before_filter :authorize, :only => [:new, :create]
+  # before_filter :restrict_access, :except => [:index, :new, :create, :show]
+  before_filter :restrict_access, :except => [:new, :create, :show]
 
-  def index
-    @accounts = Account.all
+  # def index
+  #   @accounts = Account.all
 
-    respond_to do |format|
-      format.html
-      format.json { render json: @accounts }
-    end
-  end
+  #   respond_to do |format|
+  #     format.html
+  #     format.json { render json: @accounts }
+  #   end
+  # end
 
   def show
     @account = Account.find_by_subdomain!(request.subdomain)
@@ -46,7 +48,8 @@ class AccountsController < ApplicationController
 
     respond_to do |format|
       if @account.save
-        format.html { redirect_to accounts_path, :flash => {notice: 'Account was successfully created.', :status => 'success'} }
+        #format.html { redirect_to log_in_url(:subdomain => @account.subdomain), :flash => {notice: 'Account was successfully created.', :status => 'success'} }
+        format.html { redirect_to log_in_url(:subdomain => @account.subdomain)}
         format.json { render json: @account, status: :created, location: @account }
       else
         format.html { render action: "new" }
@@ -74,7 +77,8 @@ class AccountsController < ApplicationController
     @account.destroy
 
     respond_to do |format|
-      format.html { redirect_to accounts_url(:subdomain => false) }
+      #format.html { redirect_to accounts_url(:subdomain => false) }
+      format.html { redirect_to site_url(:subdomain => false) }
       format.json { head :ok }
     end
   end

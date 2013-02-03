@@ -43,4 +43,5 @@ Accountimize::Application.routes.draw do
     get "register" => "users#new", :as => "register"
   end
   root :to => 'site#index', :as => 'site'
+  match "/find_subdomain" => 'site#find_subdomain'
 end

@@ -236,11 +236,16 @@ body.site {
 		ul.login_links {float:none;}
 		#logo {
 			margin-top:0px;
-			@include logo (100);
+			a {
+				@include logo (100);
+			}
 		}
 	}
 	#content {
-		background: none repeat scroll 0 0 $body-content-bg;
+		.promo-wrapper {
+			background: none repeat scroll 0 0 $body-content-bg;
+			overflow:auto;
+		}
 		.column {
 			width: 67%;
 			float: right;
