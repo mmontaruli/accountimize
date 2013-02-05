@@ -14,9 +14,6 @@
 		.field
 			= f.text_field :name, :placeholder => "Company Name", :class => ''
 
-		.field
-			= f.text_field :subdomain, :placeholder => "Subdomain", :class => ''
-
 		.client_fields
 			= f.fields_for :clients, @account_master do |builder|
 				= render 'client_fields', :f => builder

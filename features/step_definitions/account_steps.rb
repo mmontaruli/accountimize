@@ -11,13 +11,11 @@ end
 
 Given /^my company name is "(.*?)"$/ do |company_name|
   @new_company_name = company_name
-  @new_subdomain = company_name.gsub(/\s+/, "").downcase
 end
 
 When /^I sign up for a new account$/ do
   visit('/sign_up')
   fill_in('account_name', :with => @new_company_name)
-  fill_in('account_subdomain', :with => @new_subdomain)
   find("input[placeholder='Email Address']").set @new_email_address
   find("input[placeholder='Password']").set "Ipsum1234"
   find("input[placeholder='Confirm Password']").set "Ipsum1234"
@@ -29,7 +27,6 @@ end
 When /^I sign up for a new account and enter the password "(.*?)"$/ do |password|
   visit('/sign_up')
   fill_in('account_name', :with => @new_company_name)
-  fill_in('account_subdomain', :with => @new_subdomain)
   find("input[placeholder='Email Address']").set @new_email_address
   find("input[placeholder='Password']").set password
   find("input[placeholder='Confirm Password']").set password
