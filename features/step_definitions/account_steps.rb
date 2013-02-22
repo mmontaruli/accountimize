@@ -47,3 +47,26 @@ Given /^my name is "(.*?)"$/ do |full_name|
   @first_name = full_name.split(' ')[0]
   @last_name = full_name.split(' ')[1]
 end
+
+When /^I enter my email address in the subdomain search field$/ do
+  find("input[name='email']").set @user.email
+  click_button('Search')
+end
+
+Then /^I should be able to log in with my credentials$/ do
+  find("input[placeholder='Email Address']").set @user.email
+  find("input[placeholder='Password']").set @user.password
+  click_button('Log In')
+  page.should have_content("Logged in")
+end
+
+When /^I enter my invalid email address in the subdomain search field$/ do
+  find("input[name='email']").set @new_email_address
+  click_button('Search')
+end
+
+Given /^an account already exists with "(.*?)" as a user$/ do |email_address|
+  other_vendor_user = create(:user, email: email_address)
+  other_vendor_user.client.is_account_master = true
+  other_vendor_user.client.save
+end

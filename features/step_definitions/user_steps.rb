@@ -75,3 +75,25 @@ Then /^I should be able to log in with my new password$/ do
   page.should have_content("Logged in!")
 end
 
+Given /^another account exists that has "(.*?)" as their client$/ do |client_name|
+  other_account = create(:account)
+  @existing_client = create(:client, name: client_name, account_id: other_account.id)
+end
+
+Given /^their client has a user "(.*?)"$/ do |email_address|
+  create(:user, email: email_address, client_id: @existing_client.id)
+end
+
+Given /^I have "(.*?)" as a client as well$/ do |client_name|
+  @my_client = create(:client, name: client_name, account_id: @user.client.account.id)
+end
+
+When /^I add "(.*?)" as a contact for this client$/ do |email_address|
+  #create(:user, email: email_address, client_id: @my_client.id)
+  visit client_url(@my_client, subdomain: @user.client.account.subdomain)
+  click_link("Add Contact")
+  find("input[placeholder='Email Address']").set email_address
+  find("input[placeholder='Password']").set "Fred1234"
+  find("input[placeholder='Confirm Password']").set "Fred1234"
+  click_button("Save")
+end

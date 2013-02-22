@@ -27,3 +27,13 @@ Feature: Manage accounts
 		And my name is "Fred Smith"
 		When I sign up for a new account
 		Then I should see "email is invalid"
+
+	Scenario: Creating an account with an email address already used as a vendor
+		Given I do not have an account
+		And an account already exists with "matt@acme.com" as a user
+		And my email address is "matt@acme.com"
+		And my company name is "Acme"
+		And my name is "Fred Smith"
+		When I sign up for a new account
+		#Then I should see "Email has already been taken"
+		Then I should see "Clients users email already taken"

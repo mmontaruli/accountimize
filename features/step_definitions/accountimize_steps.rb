@@ -12,7 +12,6 @@ end
 
 When /^I click the "(.*?)" button$/ do |button|
   click_button(button)
-  #save_and_open_page
 end
 
 Given /^I am logged in as a vendor$/ do
@@ -40,6 +39,11 @@ Then /^I should be redirected to the account dashboard$/ do
     visit url
     find('h4').should have_content('Account Dashboard')
   end
+end
+
+When /^I click "(.*?)" from the apps homepage$/ do |link_text|
+  visit site_url(:subdomain => false)
+  click_link(link_text)
 end
 
 module LoginSteps

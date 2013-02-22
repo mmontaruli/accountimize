@@ -1,8 +1,14 @@
 .row
-	%div{:class => "nine columns centered"}
+	%div{:class => "seven columns centered"}
 		.panel
-			%h5 Please log in through your subdomain
+			%h5 Please enter your email address below
 			%p
-				If you'd like to log in and you already have an account, please login by navigating to
-				%strong youraccountname.accountimize.com.
+				Please enter your email address into the field below so that we can locate your account.
 			%p= "If you do not have an account, please #{link_to 'sign up', sign_up_path}.".html_safe
+
+			= form_tag(:action => 'subdomain_found') do
+				.field{:class => 'row collapse'}
+					%div{:class => 'six columns'}
+						= text_field_tag "email", nil, :placeholder => "Email address"
+					%div{:class => 'two columns end'}
+						= submit_tag "Search", :class => 'button expand postfix'

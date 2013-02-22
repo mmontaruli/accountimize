@@ -4,7 +4,8 @@ class SessionsController < ApplicationController
   end
 
   def create
-    user = User.authenticate(params[:email], params[:password])
+    #user = User.authenticate(params[:email], params[:password])
+    user = User.authenticate(params[:email], params[:password], request.subdomain)
     if user
       client = Client.find_by_id(user.client_id)
       account = Account.find_by_id(client.account_id)
