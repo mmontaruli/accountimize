@@ -35,5 +35,4 @@ Feature: Manage accounts
 		And my company name is "Acme"
 		And my name is "Fred Smith"
 		When I sign up for a new account
-		#Then I should see "Email has already been taken"
 		Then I should see "Clients users email already taken"

@@ -7,7 +7,6 @@ class User < ActiveRecord::Base
   validates_confirmation_of :password
   validates_presence_of :password, :on => :create
   validates_presence_of :email
-  #validates_uniqueness_of :email
   validate :vendor_email_is_unique
   validate :email_under_same_account_must_be_unique
   validates_format_of :password, :with => /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).{8,40}$/,:on => :create, :message => "should be between 8 and 40 characeters long and should have at least one number and upper case letter"
@@ -18,14 +17,7 @@ class User < ActiveRecord::Base
       if user.id != self.id and self.client.is_account_master
         errors.add(:email, "already taken")
       end
-      # if user.id != self.id
-      #   return true
-      # end
     end
-    # if vendor_email_exists(email).id != self.id and self.client.is_account_master == true
-    # #if vendor_email_exists(email) and self.client.is_account_master == true
-    #   errors.add(:email, "already taken")
-    # end
   end
 
   def email_under_same_account_must_be_unique
@@ -49,7 +41,6 @@ class User < ActiveRecord::Base
   end
 
   def self.authenticate(email, password, subdomain)
-    #user = find_by_email(email)
     account = Account.find_by_subdomain(subdomain)
     client_id = find_client_by_email_and_account(email, account)
     user = User.find(:first, :conditions => {:email => email, :client_id => client_id})
@@ -73,16 +64,10 @@ class User < ActiveRecord::Base
     users_with_email = User.find(:all, :conditions => {:email => email})
     users_with_email.each do |user|
       if user.client.is_account_master == true
-        #return true
-        # a.push("true")
-        # return user
         a.push(user)
       end
     end
     return a
-    # if a.grep(/true/).length > 0
-    #   return true
-    # end
   end
 
   def self.find_client_by_email_and_account(email, account)

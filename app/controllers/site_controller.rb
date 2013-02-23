@@ -11,7 +11,6 @@ class SiteController < ApplicationController
   def subdomain_found
   	user = User.find_by_email(params[:email])
   	if user
-  		#subdomain = user.client.account.subdomain
   		redirect_to log_in_url(:subdomain => user.client.account.subdomain)
   	end
   end
