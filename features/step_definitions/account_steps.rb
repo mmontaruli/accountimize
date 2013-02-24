@@ -49,7 +49,9 @@ Given /^my name is "(.*?)"$/ do |full_name|
 end
 
 When /^I enter my email address in the subdomain search field$/ do
-  find("input[name='email']").set @user.email
+  email_address = @new_email_address || @user.email
+  #find("input[name='email']").set @user.email
+  find("input[name='email']").set email_address
   click_button('Search')
 end
 
