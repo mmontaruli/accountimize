@@ -19,8 +19,6 @@ When /^I sign up for a new account$/ do
   find("input[placeholder='Email Address']").set @new_email_address
   find("input[placeholder='Password']").set "Ipsum1234"
   find("input[placeholder='Confirm Password']").set "Ipsum1234"
-  # find("input[placeholder='First Name']").set @first_name
-  # find("input[placeholder='Last Name']").set @last_name
   click_button('Save')
 end
 
@@ -30,8 +28,6 @@ When /^I sign up for a new account and enter the password "(.*?)"$/ do |password
   find("input[placeholder='Email Address']").set @new_email_address
   find("input[placeholder='Password']").set password
   find("input[placeholder='Confirm Password']").set password
-  # find("input[placeholder='First Name']").set @first_name
-  # find("input[placeholder='Last Name']").set @last_name
   click_button('Save')
 end
 
