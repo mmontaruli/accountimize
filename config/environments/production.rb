@@ -57,4 +57,15 @@ Accountimize::Application.configure do
 
   # Send deprecation notices to registered listeners
   config.active_support.deprecation = :notify
+
+  config.action_mailer.delivery_method = :smtp
+  ActionMailer::Base.smtp_settings = {
+      :address  => "smtp.mandrillapp.com",
+      :port  => 587,
+      :user_name  => "app11566888@heroku.com",
+      :password  => "Gp4sScBcJHnYUaiXi3wLKw",
+      :authentication  => :login
+  }
+  config.action_mailer.raise_delivery_errors = true
+
 end
