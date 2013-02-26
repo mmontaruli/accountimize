@@ -1,0 +1,17 @@
+.row
+	%div{:class => "nine columns centered"}
+		.panel
+
+			- if @users.length == 0
+				%h5 We cannot locate your email address
+				%p
+					We're sorry, we cannot locate your email address in our systems. Please
+					=link_to 'sign up', sign_up_path
+					for a new account.
+
+			- elsif @users.length > 1
+				%h5 We've found more than on account you're associated with
+				%p Please select the appropriate vendor below.
+				%ul
+					- @users.each do |user|
+						%li= link_to user.client.account.name, log_in_url(subdomain: user.client.account.subdomain)

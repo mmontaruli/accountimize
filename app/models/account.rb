@@ -1,5 +1,5 @@
 class Account < ActiveRecord::Base
-  has_many :clients, :dependent => :destroy
+  has_many :clients, :dependent => :destroy, :inverse_of => :account
   has_many :estimates, :through => :clients
   has_many :users, :through => :clients
   has_many :invoices, :through => :clients

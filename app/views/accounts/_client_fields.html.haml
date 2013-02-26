@@ -3,26 +3,6 @@
 	= f.hidden_field :is_account_master, :value => true
 	= f.hidden_field :name, :value => @unique_account_master_name
 
-.field
-	= f.text_field :address_street_1, :placeholder => "Street 1", :class => ''
-
-.field
-	= f.text_field :address_street_2, :placeholder => "Street 2", :class => ''
-
-.field{:class => 'row'}
-
-	%div{:class => 'six columns'}
-		= f.text_field :address_city, :placeholder => "City", :class => ''
-
-	%div{:class => 'three columns'}
-		= f.text_field :address_state, :placeholder => "State", :class => ''
-
-	%div{:class => 'three columns'}
-		= f.text_field :address_zip, :placeholder => "Zip Code", :class => ''
-
-.field
-	= f.text_field :country, :placeholder => "Country", :class => ''
-
 - if (params[:action]) == 'new' || (params[:action]) == 'create'
 	.user_fields
 		= f.fields_for :users do |builder|

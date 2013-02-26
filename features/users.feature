@@ -41,3 +41,11 @@ Feature: Adding and editing users
 		Then I should see "Email sent with password reset instructions"
 		And when I change my password I should see "Password has been reset!"
 		And I should be able to log in with my new password
+
+	Scenario: Adding a client whose already someone elses client
+		Given I am logged in as a vendor
+		And another account exists that has "Google" as their client
+		And their client has a user "fred@google.com"
+		And I have "Google" as a client as well
+		When I add "fred@google.com" as a contact for this client
+		Then I should see "Signed up!"

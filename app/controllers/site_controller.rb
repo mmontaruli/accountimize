@@ -8,4 +8,11 @@ class SiteController < ApplicationController
 
   end
 
+  def subdomain_found
+    @users = User.find(:all, :conditions => {:email => params[:email]})
+    if @users.length == 1
+      redirect_to log_in_url(:subdomain => @users[0].client.account.subdomain)
+    end
+  end
+
 end

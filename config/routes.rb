@@ -44,4 +44,5 @@ Accountimize::Application.routes.draw do
   end
   root :to => 'site#index', :as => 'site'
   match "/find_subdomain" => 'site#find_subdomain'
+  match "/subdomain_found" => 'site#subdomain_found'
 end

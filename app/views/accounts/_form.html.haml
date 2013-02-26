@@ -20,4 +20,7 @@
 
 		.actions
 			= f.submit 'Save »', :class => 'medium radius success button'
-			= link_to 'Cancel »', @account, :class => 'medium radius secondary button'
+			- if params[:action] == 'new' or params[:action] == 'create'
+				= link_to 'Cancel »', site_url(subdomain: 'www'), :class => 'medium radius secondary button'
+			- elsif params[:action] == 'edit' or params[:action] == 'update'
+				= link_to 'Cancel »', @account, :class => 'medium radius secondary button'

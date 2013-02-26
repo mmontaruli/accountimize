@@ -213,7 +213,7 @@ updateFixedAndHourlyValues = (elem) ->
 
 
 acceptLine = (accept) ->
-	# TODO this is the worst function I've ever written--perhaps that anyone's ever written--make this shorter
+	# TODO refactor this function to make shorter
 	line_item = accept.parents "tr.line_item"
 	thumbs_down = line_item.find("td.line_links a.thumbs-down")
 	estimate_line = line_item
