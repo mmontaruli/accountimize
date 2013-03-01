@@ -1,7 +1,9 @@
 module EstimatesHelper
-  def who_is_negotiating(user_email)
-    user = User.find_by_email(user_email)
-    client = Client.find(user.client_id)
+  def who_is_negotiating(estimate, user_email)
+    account = estimate.client.account
+    vendor = account.clients.find(:first, :conditions => {is_account_master: true})
+    user = User.find(:first, :conditions => {email: user_email, client_id: estimate.client_id}) || User.find(:first, :conditions => {email: user_email, client_id: vendor.id}) || User.find_by_email(user_email)
+    client = user.client
     if client == signed_in_client
       neg_client = "us"
     else
@@ -30,7 +32,7 @@ module EstimatesHelper
   def can_accept(negotiate_line)
     line_item = LineItem.find(negotiate_line.line_item_id)
     last_negotiate_line = line_item.negotiate_lines.find(:last)
-    negotiate_line == last_negotiate_line and who_is_negotiating(negotiate_line.user_negotiating) == "them"
+    negotiate_line == last_negotiate_line and who_is_negotiating(negotiate_line.line_item.estimate, negotiate_line.user_negotiating) == "them"
   end
 
   def can_approve_estimate(estimate)
