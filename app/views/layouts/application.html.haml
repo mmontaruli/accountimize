@@ -18,10 +18,10 @@
 					%li= "Hello #{current_user.first_name}"
 				- else
 					%li= login_link(request.subdomain)
-					%li= link_to 'Sign up', sign_up_url(:subdomain => false)
+					%li= link_to 'Sign up', sign_up_url(:subdomain => 'www')
 
 			%h1#logo
-				= link_to 'Accountimize', site_url(:subdomain => false)
+				= link_to 'Accountimize', site_url(:subdomain => 'www')
 			- if @header_trial
 				%a.trial(href="#") Free 30-Day Trial
 

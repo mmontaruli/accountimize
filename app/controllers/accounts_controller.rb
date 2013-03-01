@@ -78,7 +78,7 @@ class AccountsController < ApplicationController
 
     respond_to do |format|
       #format.html { redirect_to accounts_url(:subdomain => false) }
-      format.html { redirect_to site_url(:subdomain => false) }
+      format.html { redirect_to site_url(:subdomain => 'www') }
       format.json { head :ok }
     end
   end

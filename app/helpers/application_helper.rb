@@ -22,7 +22,7 @@ module ApplicationHelper
 
   def login_link(subdomain)
     if !subdomain.present? || subdomain == "www"
-      return link_to "Login", find_subdomain_url(:subdomain => false)
+      return link_to "Login", find_subdomain_url(:subdomain => 'www')
     else
       return link_to "Login", log_in_path
     end

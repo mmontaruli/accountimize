@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'ruby-debug'
 
 describe InvoiceSchedulesController do
 	before(:each) do
@@ -29,12 +30,7 @@ describe InvoiceSchedulesController do
 	end
 	describe "#create" do
 		it "should create an invoice schedule" do
-	      	post :create, :estimate_id => @estimate,
-            	:invoice_schedule => {
-              		:invoice_milestones_attributes => {
-                		"0" =>{:estimate_percentage => 100, :description => "test"}
-              		}
-            	}
+			post :create, estimate_id: @estimate.id, invoice_schedule: attributes_for(:invoice_schedule, invoice_milestones_attributes: [attributes_for(:invoice_milestone)])
 
 			assigns(:invoice_schedule).should_not be_nil
 		end
