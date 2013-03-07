@@ -11,6 +11,7 @@ Feature: Manage accounts
 		When I sign up for a new account
 		#Then I should see "Account was successfully created."
 		Then I should see "Log in"
+		And I should receive a welcome email
 
 	Scenario: Entering a insecure password
 		Given I do not have an account

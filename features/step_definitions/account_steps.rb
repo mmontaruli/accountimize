@@ -68,3 +68,8 @@ Given /^an account already exists with "(.*?)" as a user$/ do |email_address|
   other_vendor_user.client.is_account_master = true
   other_vendor_user.client.save
 end
+
+Then /^I should receive a welcome email$/ do
+  message_to = ActionMailer::Base.deliveries.last.to[0]
+  message_to.should == @new_email_address
+end

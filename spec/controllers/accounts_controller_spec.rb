@@ -23,5 +23,10 @@ describe AccountsController do
     	it "should redirect to account dashboard" do
     		response.should redirect_to log_in_url(:subdomain => assigns(:account).subdomain)
     	end
+    	it "should send welcome email" do
+			user = assigns(:account).clients.find(:first, :conditions => {:is_account_master => true}).users.first
+			ActionMailer::Base.deliveries.last.to.should == [user.email]
+		end
+
   	end
 end

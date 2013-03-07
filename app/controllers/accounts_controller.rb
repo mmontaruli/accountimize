@@ -49,6 +49,8 @@ class AccountsController < ApplicationController
     respond_to do |format|
       if @account.save
         #format.html { redirect_to log_in_url(:subdomain => @account.subdomain), :flash => {notice: 'Account was successfully created.', :status => 'success'} }
+        user = @account.clients.find(:first, :conditions => {:is_account_master => true}).users.first
+        AccountMailer.welcome_email(user).deliver
         format.html { redirect_to log_in_url(:subdomain => @account.subdomain)}
         format.json { render json: @account, status: :created, location: @account }
       else
