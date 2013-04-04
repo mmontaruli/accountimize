@@ -1,0 +1,12 @@
+<%= "You just received an estimate from #{@estimate.client.account.name}" %>
+
+<%= "Please visit #{estimate_url(@estimate, subdomain: @estimate.client.account.subdomain)} in order to view" %>
+
+<%= "Since this is your first time receiving an estimate, we've generated a new password for you." %>
+
+<%= "When logging in, please enter your email address and the below password into the appropriate fields." %>
+
+<%= "Password: #{@new_pw}" %>
+
+<%= "Enjoy!" %>
+<%= "-The Accountimize Team" %>

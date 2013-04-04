@@ -34,6 +34,10 @@ Given /^I have a client named "(.*?)"$/ do |client|
   @client_user = create(:user, client_id: @client.id)
 end
 
+Given /^they have a user named "(.*?)"$/ do |name|
+  @specific_client_user = create(:user, client_id: @client.id, first_name: name)
+end
+
 Then /^I should be redirected to the account dashboard$/ do
   @blocked_urls.each do |url|
     visit url

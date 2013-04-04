@@ -3,7 +3,10 @@ require 'spec_helper'
 describe NegotiateLine do
 	context "is accepted" do
 		before do
-			@negotiate_line = create(:negotiate_line)
+			user = create(:user)
+			estimate = create(:estimate, send_to_contact: user.id, client_id: user.client_id)
+			line_item = create(:line_item, estimate_id: estimate.id)
+			@negotiate_line = create(:negotiate_line, line_item_id: line_item.id)
 			@negotiate_line.is_accepted = true
 			@negotiate_line.save
 		end

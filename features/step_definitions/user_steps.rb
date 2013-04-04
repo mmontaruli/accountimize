@@ -1,3 +1,5 @@
+require 'ruby-debug'
+
 Given /^I have a new contact whose email is "(.*?)"$/ do |email_address|
   @email_address = email_address
 end
@@ -6,10 +8,19 @@ When /^I go to the page to add a contact for this client$/ do
   visit new_user_url(:client_id => @client.id, :subdomain => @user.client.account.subdomain)
 end
 
-When /^I fill in and save this new contacts name, email and temporary password$/ do
-	find('input#user_email').set @email_address
-  find('input#user_password').set 'Harry123'
-  find('input#user_password_confirmation').set 'Harry123'
+# When /^I fill in and save this new contacts name, email and temporary password$/ do
+# 	find('input#user_email').set @email_address
+#   find('input#user_password').set 'Harry123'
+#   find('input#user_password_confirmation').set 'Harry123'
+#   find('input#user_first_name').set @first_name
+#   find('input#user_last_name').set @last_name
+#   click_button('Save')
+# end
+
+When /^I fill in and save this new contacts name and email$/ do
+  find('input#user_email').set @email_address
+  # find('input#user_password').set 'Harry123'
+  # find('input#user_password_confirmation').set 'Harry123'
   find('input#user_first_name').set @first_name
   find('input#user_last_name').set @last_name
   click_button('Save')
@@ -93,7 +104,46 @@ When /^I add "(.*?)" as a contact for this client$/ do |email_address|
   visit client_url(@my_client, subdomain: @user.client.account.subdomain)
   click_link("Add Contact")
   find("input[placeholder='Email Address']").set email_address
-  find("input[placeholder='Password']").set "Fred1234"
-  find("input[placeholder='Confirm Password']").set "Fred1234"
+  # find("input[placeholder='Password']").set "Fred1234"
+  # find("input[placeholder='Confirm Password']").set "Fred1234"
   click_button("Save")
+end
+
+Given /^I am a client$/ do
+  @client_user = create(:user)
+end
+
+Given /^I have never received any estimates before$/ do
+  @client_user.received_estimate = false
+  @client_user.save
+end
+
+When /^my first estimate is sent to me$/ do
+  # @estimate = create(:estimate, client_id: @client_user.client.id, send_to_contact: @client_user.id)
+  @vendor = create(:client, account_id: @client_user.client.account.id, is_account_master: true)
+  @vendor_user = create(:user, client_id: @vendor.id)
+  login(@vendor_user.client.account.subdomain, @vendor_user.email, @vendor_user.password)
+  # post '/estimates', estimate: attributes_for(:estimate, client_id: @client_user.client_id, send_to_contact: @client_user.id)
+  #visit new_estimate_url(:subdomain => @vendor_user.client.account.subdomain)
+  visit client_url(@client_user.client, :subdomain => @vendor_user.client.account.subdomain)
+  click_link('Create New Estimate')
+  #select(@client_user.client.name, :from => "estimate_client_id")
+  select(@client_user.email, :from => "estimate_send_to_contact")
+  find('input#estimate_line_items_attributes_0_name').set "Web Design"
+  find('input#estimate_line_items_attributes_0_quantity').set 1
+  find('input#estimate_line_items_attributes_0_unit_price').set 3000
+  click_button('Save')
+  click_link('Logout')
+end
+
+Then /^I should receive an email with my password$/ do
+  message = ActionMailer::Base.deliveries.last
+  message.to[0].should == @client_user.email
+  message_body = message.body.to_s
+  start_password_string = message_body.index("Password:")
+  end_password_string = message_body.index("Enjoy!")
+  password_string = message_body[start_password_string..end_password_string]
+  password_string = password_string[10..29]
+  @new_password = password_string
+  @user = User.find(@client_user.id)
 end

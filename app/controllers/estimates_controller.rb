@@ -67,8 +67,19 @@ class EstimatesController < ApplicationController
 
     respond_to do |format|
       if @estimate.save
-        @estimate.client.users.each do |user|
-          Message.create(user_id: user.id, subject: "New Estimate ##{@estimate.number}", body: "You have a new estimate. Please visit #{estimate_url(@estimate, subdomain: @estimate.client.account.subdomain)} to view.")
+        @send_to_contact = User.find(@estimate.send_to_contact)
+        if !@send_to_contact.received_estimate
+          valid_password = @send_to_contact.generate_valid_password
+          @send_to_contact.password = valid_password
+          @send_to_contact.password_confirmation = valid_password
+          @send_to_contact.save
+          EstimateMailer.first_estimate_email(@estimate, @send_to_contact, valid_password).deliver
+          @send_to_contact.received_estimate = true
+          @send_to_contact.save
+        else
+          @estimate.client.users.each do |user|
+            Message.create(user_id: user.id, subject: "New Estimate ##{@estimate.number}", body: "You have a new estimate. Please visit #{estimate_url(@estimate, subdomain: @estimate.client.account.subdomain)} to view.")
+          end
         end
         format.html { redirect_to estimate_path(@estimate), :flash => {notice: 'Estimate was successfully created.', :status => 'success'} }
         format.json { render json: @estimate, status: :created, location: @estimate }

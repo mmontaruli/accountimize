@@ -1,5 +1,6 @@
 Given /^I have created estimate number "(.*?)" for them$/ do |estimate_number|
-  @estimate = create(:estimate, number: estimate_number, client_id: @client.id)
+  client_user = create(:user, client_id: @client.id)
+  @estimate = create(:estimate, number: estimate_number, client_id: @client.id, send_to_contact: client_user.id)
 end
 
 When /^I go to the list of estimates$/ do
@@ -20,6 +21,7 @@ end
 
 When /^I fill in and submit this estimate information$/ do
   select("Google", :from => "estimate_client_id")
+  select(@specific_client_user.email, :from => "estimate_send_to_contact")
   find('input#estimate_line_items_attributes_0_name').set @service_name
   find('input#estimate_line_items_attributes_0_quantity').set 1
   find('input#estimate_line_items_attributes_0_unit_price').set @service_cost
@@ -33,7 +35,8 @@ Then /^I should see "(.*?)" line items$/ do |num|
 end
 
 Given /^I have an estimate created for them for "(.*?)" for "(.*?)"$/ do |service_name, service_cost|
-  @estimate = create(:estimate, client_id: @client.id)
+  client_user = create(:user, client_id: @client.id)
+  @estimate = create(:estimate, client_id: @client.id, send_to_contact: client_user.id)
   line_item = create(:line_item, estimate_id: @estimate.id, name: service_name, unit_price: service_cost)
 end
 
@@ -52,7 +55,8 @@ end
 
 Given /^I have an estimate numbered "(.*?)"$/ do |estimate_number|
   @client = create(:client, account_id: @user.client.account_id)
-  @estimate = create(:estimate, number: estimate_number, client_id: @client.id)
+  client_user = create(:user, client_id: @client.id)
+  @estimate = create(:estimate, number: estimate_number, client_id: @client.id, send_to_contact: client_user.id)
 end
 
 When /^I click the delete button next to this estimate$/ do
@@ -66,7 +70,8 @@ When /^I go to any blocked estimate section$/ do
 end
 
 Given /^I have created an estimate for this client$/ do
-  @estimate = create(:estimate, client_id: @client.id)
+  client_user = create(:user, client_id: @client.id)
+  @estimate = create(:estimate, client_id: @client.id, send_to_contact: client_user.id)
   line_item = create(:line_item, estimate_id: @estimate.id)
 end
 
@@ -78,7 +83,7 @@ Then /^client should receive a new estimate notification$/ do
 end
 
 Given /^the vendor has sent me an estimate$/ do
-  @estimate = create(:estimate, client_id: @user.client.id)
+  @estimate = create(:estimate, client_id: @user.client.id, send_to_contact: @user.id)
 end
 
 Given /^the estimate has a line item for "(.*?)" for "(.*?)"$/ do |service_name, service_cost|

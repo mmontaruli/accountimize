@@ -61,6 +61,13 @@ Cucumber::Rails::Database.javascript_strategy = :truncation
 World FactoryGirl::Syntax::Methods
 
 
+Around('@email') do |scenario, block|
+  ActionMailer::Base.delivery_method = :test
+  ActionMailer::Base.perform_deliveries = true
+  ActionMailer::Base.deliveries.clear
+  block.call
+end
+
 
 # Switch Pow to For Cucumber Tests
 #Capybara.default_driver = :selenium # Subdomain testing will only work with pow and selenium
@@ -71,7 +78,8 @@ pow_config_stash = "#{Rails.root}/.powenv_original" # This is what the config wi
 Before do
 
   # Set the default host
-  Capybara.app_host = "http://www.resipsa.dev"
+  #Capybara.app_host = "http://www.resipsa.dev"
+  Capybara.app_host = "http://www.accountimize.dev"
 
   # Stash the existing config
   File.rename(pow_config,pow_config_stash) if File.exists? pow_config

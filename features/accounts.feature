@@ -3,6 +3,7 @@ Feature: Manage accounts
 	As a vendor
 	I want to create and manage an account
 
+	@email
 	Scenario: Creating a new account
 		Given I do not have an account
 		And my email address is "matt@acme.com"

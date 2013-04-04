@@ -6,6 +6,9 @@
 			%p.address
 				= render 'clients/client_address' if @estimate.client_id
 
+			.contact
+				= render 'clients/user_select' if @estimate.client_id
+
 		.field{:class => 'three columns offset-by-four end'}
 			=f.label :number
 			=f.text_field :number, :class => ''

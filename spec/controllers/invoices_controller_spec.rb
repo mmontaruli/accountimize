@@ -64,7 +64,7 @@ describe InvoicesController do
 	end
 	describe "#generateInvoiceFromMilestone" do
 		it "should generate invoice" do
-			@estimate = create(:estimate, client_id: @client.id)
+			@estimate = create(:estimate, client_id: @client.id, send_to_contact: @client_user.id)
 			line_item = create(:line_item, estimate_id: @estimate.id)
 			@invoice_schedule = build(:invoice_schedule, estimate_id: @estimate.id, id: 1)
 			2.times do

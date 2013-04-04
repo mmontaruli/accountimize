@@ -20,13 +20,13 @@ Given /^I am customizing an estimate for "(.*?)" for "(.*?)"$/ do |service_name,
 end
 
 Given /^I am reviewing a previously reviewed estimate for "(.*?)" for "(.*?)"$/ do |service_name, service_cost|
-  @estimate = create(:estimate, client_id: @client.id, already_reviewed: true)
+  @estimate = create(:estimate, client_id: @client.id, already_reviewed: true, send_to_contact: @user.id)
   @line_item = create(:line_item, estimate_id: @estimate.id, name: service_name, unit_price: service_cost)
   visit edit_estimate_url(@estimate, subdomain: @user.client.account.subdomain)
 end
 
 Given /^I am reviewing an estimate for "(.*?)" for "(.*?)" for the first time$/ do |service_name, service_cost|
-  @estimate = create(:estimate, client_id: @client.id, already_reviewed: false)
+  @estimate = create(:estimate, client_id: @client.id, already_reviewed: false, send_to_contact: @user.id)
   @line_item = create(:line_item, estimate_id: @estimate.id, name: service_name, unit_price: service_cost, is_enabled: false)
   visit edit_estimate_url(@estimate, subdomain: @user.client.account.subdomain)
 end
@@ -85,7 +85,7 @@ Then /^I should see this line item priced at "(.*?)"$/ do |new_price|
 end
 
 Given /^I am customizing an estimate$/ do
-  @estimate = create(:estimate, client_id: @user.client_id)
+  @estimate = create(:estimate, client_id: @user.client_id, send_to_contact: @user.id)
   @line_item = create(:line_item, estimate_id: @estimate.id)
   visit edit_estimate_url(@estimate, :subdomain => @user.client.account.subdomain)
 end

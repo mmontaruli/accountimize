@@ -52,4 +52,21 @@ describe User do
 			build(:user, email: @taken_vendor_email).should be_valid
 		end
 	end
+	context "create new client user with temporary password" do
+		before do
+			@client = create(:client)
+		end
+		it "should generate a temporary password and save client user" do
+			user = build(:user, password: nil, password_confirmation: nil, client_id: @client.id)
+			user.save
+			user.save.should == true
+		end
+		it "should not allow creating a vendor user without a password" do
+			@client.is_account_master = true
+			@client.save
+			user = build(:user, password: nil, password_confirmation: nil, client_id: @client.id)
+			user.save
+			user.save.should == false
+		end
+	end
 end

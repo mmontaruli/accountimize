@@ -39,9 +39,14 @@ getNewClient = (client) ->
 	unless selected_client is ''
 		urlbase = client.attr('data-url-base')
 		url = urlbase+'/'+selected_client+'/client_address'
+
+		contactUrl = urlbase+'/'+selected_client+'/user_select'
+
 		$('p.address').load url
+		$('.contact').load contactUrl
 	else
 		$('p.address').empty()
+		$('.contact').empty()
 
 
 subtractFromTotal = (lineRow, total) ->

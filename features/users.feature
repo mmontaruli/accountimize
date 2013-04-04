@@ -9,7 +9,8 @@ Feature: Adding and editing users
 		And I have a new contact whose email is "fred@google.com"
 		And his name is "Fred Smith"
 		When I go to the page to add a contact for this client
-		And I fill in and save this new contacts name, email and temporary password
+		#And I fill in and save this new contacts name, email and temporary password
+		And I fill in and save this new contacts name and email
 		Then I should see "Signed up!"
 		And I should see "Fred Smith"
 
@@ -49,3 +50,11 @@ Feature: Adding and editing users
 		And I have "Google" as a client as well
 		When I add "fred@google.com" as a contact for this client
 		Then I should see "Signed up!"
+
+	@email
+	Scenario: Receiving password notification after receiving first estimate
+		Given I am a client
+		And I have never received any estimates before
+		When my first estimate is sent to me
+		Then I should receive an email with my password
+		And I should be able to log in with my new password

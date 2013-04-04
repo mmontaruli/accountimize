@@ -9,7 +9,7 @@ class Estimate < ActiveRecord::Base
 
   accepts_nested_attributes_for :line_items, :allow_destroy => true
 
-  validates :date, :number, :client_id, :presence => true
+  validates :date, :number, :client_id, :send_to_contact, :presence => true
   validates :number, :numericality => {:greater_than_or_equal_to => 1}
 
   def total_price

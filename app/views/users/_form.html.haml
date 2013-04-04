@@ -17,11 +17,13 @@
 		.field
 			= f.text_field :email, :placeholder => "Email Address", :class => ""
 
-		.field
-			= f.password_field :password, :placeholder => "Password", :class => ""
+		-# May eventually want to give vendors the option to create a password for a client user
+		- if @client.is_account_master == true
+			.field
+				= f.password_field :password, :placeholder => "Password", :class => ""
 
-		.field
-			= f.password_field :password_confirmation, :placeholder => "Confirm Password", :class => ""
+			.field
+				= f.password_field :password_confirmation, :placeholder => "Confirm Password", :class => ""
 
 		.actions
 			-if params[:action] == 'edit'
