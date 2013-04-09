@@ -2,12 +2,14 @@ require 'spec_helper'
 
 describe InvoicesController do
 	before(:each) do
-		@user = create(:user)
-  		@user.client.is_account_master = true
-  		@user.client.save
+		# @user = create(:user)
+  		# @user.client.is_account_master = true
+  		# @user.client.save
+  		vendor = create(:client, is_account_master: true, users_attributes: [attributes_for(:user)])
+  		@user = vendor.users.first
   		@request.host = "#{@user.client.account.subdomain}.test.host"
   		session[:user_id] = @user.id
-  		@client = create(:client, account_id: @user.client.account_id)
+  		@client = create(:client, account_id: @user.client.account_id, users_attributes: [attributes_for(:user)])
   		@invoice = create(:invoice, client_id: @client.id)
   		@client_user = create(:user, client_id: @client.id)
 	end

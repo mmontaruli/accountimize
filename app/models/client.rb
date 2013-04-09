@@ -7,5 +7,6 @@ class Client < ActiveRecord::Base
 
   validates :name, :presence => true
   validates :name, :uniqueness => {:scope => :account_id}
+  validates :users, :presence => true
 
 end

@@ -13,6 +13,7 @@ Feature: Manage clients
 	Scenario: Creating a client
 		Given I am logged in as a vendor
 		And I would like to create a client "Twitter"
+		And they have a contact "jim@twitter.com"
 		When I go to the New Client page
 		And I fill in and submit my new clients information
 		Then I should see "Client was successfully created."

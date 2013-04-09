@@ -23,14 +23,15 @@ end
 
 Given /^I am a client of "(.*?)"$/ do |vendor_name|
   vendor = Account.find_by_name(vendor_name)
-  client_1 = create(:client, account_id: vendor.id)
-  create(:user, email: @new_email_address, client_id: client_1.id)
+  client_1 = create(:client, account_id: vendor.id, users_attributes: [attributes_for(:user, email: @new_email_address)])
+  # create(:user, email: @new_email_address, client_id: client_1.id)
 end
 
 Given /^I later become a client of "(.*?)"$/ do |vendor_name|
   vendor = Account.find_by_name(vendor_name)
-  client_2 = create(:client, account_id: vendor.id)
-  @user_2 = create(:user, email: @new_email_address, client_id: client_2.id)
+  client_2 = create(:client, account_id: vendor.id, users_attributes: [attributes_for(:user, email: @new_email_address)])
+  # @user_2 = create(:user, email: @new_email_address, client_id: client_2.id)
+  @user_2 = client_2.users.first
 end
 
 When /^I log in to the "(.*?)" account$/ do |vendor_name|

@@ -21,7 +21,9 @@ describe SiteController do
 			response.should be_success
 		end
 		it "should redirect to login for account if user email exists" do
-			user = create(:user)
+			# user = create(:user)
+			client = create(:client, users_attributes: [attributes_for(:user)])
+			user = client.users.first
 			get :subdomain_found, :email => user.email
 			response.should redirect_to log_in_url(:subdomain => user.client.account.subdomain)
 		end

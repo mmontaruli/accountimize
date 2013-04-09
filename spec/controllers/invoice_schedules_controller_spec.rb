@@ -3,13 +3,16 @@ require 'ruby-debug'
 
 describe InvoiceSchedulesController do
 	before(:each) do
-		@user = create(:user)
-  		@user.client.is_account_master = true
-  		@user.client.save
+		# @user = create(:user)
+  		# @user.client.is_account_master = true
+  		# @user.client.save
+  		vendor = create(:client, is_account_master: true, users_attributes: [attributes_for(:user)])
+  		@user = vendor.users.first
   		@request.host = "#{@user.client.account.subdomain}.test.host"
   		session[:user_id] = @user.id
-  		@client = create(:client, account_id: @user.client.account_id)
-  		@client_user = create(:user, client_id: @client.id)
+  		@client = create(:client, account_id: @user.client.account_id, users_attributes: [attributes_for(:user)])
+  		#@client_user = create(:user, client_id: @client.id)
+  		@client_user = @client.users.first
   		@estimate = create(:estimate, client_id: @client.id, send_to_contact: @client_user.id)
   		@invoice_schedule = build(:invoice_schedule, estimate_id: @estimate.id, id: 1)
   		2.times do

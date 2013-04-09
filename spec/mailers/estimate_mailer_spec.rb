@@ -2,7 +2,9 @@ require "spec_helper"
 
 describe EstimateMailer do
   before(:each) do
-  	@user = create(:user)
+  	# @user = create(:user)
+    client = create(:client, users_attributes: [attributes_for(:user)])
+    @user = client.users.first
   	@estimate = create(:estimate, client_id: @user.client_id, send_to_contact: @user.id)
   	@new_pw= @user.generate_valid_password
   end

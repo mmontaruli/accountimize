@@ -3,15 +3,18 @@ require 'ruby-debug'
 
 describe EstimatesController do
 	before(:each) do
-		@user = create(:user)
-  		@user.client.is_account_master = true
-  		@user.client.save
+		# @user = create(:user)
+  		# @user.client.is_account_master = true
+  		# @user.client.save
+  		vendor = create(:client, is_account_master: true, users_attributes: [attributes_for(:user)])
+  		@user = vendor.users.first
   		@user.received_estimate = true
   		@user.save
   		@request.host = "#{@user.client.account.subdomain}.test.host"
   		session[:user_id] = @user.id
-  		@client = create(:client, account_id: @user.client.account_id)
-  		@client_user = create(:user, client_id: @client.id)
+  		@client = create(:client, account_id: @user.client.account_id, users_attributes: [attributes_for(:user)])
+  		#@client_user = create(:user, client_id: @client.id)
+  		@client_user = @client.users.first
   		@estimate = create(:estimate, client_id: @client.id, send_to_contact: @client_user.id)
 	end
 	describe "#index" do
@@ -32,7 +35,7 @@ describe EstimatesController do
 		end
 		it "should not allow me to view client data from another account" do
 			other_account = create(:account)
-			other_client = create(:client, account_id: other_account.id)
+			other_client = create(:client, account_id: other_account.id, users_attributes: [attributes_for(:user)])
 			get :new, client_id: other_client.id
 			response.should redirect_to site_url
 		end

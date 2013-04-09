@@ -2,10 +2,12 @@ require "spec_helper"
 
 describe AccountMailer do
 	before(:each) do
-    	@user = create(:user)
-    	@user.client.is_account_master = true
-    	@user.client.save
-    	@user.save
+    	# @user = create(:user)
+    	# @user.client.is_account_master = true
+    	# @user.client.save
+    	# @user.save
+    	vendor = create(:client, is_account_master: true, users_attributes: [attributes_for(:user)])
+    	@user = vendor.users.first
 	end
 
 	describe "welcome_email" do

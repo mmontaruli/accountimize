@@ -25,6 +25,7 @@ class ClientsController < ApplicationController
 
   def new
     @client = Client.new
+    @client.users.build
 
     respond_to do |format|
       format.html

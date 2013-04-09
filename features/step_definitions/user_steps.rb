@@ -27,7 +27,7 @@ When /^I fill in and save this new contacts name and email$/ do
 end
 
 When /^I go to any blocked user section$/ do
-	@another_client = create(:client, account_id: @vendor.account_id)
+	@another_client = create(:client, account_id: @vendor.account_id, users_attributes: [attributes_for(:user)])
   @blocked_urls = [
 		new_user_url(:client_id => @another_client.id, :subdomain => @user.client.account.subdomain)
 	]
@@ -88,7 +88,7 @@ end
 
 Given /^another account exists that has "(.*?)" as their client$/ do |client_name|
   other_account = create(:account)
-  @existing_client = create(:client, name: client_name, account_id: other_account.id)
+  @existing_client = create(:client, name: client_name, account_id: other_account.id, users_attributes: [attributes_for(:user)])
 end
 
 Given /^their client has a user "(.*?)"$/ do |email_address|
@@ -96,7 +96,7 @@ Given /^their client has a user "(.*?)"$/ do |email_address|
 end
 
 Given /^I have "(.*?)" as a client as well$/ do |client_name|
-  @my_client = create(:client, name: client_name, account_id: @user.client.account.id)
+  @my_client = create(:client, name: client_name, account_id: @user.client.account.id, users_attributes: [attributes_for(:user)])
 end
 
 When /^I add "(.*?)" as a contact for this client$/ do |email_address|
@@ -110,7 +110,9 @@ When /^I add "(.*?)" as a contact for this client$/ do |email_address|
 end
 
 Given /^I am a client$/ do
-  @client_user = create(:user)
+  client = create(:client, users_attributes: [attributes_for(:user)])
+  # @client_user = create(:user)
+  @client_user = client.users.first
 end
 
 Given /^I have never received any estimates before$/ do
@@ -120,8 +122,9 @@ end
 
 When /^my first estimate is sent to me$/ do
   # @estimate = create(:estimate, client_id: @client_user.client.id, send_to_contact: @client_user.id)
-  @vendor = create(:client, account_id: @client_user.client.account.id, is_account_master: true)
-  @vendor_user = create(:user, client_id: @vendor.id)
+  @vendor = create(:client, account_id: @client_user.client.account.id, is_account_master: true, users_attributes: [attributes_for(:user)])
+  # @vendor_user = create(:user, client_id: @vendor.id)
+  @vendor_user = @vendor.users.first
   login(@vendor_user.client.account.subdomain, @vendor_user.email, @vendor_user.password)
   # post '/estimates', estimate: attributes_for(:estimate, client_id: @client_user.client_id, send_to_contact: @client_user.id)
   #visit new_estimate_url(:subdomain => @vendor_user.client.account.subdomain)

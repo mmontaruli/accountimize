@@ -32,7 +32,9 @@ When /^I sign up for a new account and enter the password "(.*?)"$/ do |password
 end
 
 Given /^I have an account$/ do
-  @user = create(:user)
+  client = create(:client, users_attributes: [attributes_for(:user)])
+  # @user = create(:user)
+  @user = client.users.first
   if @first_name
     @user.first_name = @first_name
     @user.save
@@ -64,9 +66,10 @@ When /^I enter my invalid email address in the subdomain search field$/ do
 end
 
 Given /^an account already exists with "(.*?)" as a user$/ do |email_address|
-  other_vendor_user = create(:user, email: email_address)
-  other_vendor_user.client.is_account_master = true
-  other_vendor_user.client.save
+  # other_vendor_user = create(:user, email: email_address)
+  # other_vendor_user.client.is_account_master = true
+  # other_vendor_user.client.save
+  vendor = create(:client, is_account_master: true, users_attributes: [attributes_for(:user, email: email_address)])
 end
 
 Then /^I should receive a welcome email$/ do

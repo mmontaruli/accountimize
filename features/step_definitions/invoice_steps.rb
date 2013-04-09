@@ -37,7 +37,7 @@ When /^I change the invoice line price to "(.*?)" and submit$/ do |new_price|
 end
 
 Given /^I have an invoice numbered "(.*?)"$/ do |invoice_number|
-  @client = create(:client, account_id: @user.client.account_id)
+  @client = create(:client, account_id: @user.client.account_id, users_attributes: [attributes_for(:user)])
   @invoice = create(:invoice, number: invoice_number, client_id: @client.id)
 end
 
