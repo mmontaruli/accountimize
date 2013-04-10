@@ -14,8 +14,8 @@ describe AccountMailer do
 		let(:mail) { AccountMailer.welcome_email(@user) }
 
 		it "renders the headers" do
-			mail.subject.should eq("Welcome to Accountimize")
-			mail.to.should == [@user.email]
+			mail.subject.should eql("Welcome to Accountimize! Here are your account details")
+			mail.to.should eql([@user.email])
 			mail.from.should == ["no-reply@accountimize.com"]
 		end
 
