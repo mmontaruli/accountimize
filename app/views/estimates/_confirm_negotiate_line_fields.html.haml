@@ -1,4 +1,4 @@
-%tr{:class => "negotiate_line submitted #{who_is_negotiating(f.object.user_negotiating)}"}
+%tr{:class => "negotiate_line submitted #{who_is_negotiating(f.object.line_item.estimate, f.object.user_negotiating)}"}
 	%td.blank
 	%td{:class => "description desc"}
 		.name= "#{f.object.user_negotiating} says:"

@@ -2,7 +2,9 @@ require "spec_helper"
 
 describe MessageMailer do
   before(:each) do
-    @message = create(:message)
+    client = create(:client, users_attributes: [attributes_for(:user)])
+    user = client.users.first
+    @message = create(:message, user_id: user.id)
   end
   describe "email_message" do
     let(:mail) { MessageMailer.email_message(@message) }

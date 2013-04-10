@@ -25,6 +25,7 @@ class ClientsController < ApplicationController
 
   def new
     @client = Client.new
+    @client.users.build
 
     respond_to do |format|
       format.html
@@ -78,6 +79,12 @@ class ClientsController < ApplicationController
     @client = @account.clients.find(params[:id])
     render partial: 'client_address', layout: nil
   end
+
+  def user_select
+    @client = @account.clients.find(params[:id])
+    render partial: 'user_select', layout: nil
+  end
+
 
   private
 

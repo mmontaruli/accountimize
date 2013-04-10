@@ -38,7 +38,9 @@
 			= f.hidden_field :account_id, :value => @account.id
 			= f.hidden_field :is_account_master, :value => false
 
-
+			.user_fields
+				= f.fields_for :users do |builder|
+					= render 'user_fields', :f => builder
 
 		.actions
 

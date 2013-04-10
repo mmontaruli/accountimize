@@ -2,7 +2,9 @@ require "spec_helper"
 
 describe UserMailer do
   before(:each) do
-    @user = create(:user)
+    # @user = create(:user)
+    client = create(:client, users_attributes: [attributes_for(:user)])
+    @user = client.users.first
     @user.generate_token(:password_reset_token)
     @user.save!
   end

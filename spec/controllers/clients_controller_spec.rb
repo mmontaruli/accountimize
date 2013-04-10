@@ -2,13 +2,16 @@ require 'spec_helper'
 
 describe ClientsController do
 	before(:each) do
-		@user = create(:user)
-  		@user.client.is_account_master = true
-  		@user.client.save
+		# @user = create(:user)
+  		# @user.client.is_account_master = true
+  		# @user.client.save
+  		vendor = create(:client, is_account_master: true, users_attributes: [attributes_for(:user)])
+  		@user = vendor.users.first
   		@request.host = "#{@user.client.account.subdomain}.test.host"
   		session[:user_id] = @user.id
-  		@client = create(:client, account_id: @user.client.account_id)
-  		@client_user = create(:user, client_id: @client.id)
+  		@client = create(:client, account_id: @user.client.account_id, users_attributes: [attributes_for(:user)])
+  		#@client_user = create(:user, client_id: @client.id)
+  		@client_user = @client.users.first
 	end
 	describe "#index" do
 		it "should be successful" do
@@ -34,9 +37,12 @@ describe ClientsController do
 	end
 	describe "#create" do
 		it "should create a client" do
-			post :create, "client" => {"name" => "testing", "account_id" => @user.client.account_id}
+			#post :create, "client" => {"name" => "testing", "account_id" => @user.client.account_id}
+			#post :create, estimate_id: @estimate.id, invoice_schedule: attributes_for(:invoice_schedule, invoice_milestones_attributes: [attributes_for(:invoice_milestone)])
+			post :create, "client" => {"name" => "testing", "account_id" => @user.client.account_id, users_attributes: [attributes_for(:user)]}
 			assigns(:client).should_not be_nil
-			assigns(:client).name.should == "testing"
+			assigns(:client).name.should eql("testing")
+			assigns(:client).users.should_not be_nil
 		end
 	end
 	describe "#edit" do

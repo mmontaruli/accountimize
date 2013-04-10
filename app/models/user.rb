@@ -11,6 +11,8 @@ class User < ActiveRecord::Base
   validate :email_under_same_account_must_be_unique
   validates_format_of :password, :with => /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).{8,40}$/,:on => :create, :message => "should be between 8 and 40 characeters long and should have at least one number and upper case letter"
   validates_format_of :email, :with => /^([\w\.%\+\-]+)@([\w\-]+\.)+([\w]{2,})$/i, :on => :create
+  #before_validation_on_create :auto_generate_password
+  before_validation :auto_generate_password, :on => :create
 
   def vendor_email_is_unique
     vendor_email_exists(email).each do |user|
@@ -56,6 +58,27 @@ class User < ActiveRecord::Base
       self.password_salt = BCrypt::Engine.generate_salt
       self.password_hash = BCrypt::Engine.hash_secret(password, password_salt)
     end
+  end
+
+  def auto_generate_password
+    if self.client.is_account_master == false
+      if self.password == nil and self.password_confirmation == nil
+        new_password = generate_valid_password
+        self.password = new_password
+        self.password_confirmation = new_password
+      end
+    end
+  end
+
+  def generate_valid_password
+    characters = ("a".."z").to_a
+    string = 14.times.map { characters.sample }.join("")
+    string = string.slice(0,1).capitalize + string.slice(1..-1)
+    numbers = (0..9).to_a
+    numstring = 6.times.map { numbers.sample }.join("")
+    temppw = string + numstring
+    temppw = temppw.split(//).sort_by { rand }.join('')
+    return temppw
   end
 
   private

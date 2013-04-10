@@ -23,6 +23,7 @@ FactoryGirl.define do
   	password_confirmation { |u| u.password }
     first_name "Fred"
     last_name "Smith"
+    received_estimate false
   	client
   end
 
@@ -44,7 +45,7 @@ FactoryGirl.define do
     quantity 1
     unit_price 100
     is_enabled true
-    estimate
+    #estimate
     position 0
     #invoice
   end

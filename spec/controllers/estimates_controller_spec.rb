@@ -1,15 +1,21 @@
 require 'spec_helper'
+require 'ruby-debug'
 
 describe EstimatesController do
 	before(:each) do
-		@user = create(:user)
-  		@user.client.is_account_master = true
-  		@user.client.save
+		# @user = create(:user)
+  		# @user.client.is_account_master = true
+  		# @user.client.save
+  		vendor = create(:client, is_account_master: true, users_attributes: [attributes_for(:user)])
+  		@user = vendor.users.first
+  		@user.received_estimate = true
+  		@user.save
   		@request.host = "#{@user.client.account.subdomain}.test.host"
   		session[:user_id] = @user.id
-  		@client = create(:client, account_id: @user.client.account_id)
-  		@estimate = create(:estimate, client_id: @client.id)
-  		@client_user = create(:user, client_id: @client.id)
+  		@client = create(:client, account_id: @user.client.account_id, users_attributes: [attributes_for(:user)])
+  		#@client_user = create(:user, client_id: @client.id)
+  		@client_user = @client.users.first
+  		@estimate = create(:estimate, client_id: @client.id, send_to_contact: @client_user.id)
 	end
 	describe "#index" do
 		it "should be a success" do
@@ -29,24 +35,29 @@ describe EstimatesController do
 		end
 		it "should not allow me to view client data from another account" do
 			other_account = create(:account)
-			other_client = create(:client, account_id: other_account.id)
+			other_client = create(:client, account_id: other_account.id, users_attributes: [attributes_for(:user)])
 			get :new, client_id: other_client.id
 			response.should redirect_to site_url
 		end
 		it "should build three unselected line items" do
 			get :new
 			assigns(:estimate).line_items.should be_present
-			assigns(:estimate).line_items.length.should == 3
+			assigns(:estimate).line_items.length.should eql(3)
 			assigns(:estimate).line_items[0].is_enabled.should be_false
 		end
 	end
 	describe "#create" do
 		it "should create an estimate" do
-			expect {post :create, estimate: attributes_for(:estimate, client_id: @user.client_id)}.to change(Estimate, :count).by(1)
+			expect {post :create, estimate: attributes_for(:estimate, client_id: @user.client_id, send_to_contact: @user.id)}.to change(Estimate, :count).by(1)
 		end
 		it "should send a new estimate notification to client" do
-			post :create, estimate: attributes_for(:estimate, client_id: @user.client_id)
+			post :create, estimate: attributes_for(:estimate, client_id: @user.client_id, send_to_contact: @user.id)
 			Message.last.subject.should include("New Estimate #")
+		end
+		it "should send a new password email to new clients" do
+			user = create(:user, received_estimate: false, client_id: @user.client_id)
+			post :create, estimate: attributes_for(:estimate, client_id: user.client_id, send_to_contact: user.id)
+			ActionMailer::Base.deliveries.last.subject.should include("#{user.client.account.name} just sent you an estimate via Accountimize")
 		end
 	end
 	describe "#edit" do
