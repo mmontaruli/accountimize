@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130325180501) do
+ActiveRecord::Schema.define(:version => 20130417175235) do
 
   create_table "accounts", :force => true do |t|
     t.string   "name"
@@ -37,12 +37,14 @@ ActiveRecord::Schema.define(:version => 20130325180501) do
   create_table "estimates", :force => true do |t|
     t.integer  "number"
     t.date     "date"
-    t.datetime "created_at",       :null => false
-    t.datetime "updated_at",       :null => false
+    t.datetime "created_at",                          :null => false
+    t.datetime "updated_at",                          :null => false
     t.integer  "client_id"
     t.boolean  "is_accepted"
     t.boolean  "already_reviewed"
     t.integer  "send_to_contact"
+    t.boolean  "is_sent",          :default => false
+    t.boolean  "is_archived",      :default => false
   end
 
   create_table "invoice_milestones", :force => true do |t|
@@ -65,8 +67,9 @@ ActiveRecord::Schema.define(:version => 20130325180501) do
     t.integer  "number"
     t.date     "date"
     t.integer  "client_id"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",                     :null => false
+    t.datetime "updated_at",                     :null => false
+    t.boolean  "is_archived", :default => false
   end
 
   create_table "line_items", :force => true do |t|
