@@ -20,6 +20,14 @@ describe PasswordResetsController do
   	  post :create, user: @user
   	  response.should redirect_to log_in_url
   	end
+    it "should create a token for the right user" do
+      new_client = create(:client, users_attributes: [attributes_for(:user, email: @user.email)])
+      new_user = new_client.users.first
+      @request.host = "#{new_user.client.account.subdomain}.test.host"
+      post :create, email: new_user.email
+      User.find(new_user).password_reset_token.should_not be_nil
+      User.find(@user).password_reset_token.should be_nil
+    end
   end
   describe "#edit" do
   	it "should be successful" do

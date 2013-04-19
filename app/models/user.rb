@@ -81,6 +81,13 @@ class User < ActiveRecord::Base
     return temppw
   end
 
+  def self.find_by_email_and_subdomain(email, subdomain)
+    account = Account.find_by_subdomain(subdomain)
+    client_id = find_client_by_email_and_account(email, account)
+    user = User.find(:first, :conditions => {:email => email, :client_id => client_id})
+    return user
+  end
+
   private
   def vendor_email_exists(email)
     a = []
