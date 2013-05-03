@@ -27,4 +27,12 @@ module ApplicationHelper
       return link_to "Login", log_in_path
     end
   end
+
+  def vendor_status
+    if current_user
+      return "vendor_#{signed_in_client.is_account_master}"
+    else
+      return ""
+    end
+  end
 end

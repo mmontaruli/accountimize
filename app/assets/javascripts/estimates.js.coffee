@@ -58,6 +58,7 @@ $ ->
 		confirmationPageSort $('.estimate-second-step table')
 		$estimateSecondStep.addClass("hidden")
 		$estimateThirdStep.removeClass("hidden")
+		showApproveButton $estimateSecondStep
 		false
 
 	$body.on "click", '.estimate-third-step a.back', ->
@@ -444,3 +445,51 @@ secondScreenDragToSelectInFirstScreen = (elem, status) ->
 	firstScreenLine.removeClass("selected")
 	firstScreenLine.find('input.is_enabled').val(status)
 	firstScreenLine.addClass("selected") if status == "t"
+
+showApproveButton = (estimateSecondStep) ->
+	# Same logic as that seen in actions under confirm estimate partial, only done live through javascript
+	# Tests to see if lines are approved and who is logged in and will display appropriate notification or
+	# approve button
+
+	approveBtn = $(".approve-btn")
+	outstandingNote = $(".notification.outstanding")
+	clientApproveNote = $(".notification.client_approve")
+
+	lineItems = estimateSecondStep.find("table.line_items tbody.selected tr.line_collection tr.line_item")
+	allLinesApproved = lineItemsApproved(lineItems)
+
+	if allLinesApproved and $('body').hasClass('vendor_false')
+		approveBtn.removeClass("hidden")
+		outstandingNote.addClass("hidden")
+		clientApproveNote.addClass("hidden")
+	else if !allLinesApproved
+		approveBtn.addClass("hidden")
+		outstandingNote.removeClass("hidden")
+		clientApproveNote.addClass("hidden")
+	else if $('body').hasClass('vendor_true')
+		approveBtn.addClass("hidden")
+		outstandingNote.addClass("hidden")
+		clientApproveNote.removeClass("hidden")
+
+
+lineItemsApproved = (lineItems) ->
+	# Checks to see if all lines have been accepted. If any one shows up not accepted, false is returned
+	status = true
+
+	lineItems.each ->
+		recentlyApproved = lineOrNegotiateApproved($(this))
+		if $(this).find("td.line_links").children(".accepted").length is 0 and !recentlyApproved
+			status = false
+		return
+	status
+
+lineOrNegotiateApproved = (lineItem) ->
+	# Checks to see if any line item or negotiate line was just recently accepted by pressing the thumbs up button
+	lineCollection = lineItem.parents(".line_collection").find("table.collection_table")
+	status = false
+
+	lineCollection.find("tr").each ->
+		if $(this).find(".thumbs-up input[type='checkbox']").is ':checked'
+			status = true
+		return
+	return status

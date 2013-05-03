@@ -7,7 +7,7 @@
 		= csrf_meta_tags
 		= favicon_link_tag
 
-	%body{:class => @section_name}
+	%body{:class => "#{@section_name} #{vendor_status}"}
 
 		#header
 			%ul.login_links
