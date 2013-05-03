@@ -1,0 +1,12 @@
+%div{:class => "six columns #{class_type}"}
+	%h4.subheader= title
+	%table
+		%tr
+			%th= "#{type} #"
+			%th Client
+			%th= "#{type} Total"
+		- items.each do |item|
+			%tr
+				%td= link_to(item.number, item)
+				%td= link_to(item.client.name, item.client)
+				%td= number_to_currency(item.total_price)

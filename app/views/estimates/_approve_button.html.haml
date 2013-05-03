@@ -1,0 +1,5 @@
+%div{:class => "checkbox-btn approve-btn #{checkbox_hide}"}
+	= f.check_box :is_accepted
+	= f.label :is_accepted, "Approve Estimate"
+%div{:class => "notification outstanding #{outstanding_notification_hide}"} There are outstanding negotiations that have not been approved yet
+%div{:class => "notification client_approve #{client_not_approved_hide}"} Client has not yet approved estimate

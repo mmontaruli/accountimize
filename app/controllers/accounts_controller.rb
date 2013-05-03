@@ -17,6 +17,15 @@ class AccountsController < ApplicationController
   def show
     @account = Account.find_by_subdomain!(request.subdomain)
     @inner_navigation = true
+    if signed_in_client.is_account_master
+      @invoices = @account.invoices.find(:all, :conditions => {is_archived: false})
+      @approved = @account.estimates.find(:all, :conditions => {is_accepted: true, is_archived: false})
+      @drafts = @account.estimates.find(:all, :conditions => {is_sent: false, is_archived: false, is_accepted: false})
+      @open_estimates = @account.estimates.find(:all, :conditions => {is_sent: true, is_archived: false, is_accepted: false})
+    else
+      @invoices = signed_in_client.invoices.find(:all, :include => :client, :conditions => {is_archived: false})
+      @open_estimates = signed_in_client.estimates.find(:all, :include => :client, :conditions => {is_sent: true, is_archived: false, is_accepted: false})
+    end
 
     respond_to do |format|
       format.html

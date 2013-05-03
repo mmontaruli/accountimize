@@ -46,7 +46,7 @@ end
 Then /^I should be redirected to the account dashboard$/ do
   @blocked_urls.each do |url|
     visit url
-    find('h4').should have_content('Account Dashboard')
+    find('h4').should have_content('Open Estimates')
   end
 end
 

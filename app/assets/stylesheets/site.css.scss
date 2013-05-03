@@ -139,7 +139,7 @@ table.line_items {
 
 table.doc {border-spacing:2px; margin-top:25px;}
 
-.hidden {display:none;}
+.hidden {display:none !important;}
 
 body {
 	@include main_font;
@@ -156,6 +156,7 @@ body {
 		background:$notification-bg;
 		border:1px solid $notification-brdr;
 		color:$notification-clr;
+		display:inline-block;
 	}
 	.top.notification {
 		margin: 15px 0;
