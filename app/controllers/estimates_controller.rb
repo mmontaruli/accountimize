@@ -103,7 +103,7 @@ class EstimatesController < ApplicationController
         # send message to counter party if a new negotiate line was added
         if @negotiate_lines_added
           counter_party.users.each do |user|
-            Message.create(user_id: user.id, subject: "New negotiation on estimate ##{@estimate.number}", body: "One of your estimates was recently counter-offered. Please visit #{estimate_url(@estimate, subdomain: @estimate.client.account.subdomain)} to review.")
+            Message.create(user_id: user.id, subject: "New negotiation on estimate ##{@estimate.number}", body: "One of your estimates was recently counter-offered. Please visit #{edit_estimate_url(@estimate, subdomain: @estimate.client.account.subdomain)} to review.")
           end
         end
 
