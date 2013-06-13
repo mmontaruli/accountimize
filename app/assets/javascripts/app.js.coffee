@@ -20,6 +20,11 @@ $ ->
 	$tableHasTotal.on "blur", lineItemInput, ->
 		updateLineTotals $(this).parents("tr.line"), $tableTotal
 
+	if bodyClassDisableEnter($('body')) and formIDDisableEnter($('form').attr('id'))
+		$("form").bind "keydown", (e) ->
+			if e.keyCode is 13
+				return false
+
 lineItemEffects = (table) ->
 	# rollover and active effects for edit view
 	editableLines = 'tr td input:enabled, tr td textarea:enabled'
@@ -74,4 +79,21 @@ subtractFromTotal = (lineRow, total) ->
 		newTotal += " %"
 
 	total.html(newTotal)
+
+
+bodyClassDisableEnter = (body) ->
+# function to test body class
+	if body.hasClass("estimates") or body.hasClass("invoices")
+		return true
+	else
+		return false
+
+formIDDisableEnter = (formID) ->
+# function to test form class
+	if formID is "new_invoice" or formID is "new_estimate"
+		return true
+	else if formID.indexOf("edit_estimate_") is 0 or formID.indexOf("edit_invoice_") is 0
+		return true
+	else
+		return false
 
