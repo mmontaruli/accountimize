@@ -33,10 +33,20 @@
 			%tr.total_line
 				%td.blank
 				%td{:colspan => 6, :class => "desc blank"}
-					%strong Total
+					- if params[:action] == 'edit' or params[:action] == 'update'
+						%strong Total
+					- elsif params[:action] == 'new' or params[:action] == 'create'
+						%strong Full potential total
 				%td{:class => "amount blank total_price"}
 					%strong= number_to_currency(@estimate.total_price)
 				%td.blank
+			- if params[:action] == 'new' or params[:action] == 'create'
+				%tr.client_view_total
+					%td.blank
+					%td{:colspan => 6, :class => "desc blank"}
+						%strong Original client view
+					%td{:class => "amount blank original_client_view"}
+						%strong $0.00
 
 		- if params[:action] == 'edit'
 			%tbody{:class => "deselected connected"}
