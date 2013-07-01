@@ -313,4 +313,17 @@ body.estimates #content {
 			}
 		}
 	}
+	ol.steps {
+		li {
+			float: left;
+			margin: 20px 35px;
+			font-family: "Helvetica Neue";
+			font-size: 17px;
+			font-weight: bold;
+			color: #bbbbbb;
+		}
+		li.active {
+			color: #000000;
+		}
+	}
 }

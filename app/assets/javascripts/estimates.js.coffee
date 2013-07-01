@@ -12,6 +12,9 @@ $ ->
 	toggle = 'tr td.line_price_type select'
 	lineVal = 'tr input.line_value'
 	accept = 'tr td .thumbs-up input[type=checkbox]'
+	$firstStepLabel = $('ol.steps li.first')
+	$secondStepLabel = $('ol.steps li.second')
+	$thirdStepLabel = $('ol.steps li.third')
 
 
 	#----- Function Inits -----#
@@ -40,30 +43,42 @@ $ ->
 		enableOrDisableLineItem(otherLineItem($(this)), secondStepLineIsEnabledInputVal(firstStepLineIsEnabled($(this))))
 		cutAndPasteLineItem $(this)
 
+	# To transition to second step of estimate
 	$body.on "click", '.estimate-first-step a.next', ->
 		$estimateFirstStep.addClass("hidden")
 		$estimateSecondStep.removeClass("hidden")
 		$estimateSecondStep.find("table tr").each ->
 			updateLineTotals $(this), $(this).parents('table').find('tr.total_line td.total_price strong')
+		$firstStepLabel.removeClass "active"
+		$secondStepLabel.addClass "active"
 		false
 
+	# To transition back to first step of estimate from second
 	$body.on "click", '.estimate-second-step a.back', ->
 		$estimateSecondStep.addClass("hidden")
 		$estimateFirstStep.removeClass("hidden")
 		$estimateFirstStep.find("table tr").each ->
 			updateLineTotals $(this), $(this).parents('table').find('tr.total_line td.total_price strong')
+		$secondStepLabel.removeClass "active"
+		$firstStepLabel.addClass "active"
 		false
 
+	# To transition to third step of estimate
 	$body.on "click", '.estimate-second-step a.next', ->
 		confirmationPageSort $('.estimate-second-step table')
 		$estimateSecondStep.addClass("hidden")
 		$estimateThirdStep.removeClass("hidden")
 		showApproveButton $estimateSecondStep
+		$secondStepLabel.removeClass "active"
+		$thirdStepLabel.addClass "active"
 		false
 
+	# To transition back to second step of estimate from third
 	$body.on "click", '.estimate-third-step a.back', ->
 		$estimateThirdStep.addClass("hidden")
 		$estimateSecondStep.removeClass("hidden")
+		$thirdStepLabel.removeClass "active"
+		$secondStepLabel.addClass "active"
 		false
 
 	$(".estimate-second-step table.line_items tbody.selected, .estimate-second-step table.line_items tbody.deselected").sortable

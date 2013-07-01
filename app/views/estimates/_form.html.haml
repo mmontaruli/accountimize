@@ -9,6 +9,9 @@
 				- @estimate.errors.full_messages.each do |msg|
 					%li= msg
 
+	- if !signed_in_client.is_account_master && !f.object.already_reviewed
+		= render 'step_header'
+
 	= render 'estimate_header', :f => f
 
 	- if !signed_in_client.is_account_master && !f.object.already_reviewed
