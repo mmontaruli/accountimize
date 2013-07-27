@@ -52,12 +52,14 @@ end
 When /^I fill in this estimate information$/ do
   select("Google", :from => "estimate_client_id")
   find('input#estimate_line_items_attributes_0_name').set @service_name
+  #fill_in 'estimate[line_items_attributes][0][number]', :with => @service_name
   find('input#estimate_line_items_attributes_0_quantity').set 1
   find('input#estimate_line_items_attributes_0_unit_price').set @service_cost
 end
 
 Then /^I should see "(.*?)" as the line total$/ do |line_total|
-  find("td.line_t_price").should have_content(line_total)
+  # find("td.line_t_price").should have_content(line_total)
+  first("td.line_t_price").should have_content(line_total)
 end
 
 Then /^I should see "(.*?)" as the estimate total$/ do |estimate_total|

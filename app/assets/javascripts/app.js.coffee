@@ -84,7 +84,8 @@ subtractFromTotal = (lineRow, total) ->
 bodyClassDisableEnter = (body) ->
 # function to test body class
 	if body.hasClass("estimates") or body.hasClass("invoices")
-		return true
+		if $('form').length > 0
+			return true
 	else
 		return false
 

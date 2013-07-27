@@ -13,11 +13,11 @@
 		= "For estimate#: #{@estimate.number}"
 
 	.row
-		%p{:class => "nine columns notification"} Use the invoice schedule to automate the generation of invoices based on the agreed upon estimate total and a percent of the contract total you specify to be invoiced upon completion of a project milestone.
+		%p.large-9.columns.notification Use the invoice schedule to automate the generation of invoices based on the agreed upon estimate total and a percent of the contract total you specify to be invoiced upon completion of a project milestone.
 
 
-	%div{:class => "schedule-table row"}
-		%table{:class => "six columns has_total"}
+	.schedule-table.row
+		%table.large-6.columns.has_total
 			%thead
 				%tr
 					%th
@@ -36,7 +36,7 @@
 						%strong= "#{@invoice_schedule.total_percent} %"
 					%td
 
-		%div{:class => "warning four columns"} Total must equal 100%
+		.warning.large-4.columns Total must equal 100%
 
 	-if (params[:action]) == 'new'
 		= f.hidden_field :estimate_id, :value => @estimate.id

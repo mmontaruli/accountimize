@@ -9,30 +9,20 @@
 				- @client.errors.full_messages.each do |msg|
 					%li= msg
 
-	%fieldset{:class => 'seven columns'}
+	%fieldset.large-7.columns
 		%legend Client address
-		.field
-			= f.text_field :name, :placeholder => "Client Name", :class => ''
 
-		.field
-			= f.text_field :address_street_1, :placeholder => "Street 1", :class => ''
+		.field= f.text_field :name, :placeholder => "Client Name", :class => ''
+		.field= f.text_field :address_street_1, :placeholder => "Street 1", :class => ''
+		.field= f.text_field :address_street_2, :placeholder => "Street 2", :class => ''
 
-		.field
-			= f.text_field :address_street_2, :placeholder => "Street 2", :class => ''
+		.field.row
 
-		.field{:class => 'row'}
+			.large-6.columns= f.text_field :address_city, :placeholder => "City", :class => ''
+			.large-3.columns= f.text_field :address_state, :placeholder => "State", :class => ''
+			.large-3.columns= f.text_field :address_zip, :placeholder => "Zip Code", :class => ''
 
-			%div{:class => 'six columns'}
-				= f.text_field :address_city, :placeholder => "City", :class => ''
-
-			%div{:class => 'three columns'}
-				= f.text_field :address_state, :placeholder => "State", :class => ''
-
-			%div{:class => 'three columns'}
-				= f.text_field :address_zip, :placeholder => "Zip Code", :class => ''
-
-		.field
-			= f.text_field :country, :placeholder => "Country", :class => ''
+		.field= f.text_field :country, :placeholder => "Country", :class => ''
 
 		-if (params[:action]) == 'new'
 			= f.hidden_field :account_id, :value => @account.id

@@ -321,9 +321,15 @@ body.estimates #content {
 			font-size: 17px;
 			font-weight: bold;
 			color: #bbbbbb;
+			h5 {
+				color: #bbbbbb;
+			}
 		}
 		li.active {
 			color: #000000;
+			h5 {
+				color: #000000;
+			}
 		}
 	}
 }

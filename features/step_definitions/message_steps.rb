@@ -16,5 +16,6 @@ When /^I click on "(.*?)"$/ do |link_text|
 end
 
 When /^I click the delete button next to this message$/ do
-  find('a', :href => "#{message_path(@message)}", :text => 'Delete').click
+  #find('a', :href => "#{message_path(@message)}", :text => 'Delete').click
+  find('a', :text => 'Delete').click
 end

@@ -1,7 +1,27 @@
 - if @inner_navigation
-	%dl{:class => 'tabs'}
-		%dd{:class => @section_name == "accounts" ? "active" : ""}= link_to 'Dashboard', site_url, :class => @section_name == "accounts" ? "active" : ""
+	-# %dl{:class => 'sub-nav'}
+	-# 	%dd{:class => @section_name == "accounts" ? "active" : ""}= link_to 'Dashboard', site_url, :class => @section_name == "accounts" ? "active" : ""
+	-# 	- if signed_in_client.is_account_master
+	-# 		%dd{:class => @section_name == "clients" ? "active" : ""}= link_to 'Clients', clients_path, :class => @section_name == "clients" ? "active" : ""
+	-# 	%dd{:class => @section_name == "estimates" ? "active" : ""}= link_to 'Estimates', estimates_path, :class => @section_name == "estimates" ? "active" : ""
+	-# 	%dd{:class => @section_name == "invoices" ? "active" : ""}= link_to 'Invoices', invoices_path, :class => @section_name == "invoices" ? "active" : ""
+
+
+	.section-container.horizontal-nav{data: {section: 'horizontal-nav', options: 'one-up:false'}}
+
+		%section{:class => @section_name == "accounts" ? "active" : ""}
+			%p.title{data: {'section-title' => ''}}
+				= link_to 'Dashboard', site_url, :class => @section_name == "accounts" ? "active" : ""
+
 		- if signed_in_client.is_account_master
-			%dd{:class => @section_name == "clients" ? "active" : ""}= link_to 'Clients', clients_path, :class => @section_name == "clients" ? "active" : ""
-		%dd{:class => @section_name == "estimates" ? "active" : ""}= link_to 'Estimates', estimates_path, :class => @section_name == "estimates" ? "active" : ""
-		%dd{:class => @section_name == "invoices" ? "active" : ""}= link_to 'Invoices', invoices_path, :class => @section_name == "invoices" ? "active" : ""
+			%section{:class => @section_name == "clients" ? "active" : ""}
+				%p.title{data: {'section-title' => ''}}
+					= link_to 'Clients', clients_path, :class => @section_name == "clients" ? "active" : ""
+
+		%section{:class => @section_name == "estimates" ? "active" : ""}
+			%p.title{data: {'section-title' => ''}}
+				= link_to 'Estimates', estimates_path, :class => @section_name == "estimates" ? "active" : ""
+
+		%section{:class => @section_name == "invoices" ? "active" : ""}
+			%p.title{data: {'section-title' => ''}}
+				= link_to 'Invoices', invoices_path, :class => @section_name == "invoices" ? "active" : ""

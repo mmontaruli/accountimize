@@ -1,14 +1,14 @@
 -if signed_in_client.is_account_master
 	.row
-		%p{:class => "three columns offset-by-eight"}= link_to "Edit Invoice »", edit_invoice_path(@invoice), :class => 'small radius button'
+		%p.large-3.columns.large-offset-8= link_to "Edit Invoice »", edit_invoice_path(@invoice), :class => 'small radius button'
 
 .row
-	%div{:class => "four columns client-address"}
+	.large-4.columns.client-address
 		= @client.name
 		%br
 		= render 'clients/client_address'
 
-	%div{:class => "three columns offset-by-three end"}
+	.large-3.columns.large-offset-3.end
 		%p
 			%strong Invoice Number:
 			= @invoice.number
@@ -17,7 +17,7 @@
 			%strong Date:
 			= @invoice.date
 
-%table{:class => "line_items invoice_show doc"}
+%table.line_items.invoice_show.doc
 	%thead
 		%tr
 			%th.col Item #
@@ -31,13 +31,13 @@
 		- @invoice.line_items.each do |line_item|
 			%tr
 				%td.line_num= line_item.number
-				%td{:class => "desc line_name"}= line_item.name
+				%td.desc.line_name= line_item.name
 				%td.price_type= line_item.price_type
 				%td.line_qty= line_item.quantity
-				%td{:class => "amount line_u_price"}= number_with_precision(line_item.unit_price, :precision => 2, :delimiter => ',')
-				%td{:class => "amount line_t_price"}= number_with_precision(line_item.total_price, :precision => 2, :delimiter => ',')
+				%td.amount.line_u_price= number_with_precision(line_item.unit_price, :precision => 2, :delimiter => ',')
+				%td.amount.line_t_price= number_with_precision(line_item.total_price, :precision => 2, :delimiter => ',')
 		%tr.total_line
-			%td{:colspan => 5, :class => "desc blank"}
+			%td.desc.blank{:colspan => 5}
 				%strong Total
-			%td{:class => "amount blank total_price"}
+			%td.amount.blank.total_price
 				%strong= number_to_currency(@invoice.total_price)

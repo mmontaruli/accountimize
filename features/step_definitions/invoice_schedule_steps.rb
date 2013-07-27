@@ -46,5 +46,6 @@ When /^I go to the invoice schedule page$/ do
 end
 
 When /^I click "(.*?)" from the first milestone$/ do |link_text|
-  click_link link_text
+  #click_link link_text
+  first('a', :text => link_text).click
 end

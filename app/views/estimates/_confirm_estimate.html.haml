@@ -1,7 +1,7 @@
 %div{:class => "estimate-third-step confirm hidden"}
 	- if params[:action] == 'edit'
 		.row
-			.div{:class => 'top notification ten columns'} Please confirm the changes below and press save to send your changes.
+			.top.notification.large-10.columns Please confirm the changes below and press save to send your changes.
 
 	%table{:class => "line_items selected"}
 		%thead
@@ -21,15 +21,10 @@
 		%div{:class => "accept-estimate row"}
 			-if can_approve_estimate(f.object) && !signed_in_client.is_account_master
 				= render :partial => 'approve_button', :locals => {checkbox_hide: "", outstanding_notification_hide: "hidden", client_not_approved_hide: "hidden", f: f}
-				-# .checkbox-btn
-				-# 	= f.check_box :is_accepted
-				-# 	= f.label :is_accepted, "Approve Estimate"
 			-elsif !can_approve_estimate(f.object)
-				-#%div{:class => "notification eight columns"} There are outstanding negotiations that have not been approved yet
 				= render :partial => 'approve_button', :locals => {checkbox_hide: "hidden", outstanding_notification_hide: "", client_not_approved_hide: "hidden", f: f}
 			-elsif signed_in_client.is_account_master
 				= render :partial => 'approve_button', :locals => {checkbox_hide: "hidden", outstanding_notification_hide: "hidden", client_not_approved_hide: "", f: f}
-				-#%div{:class => "notification eight columns"} Client has not yet approved estimate
 
 
 		-if params[:action] == 'edit'

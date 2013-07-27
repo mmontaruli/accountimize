@@ -1,7 +1,7 @@
 %h3 Account Directory
 
 .row
-	%table{:class => 'account list nine columns'}
+	%table{:class => 'account list large-9 columns'}
 		%thead
 			%tr
 				%th.col Name
@@ -13,4 +13,4 @@
 					%td.desc= link_to account.name, site_url(:subdomain => account.subdomain)
 					%td.desc= account.subdomain
 
-%p.row= link_to 'New account »', new_account_path, :class => 'medium radius button'
+.row= link_to 'New account »', new_account_path, :class => 'medium radius button'

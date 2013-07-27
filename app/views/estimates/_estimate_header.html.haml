@@ -1,6 +1,6 @@
 - if signed_in_client.is_account_master
 	.row
-		.field{:class => 'three columns'}
+		.field.large-3.columns
 			= f.label :client_id
 			= f.collection_select(:client_id, @clients, :id, :name, {:include_blank => true}, data: {'url-base' => clients_path}, :class => 'client_select')
 			%p.address
@@ -9,7 +9,7 @@
 			.contact
 				= render 'clients/user_select' if @estimate.client_id
 
-		.field{:class => 'three columns offset-by-four end'}
+		.field.large-3.columns.large-offset-4.end
 			=f.label :number
 			=f.text_field :number, :class => ''
 			.date-select
@@ -17,13 +17,13 @@
 				=f.date_select :date
 
 - else
-	%div{:class => 'estimate-header row'}
-		%div{:class => 'four columns client-address'}
+	.estimate-header.row
+		.large-4.columns.client-address
 			= @client.name
 			%br
 			= render 'clients/client_address'
 
-		%div{:class => 'three columns offset-by-three'}
+		.large-3.columns.large-offset-3.end
 			%p
 				%strong Estimate Number:
 				= @estimate.number

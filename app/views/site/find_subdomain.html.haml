@@ -1,5 +1,5 @@
 .row
-	%div{:class => "seven columns centered"}
+	.large-7.columns.large-centered
 		.panel
 			%h5 Please enter your email address below
 			%p
@@ -7,8 +7,8 @@
 			%p= "If you do not have an account, please #{link_to 'sign up', sign_up_path}.".html_safe
 
 			= form_tag(:action => 'subdomain_found') do
-				.field{:class => 'row collapse'}
-					%div{:class => 'six columns'}
+				.field.row.collapse
+					.large-6.columns
 						= text_field_tag "email", nil, :placeholder => "Email address"
-					%div{:class => 'two columns end'}
+					.large-2.columns.end
 						= submit_tag "Search", :class => 'button expand postfix'

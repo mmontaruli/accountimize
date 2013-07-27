@@ -61,7 +61,8 @@ Given /^I have an estimate numbered "(.*?)"$/ do |estimate_number|
 end
 
 When /^I click the delete button next to this estimate$/ do
-  find('a', :href => "#{estimate_path(@estimate)}", :text => 'Delete').click
+  # find('a', :href => "#{estimate_path(@estimate)}", :text => 'Delete').click
+  find('a', :text => 'Delete').click
 end
 
 When /^I go to any blocked estimate section$/ do
@@ -130,7 +131,7 @@ Then /^I should see "(.*?)" in the selected table$/ do |service_name|
 end
 
 When /^I drag the "(.*?)" line item to the top of the estimate$/ do |line_item_name|
-  drop_place = page.find(:css, 'table.second_step tbody tr:first')
+  drop_place = page.first(:css, 'table.second_step tbody.selected tr.line_collection')
   line_item = @estimate.line_items.find_by_name(line_item_name)
   page.find("table.second_step tr.line-id-#{line_item.id}").drag_to(drop_place)
 end
@@ -161,6 +162,6 @@ end
 
 Then /^the line item "(.*?)" should be at the top of the estimate$/ do |line_item_name|
   visit edit_estimate_url(@estimate, :subdomain => @user.client.account.subdomain)
-  page.find("table.second_step tbody tr:first td.line_name input").value.should eq line_item_name
+  page.find("table.second_step tbody.selected tr:first td.line_name input").value.should eq line_item_name
 end
 

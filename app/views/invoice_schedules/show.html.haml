@@ -3,10 +3,10 @@
 	= @estimate.number
 
 .row
-	%p{:class => "nine columns notification"} Use the invoice schedule to automate the generation of invoices based on the agreed upon estimate total and a percent of the contract total you specify to be invoiced upon completion of a project milestone.
+	%p.large-9.columns.notification Use the invoice schedule to automate the generation of invoices based on the agreed upon estimate total and a percent of the contract total you specify to be invoiced upon completion of a project milestone.
 
 .row
-	%table{:class => "six columns"}
+	%table.large-6.columns
 		%thead
 			%tr
 				%th
@@ -31,6 +31,6 @@
 				%td
 
 
-%ul{:class =>"button-group radius"}
-	%li= link_to 'Edit Schedule »', edit_estimate_invoice_schedule_path(@estimate), :class => 'small radius button'
-	%li= link_to 'Back to Estimate »', estimate_path(@estimate), :class => 'small radius button'
+%ul.button-group.radius
+	%li= link_to 'Edit Schedule »', edit_estimate_invoice_schedule_path(@estimate), :class => 'small button'
+	%li= link_to 'Back to Estimate »', estimate_path(@estimate), :class => 'small button'

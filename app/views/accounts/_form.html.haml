@@ -9,7 +9,7 @@
 				- @account.errors.full_messages.each do |msg|
 					%li= msg
 
-	%fieldset{:class => "seven columns"}
+	%fieldset.large-7.columns
 		%legend Please fill in your information below
 		.field
 			= f.text_field :name, :placeholder => "Company Name", :class => ''
@@ -19,8 +19,8 @@
 				= render 'client_fields', :f => builder
 
 		.actions
-			= f.submit 'Save »', :class => 'medium radius success button'
 			- if params[:action] == 'new' or params[:action] == 'create'
-				= link_to 'Cancel »', site_url(subdomain: 'www'), :class => 'medium radius secondary button'
+				= link_to 'Cancel', site_url(subdomain: 'www'), :class => 'medium radius alert button'
 			- elsif params[:action] == 'edit' or params[:action] == 'update'
-				= link_to 'Cancel »', @account, :class => 'medium radius secondary button'
+				= link_to 'Cancel', @account, :class => 'medium radius alert button'
+			= f.submit 'Save &raquo;'.html_safe, :class => 'medium radius success button'

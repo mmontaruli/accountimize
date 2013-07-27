@@ -1,7 +1,7 @@
 %h3 Invoices
 
 .row
-	%table{:class => "invoice list nine columns"}
+	%table.invoice.list.large-9.columns
 		%thead
 			%tr
 				%th.col Invoice
@@ -17,14 +17,14 @@
 				%tr
 					%td.invoice_number= link_to invoice.number, invoice_path(invoice)
 					- if signed_in_client.is_account_master
-						%td{:class => "desc client_name"}= link_to invoice.client.name, client_path(invoice.client)
+						%td.desc.client_name= link_to invoice.client.name, client_path(invoice.client)
 					-else
-						%td{:class => "desc client_name"}= invoice.client.name
+						%td.desc.client_name= invoice.client.name
 					%td.invoice_date= invoice.date
-					%td{:class => "amount invoice_total"}= number_to_currency(invoice.total_price)
+					%td.amount.invoice_total= number_to_currency(invoice.total_price)
 					-if signed_in_client.is_account_master
 						%td= link_to 'Edit', edit_invoice_path(invoice)
 						%td= link_to 'Delete', invoice_path(invoice), :data => { :confirm => 'Are you sure?' }, method: :delete
 
 -if signed_in_client.is_account_master
-	%p.row= link_to 'New Invoice »', new_invoice_path, :class => 'medium radius button'
+	.row= link_to 'New Invoice »', new_invoice_path, :class => 'medium radius button'

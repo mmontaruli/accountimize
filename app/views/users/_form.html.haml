@@ -6,14 +6,14 @@
 				- for message in @user.errors.full_messages
 					%li= message
 
-	%fieldset{:class => "six columns"}
+	%fieldset.large-6.columns
 		%legend All fields are required
 		-if params[:action] == 'new'
 			= f.hidden_field :client_id, :value => @client.id
 
 		.field
-			= f.text_field :first_name, :placeholder => "First Name", :class => "five columns"
-			= f.text_field :last_name, :placeholder => "Last Name", :class => "six columns"
+			= f.text_field :first_name, :placeholder => "First Name", :class => "large-5 columns"
+			= f.text_field :last_name, :placeholder => "Last Name", :class => "large-6 columns"
 		.field
 			= f.text_field :email, :placeholder => "Email Address", :class => ""
 

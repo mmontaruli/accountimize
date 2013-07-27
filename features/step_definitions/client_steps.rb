@@ -35,7 +35,8 @@ When /^I change the client name to "(.*?)"$/ do |new_client_name|
 end
 
 When /^I click the delete button next to this client$/ do
-  find('a', :href => "#{client_path(@client)}", :text => 'Delete').click
+  #find('a', :href => "#{client_path(@client)}", :text => 'Delete').click
+  find('a', :text => 'Delete').click
 end
 
 When /^I go to any client section$/ do

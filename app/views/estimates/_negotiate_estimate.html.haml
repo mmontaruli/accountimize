@@ -1,7 +1,7 @@
 %div{:class => "estimate-second-step negotiate #{hide_status(f)}"}
 	- if params[:action] == 'edit'
 		.row
-			.div{:class => 'top notification ten columns'} Please review your estimate below. If you are okay with the pricing of a line item, click the thumbs-up button next to the line. If you'd like to make a counter-offer, click the thumbs-down button (where available) and enter your counter-offer and comments.
+			.top.notification.large-10.columns Please review your estimate below. If you are okay with the pricing of a line item, click the thumbs-up button next to the line. If you'd like to make a counter-offer, click the thumbs-down button (where available) and enter your counter-offer and comments.
 
 	%table{:class => "line_items second_step has_total estimate-#{params[:action]}"}
 		%thead

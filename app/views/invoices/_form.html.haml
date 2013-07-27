@@ -10,13 +10,13 @@
 					%li= msg
 
 	.row
-		.field{:class => 'three columns'}
+		.field.large-3.columns
 			= f.label :client_id
 			= f.collection_select(:client_id, @clients, :id, :name, {:include_blank => true}, data: {'url-base' => clients_path}, :class => 'client_select')
 			%p.address
 				= render 'clients/client_address' if @invoice.client_id
 
-		.field{:class => 'three columns offset-by-four end'}
+		.field.large-3.columns.large-offset-4.end
 			= f.label :number
 			= f.text_field :number, :class => ''
 			.date-select
@@ -24,7 +24,7 @@
 				= f.date_select :date
 
 	%div
-		%table{:cellspacing => 4, :class => 'line_items has_total'}
+		%table.line_items.has_total{:cellspacing => 4}
 			%thead
 				%tr
 					%th.col Item #
@@ -39,11 +39,11 @@
 				= f.fields_for :line_items do |builder|
 					= render 'line_item_fields', :f => builder
 				%tr.add_lines
-					%td{:colspan => 7, :class => "desc blank"}= link_to_add_fields "Add lines", f, :line_items, :class => 'small radius blue button'
+					%td.desc.blank{:colspan => 7}= link_to_add_fields "Add lines", f, :line_items, :class => 'small radius blue button'
 				%tr.total_line
-					%td{:colspan => 5, :class => "desc blank"}
+					%td.desc.blank{:colspan => 5}
 						%strong Total
-					%td{:class => "amount blank total_price"}
+					%td.amount.blank.total_price
 						%strong= number_to_currency(@invoice.total_price)
 					%td.blank
 

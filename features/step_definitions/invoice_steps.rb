@@ -42,7 +42,8 @@ Given /^I have an invoice numbered "(.*?)"$/ do |invoice_number|
 end
 
 When /^I click the delete button next to this invoice$/ do
-  find('a', :href => "#{invoice_path(@invoice)}", :text => 'Delete').click
+  #find('a', :href => "#{invoice_path(@invoice)}", :text => 'Delete').click
+  find('a', :text => 'Delete').click
 end
 
 When /^I go to any blocked invoice section$/ do

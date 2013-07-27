@@ -212,6 +212,9 @@ body {
 				border-top-color:$green;
 			}
 		}
+		.horizontal-nav {
+			a:hover {background-color: #d5d5d5;}
+		}
 		p {font-size:$small;}
 	}
 	#footer {

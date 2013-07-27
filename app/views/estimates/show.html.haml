@@ -1,22 +1,22 @@
 -unless @estimate.is_accepted
 	- if signed_in_client.is_account_master
 		.row
-			%p{:class => 'three columns offset-by-eight'}= link_to 'Edit Estimate »', edit_estimate_path(@estimate), :class => 'small radius button'
+			%p.large-3.columns.large-offset-8= link_to 'Edit Estimate »', edit_estimate_path(@estimate), :class => 'small radius button'
 	- else
 		.row
-			%p{:class => 'three columns offset-by-eight'}= link_to 'Customize Estimate »', edit_estimate_path(@estimate), :class => 'small radius button'
+			%p.large-3.columns.large-offset-8= link_to 'Customize Estimate »', edit_estimate_path(@estimate), :class => 'small radius button'
 -else
 	.row
-		%h4{:class => "estimate-accepted four columns offset-by-seven"} Estimate Accepted
+		%h4.estimate-accepted.large-4.columns.large-offset-7 Estimate Accepted
 
 .row
 
-	%div{:class => 'four columns client-address'}
+	.large-4.columns.client-address
 		= @client.name
 		%br
 		= render 'clients/client_address'
 
-	%div{:class => 'three columns offset-by-three end'}
+	.large-3.columns.large-offset-3.end
 		%p
 			%strong Estimate Number:
 			= @estimate.number
@@ -26,7 +26,7 @@
 			= @estimate.date
 
 
-%table{:class => 'line_items estimate_show doc'}
+%table.line_items.estimate_show.doc
 	%thead
 		%tr
 			%th.col Item #
@@ -39,16 +39,16 @@
 		- @estimate.line_items.each do |line_item|
 			%tr{:class => "is_enabled_#{line_item.is_enabled}"}
 				%td.line_num= line_item.number
-				%td{:class => "desc line_name"}= line_item.name
+				%td.desc.line_name= line_item.name
 				%td.price_type= line_item.price_type
 				%td.line_qty= line_item.quantity
-				%td{:class => "amount line_u_price"}= number_with_precision(line_item.unit_price, :precision => 2, :delimiter => ',')
-				%td{:class => "amount line_t_price"}= number_with_precision(line_item.total_price, :precision => 2, :delimiter => ',')
+				%td.amount.line_u_price= number_with_precision(line_item.unit_price, :precision => 2, :delimiter => ',')
+				%td.amount.line_t_price= number_with_precision(line_item.total_price, :precision => 2, :delimiter => ',')
 
 		%tr.total_line
-			%td{:colspan => 5, :class=>"desc blank"}
+			%td.desc.blank{:colspan => 5}
 				%strong Total
-			%td{:class => "amount blank total_price"}
+			%td.amount.blank.total_price
 				%strong= number_to_currency(@estimate.total_price)
 			%td.blank
 

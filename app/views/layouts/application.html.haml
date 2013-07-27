@@ -1,45 +1,54 @@
 !!!
-%html
-	%head
-		%title Accountimize
-		= stylesheet_link_tag    "application"
-		= javascript_include_tag "application"
-		= csrf_meta_tags
-		= favicon_link_tag
+<!-- paulirish.com/2008/conditional-stylesheets-vs-css-hacks-answer-neither/ -->
+<!--[if lt IE 7 ]> <html class="ie6" lang="en"> <![endif]-->
+<!--[if IE 7 ]>    <html class="ie7" lang="en"> <![endif]-->
+<!--[if IE 8 ]>    <html class="ie8" lang="en"> <![endif]-->
+<!--[if (gte IE 9)|!(IE)]><!--> <html lang="en"> <!--<![endif]-->
 
-	%body{:class => "#{@section_name} #{vendor_status}"}
+%head
+	%meta{:charset => "utf-8"}
+	%meta{:name => "viewport", :content => "width=device-width, initial-scale=1.0"}
+	%title Accountimize
+	= stylesheet_link_tag    "application"
+	= javascript_include_tag "vendor/custom.modernizr"
+	= javascript_include_tag "application"
+	= csrf_meta_tags
+	= favicon_link_tag
 
-		#header
-			%ul.login_links
-				- if current_user
-					%li= link_to "Logout", log_out_path
-					%li= link_to "Settings", edit_user_path(current_user)
-					%li= link_to "Inbox", messages_path
-					%li= "Hello #{current_user.first_name}"
-				- else
-					%li= login_link(request.subdomain)
-					%li= link_to 'Sign up', sign_up_url(:subdomain => 'www')
+%body{:class => "#{@section_name} #{vendor_status}"}
 
-			%h1#logo
-				= link_to 'Accountimize', site_url(:subdomain => 'www')
-			- if @header_trial
-				%a.trial(href="#") Free 30-Day Trial
+	#header
+		%ul.login_links
+			- if current_user
+				%li= link_to "Logout", log_out_path
+				%li= link_to "Settings", edit_user_path(current_user)
+				%li= link_to "Inbox", messages_path
+				%li= "Hello #{current_user.first_name}"
+			- else
+				%li= login_link(request.subdomain)
+				%li= link_to 'Sign up', sign_up_url(:subdomain => 'www')
 
-		#content
-			= render 'layouts/inner_navigation'
+		%h1#logo
+			= link_to 'Accountimize', site_url(:subdomain => 'www')
+		- if @header_trial
+			%a.trial(href="#") Free 30-Day Trial
 
-			- if notice
-				.row
-					.alert-box{:class => "ten columns #{flash[:status]}"}
-						= notice
-						%a{:href => "", :class => "close"} &times;
+	#content
+		= render 'layouts/inner_navigation'
 
-			= yield
-
-		#footer
+		- if notice
 			.row
-				%p{:class => "three columns push-nine"}
-					%span Software by
-					= link_to "26Twelve Studio", "http://www.26twelvestudio.com/", :target => "_blank", :class => "logo"
-				%p{:class => "three columns pull-nine"}
-					= "Copyright &#169; #{Time.now.year} 26Twelve Studio, Inc.".html_safe
+				.alert-box{:class => "ten columns #{flash[:status]}"}
+					= notice
+					%a{:href => "", :class => "close"} &times;
+
+		= yield
+
+	#footer
+		.row
+			%p{:class => "large-4 columns push-8"}
+				%span Software by
+				= link_to "26Twelve Studio", "http://www.26twelvestudio.com/", :target => "_blank", :class => "logo"
+			%p{:class => "large-4 columns pull-8"}
+				= "Copyright &#169; #{Time.now.year} 26Twelve Studio, Inc.".html_safe
+</html>

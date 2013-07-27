@@ -1,7 +1,7 @@
 %h3 Estimates
 
 .row
-	%table{:class => 'estimate list nine columns'}
+	%table.estimate.list.large-9.columns
 		%thead
 			%tr
 				%th.col Estimate
@@ -17,15 +17,15 @@
 				%tr
 					%td.estimate_number= link_to estimate.number, estimate_path(estimate)
 					- if signed_in_client.is_account_master
-						%td{:class => "desc client_name"}= link_to estimate.client.name, client_path(estimate.client)
+						%td.desc.client_name= link_to estimate.client.name, client_path(estimate.client)
 					- else
 						%td.client_name= estimate.client.name
 					%td.estimate_date= estimate.date
-					%td{:class => "amount estimate_total"}= number_to_currency(estimate.total_price)
+					%td.amount.estimate_total= number_to_currency(estimate.total_price)
 					- if signed_in_client.is_account_master
 						%td.estimate_edit
 							= link_to 'Edit', edit_estimate_path(estimate) unless estimate.is_accepted
 						%td.estimate_delete= link_to 'Delete', estimate_path(estimate), :data => { :confirm => 'Are you sure?' }, method: :delete
 
 - if signed_in_client.is_account_master
-	%p.row= link_to 'New estimate »', new_estimate_path, :class => 'medium radius button'
+	.row= link_to 'New estimate »', new_estimate_path, :class => 'medium radius button'

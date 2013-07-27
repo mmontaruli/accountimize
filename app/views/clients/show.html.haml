@@ -17,6 +17,6 @@
 %p= link_to 'Add Contact', new_user_path(:client_id => @client)
 
 %p
-	%ul{:class=> "button-group radius"}
-		%li= link_to 'Create New Estimate', new_estimate_path(:client_id => @client), :class => "small radius button"
-		%li= link_to 'Create New Invoice', new_invoice_path(:client_id => @client), :class => "small radius button"
+	%ul.button-group.radius
+		%li= link_to 'Create New Estimate', new_estimate_path(:client_id => @client), :class => "small button"
+		%li= link_to 'Create New Invoice', new_invoice_path(:client_id => @client), :class => "small button"
