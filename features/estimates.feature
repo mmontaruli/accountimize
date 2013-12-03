@@ -106,3 +106,51 @@ Feature: Manage estimates
 		And I save the changes
 		Then the "Marketing" line item should appear selected on the estimate view page
 
+	@javascript
+	Scenario: Sending an Estimate Draft
+		Given I am logged in as a vendor
+		And I have a client named "Google"
+		And I have created estimate number "1002" for them
+		When I go to the Confirmation Screen in the Edit Estimate page
+		And I click the "Send" button
+		Then my client should see estimate number "1002" in their dashboard
+		And my client should receive a new estimate notification
+
+	@javascript
+	Scenario: Not sending an Estimate Draft
+		Given I am logged in as a vendor
+		And I have a client named "Google"
+		And I have created estimate number "1002" for them
+		When I go to the Confirmation Screen in the Edit Estimate page
+		And I click the "Save" button
+		Then my client should not see estimate number "1002" in their dashboard
+		And my client should not receive a new estimate notification
+
+	@javascript
+	Scenario: Sending a new estimate
+		Given I am logged in as a vendor
+		And I have a client named "Google"
+		And they have a user named "Mike"
+		And The client would like a quote for "Web Design"
+		And My services cost "3000"
+		And the estimate number is "1002"
+		When I go to the New Estimate page
+		And I fill in this new estimate information
+		And I click the "Send" button
+		Then my client should see estimate number "1002" in their dashboard
+		And my client should receive a new estimate email
+
+	@javascript
+	Scenario: Not sending a new estimate
+		Given I am logged in as a vendor
+		And I have a client named "Google"
+		And they have a user named "Mike"
+		And The client would like a quote for "Web Design"
+		And My services cost "3000"
+		And the estimate number is "1002"
+		When I go to the New Estimate page
+		And I fill in this new estimate information
+		And I click the "Save" button
+		Then my client should not see estimate number "1002" in their dashboard
+		And my client should not receive a new estimate email
+

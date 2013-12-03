@@ -1,7 +1,11 @@
 %div{:class => "estimate-third-step confirm hidden"}
-	- if params[:action] == 'edit'
-		.row
-			.top.notification.large-10.columns Please confirm the changes below and press save to send your changes.
+	-#- if params[:action] == 'edit'
+	-#	.row
+	-#		.top.notification.large-10.columns Please confirm the changes below and press save to send your changes.
+
+	.row
+		.top.notification.large-10.columns Please confirm the changes below and press save to send your changes.
+
 
 	%table{:class => "line_items selected"}
 		%thead
@@ -27,11 +31,17 @@
 				= render :partial => 'approve_button', :locals => {checkbox_hide: "hidden", outstanding_notification_hide: "hidden", client_not_approved_hide: "", f: f}
 
 
-		-if params[:action] == 'edit'
-			= link_to 'Cancel', estimate_path(@estimate), :class => 'medium radius alert button'
-		-else
-			= link_to 'Cancel', estimates_path, :class => 'medium radius alert button'
+		-# the logic below seems redundant. We check params before rendering the partial
 
-		= link_to "&laquo; Back".html_safe, "#", :class => 'medium radius normal button back'
+		= link_to 'Cancel', estimate_path(@estimate), :class => 'medium radius alert button'
+		-#-if params[:action] == 'edit'
+		-#	= link_to 'Cancel', estimate_path(@estimate), :class => 'medium radius alert button'
+		-#-else
+		-#	= link_to 'Cancel', estimates_path, :class => 'medium radius alert button'
 
-		= f.submit "Save &raquo;".html_safe , :class => 'medium radius success button save'
+		= link_to "Back", "#", :class => 'medium radius normal button back'
+
+		-unless @estimate.is_sent
+			= f.submit "Save", :class => 'medium radius success button save'
+
+		= f.submit "Send", :name => "send", :class => 'medium radius success button save'

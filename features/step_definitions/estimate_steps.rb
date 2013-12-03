@@ -15,6 +15,10 @@ Given /^My services cost "(.*?)"$/ do |service_cost|
   @service_cost = service_cost
 end
 
+Given(/^the estimate number is "(.*?)"$/) do |number|
+  @estimate_number = number
+end
+
 When /^I go to the New Estimate page$/ do
   visit new_estimate_url(:subdomain => @user.client.account.subdomain)
 end
@@ -26,6 +30,15 @@ When /^I fill in and submit this estimate information$/ do
   find('input#estimate_line_items_attributes_0_quantity').set 1
   find('input#estimate_line_items_attributes_0_unit_price').set @service_cost
   click_button('Save')
+end
+
+When(/^I fill in this new estimate information$/) do
+  select("Google", :from => "estimate_client_id")
+  select(@specific_client_user.email, :from => "estimate_send_to_contact")
+  find('input#estimate_line_items_attributes_0_name').set @service_name
+  find('input#estimate_line_items_attributes_0_quantity').set 1
+  find('input#estimate_line_items_attributes_0_unit_price').set @service_cost
+  find('input#estimate_number').set @estimate_number
 end
 
 Then /^I should see "(.*?)" line items$/ do |num|
@@ -165,3 +178,39 @@ Then /^the line item "(.*?)" should be at the top of the estimate$/ do |line_ite
   page.find("table.second_step tbody.selected tr:first td.line_name input").value.should eq line_item_name
 end
 
+When(/^I go to the Confirmation Screen in the Edit Estimate page$/) do
+  visit edit_estimate_url(@estimate, :subdomain => @user.client.account.subdomain)
+  find('.estimate-second-step a.next').click
+end
+
+Then(/^my client should see estimate number "(.*?)" in their dashboard$/) do |number|
+  # debugger
+  visit log_out_url(subdomain: @user.client.account.subdomain)
+  login(@client.account.subdomain, @client_user.email, @client_user.password)
+  page.should have_content(number)
+end
+
+Then(/^my client should receive a new estimate notification$/) do
+  visit log_out_url(subdomain: @user.client.account.subdomain)
+  login(@client.account.subdomain, @client_user.email, @client_user.password)
+  visit messages_url(subdomain: @client.account.subdomain)
+  page.should have_content("New estimate")
+  # since the send functionality is in update and not create, no "new" estimate notification is sent,
+  # only an "update" notification is sent instead. The send functionality needs to work the same for both
+  # actions--so we'd need to test if it's currently marked as sent, versus not. There may be some logic we
+  # assume in the create action, but to make it modular, maybe we don't...we'll see
+end
+
+Then(/^my client should not see estimate number "(.*?)" in their dashboard$/) do |number|
+  visit log_out_url(subdomain: @user.client.account.subdomain)
+  login(@client.account.subdomain, @client_user.email, @client_user.password)
+  page.should_not have_content(number)
+end
+
+Then(/^my client should not receive a new estimate notification$/) do
+  visit log_out_url(subdomain: @user.client.account.subdomain)
+  login(@client.account.subdomain, @client_user.email, @client_user.password)
+  visit messages_url(subdomain: @client.account.subdomain)
+  page.should_not have_content("New estimate")
+  # This is a false positive. This test should fail as described in the comments above...
+end

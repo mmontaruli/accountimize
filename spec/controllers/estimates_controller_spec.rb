@@ -59,6 +59,12 @@ describe EstimatesController do
 			post :create, estimate: attributes_for(:estimate, client_id: user.client_id, send_to_contact: user.id)
 			ActionMailer::Base.deliveries.last.subject.should include("#{user.client.account.name} just sent you an estimate via Accountimize")
 		end
+		it "should mark estimate as sent if Send button is clicked" do
+			session[:user_id] = @user.id
+			post :create, estimate: attributes_for(:estimate, client_id: @user.client_id, send_to_contact: @user.id), send: "Send"
+			assigns(:estimate).is_sent.should be_true
+		end
+
 	end
 	describe "#edit" do
 		it "should be successful" do
@@ -95,6 +101,12 @@ describe EstimatesController do
 			post :update, id: @estimate.to_param
 
 			assigns(:estimate).already_reviewed.should be_true
+		end
+		it "should mark estimate as sent if Send button is clicked" do
+			session[:user_id]  = @user.id
+			#post :update, id: @estimate.to_param, commit: "Send"
+			post :update, id: @estimate.to_param, send: "Send"
+			assigns(:estimate).is_sent.should be_true
 		end
 	end
 	describe "#destroy" do

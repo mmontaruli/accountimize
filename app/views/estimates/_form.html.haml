@@ -35,12 +35,18 @@
 					%div{:class => "notification eight columns"} Client has not yet approved estimate
 
 
-			-if params[:action] == 'edit'
-				= link_to 'Cancel', estimate_path(@estimate), :class => 'medium radius alert button'
-			-else
-				= link_to 'Cancel', estimates_path, :class => 'medium radius alert button'
+			-# this logic below seems redundant--we check for params action above
+
+			= link_to 'Cancel', estimates_path, :class => 'medium radius alert button'
+
+			-#-if params[:action] == 'edit'
+			-#	= link_to 'Cancel', estimate_path(@estimate), :class => 'medium radius alert button'
+			-#-else
+			-#	= link_to 'Cancel', estimates_path, :class => 'medium radius alert button'
 
 			- if !signed_in_client.is_account_master && !f.object.already_reviewed
-				= link_to "&laquo; Back".html_safe, "#", :class => 'medium radius normal button back'
+				= link_to "Back", "#", :class => 'medium radius normal button back'
 
-			= f.submit "Save &raquo;".html_safe , :class => 'medium radius success button save'
+			= f.submit "Save", :class => 'medium radius success button save'
+
+			= f.submit "Send", :name => "send", :class => 'medium radius success button save'

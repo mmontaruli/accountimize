@@ -100,6 +100,15 @@ class EstimatesController < ApplicationController
     respond_to do |format|
       if @estimate.update_attributes(params[:estimate])
 
+        # new send logic to go here
+        if params[:send] == "Send"
+          #if params[:commit] == "Send"
+          unless @estimate.is_sent
+            @estimate.is_sent = true
+            @estimate.save
+          end
+        end
+
         # send message to counter party if a new negotiate line was added
         if @negotiate_lines_added
           counter_party.users.each do |user|
