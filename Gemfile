@@ -34,7 +34,6 @@ gem "bcrypt-ruby", :require => "bcrypt"
 
 # To use debugger
 # gem 'ruby-debug19', :require => 'ruby-debug'
-gem 'debugger'
 
 group :development do
   gem 'rb-inotify', :require => false
@@ -48,6 +47,7 @@ end
 
 group :test, :development do
   gem "rspec-rails", "~> 2.0"
+  gem 'debugger'
 end
 
 group :test do
